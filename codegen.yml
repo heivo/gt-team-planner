@@ -1,0 +1,24 @@
+overwrite: true
+schema:
+  - https://graphql.contentful.com/content/v1/spaces/fyrmlfwxhp4g:
+      headers:
+        Authorization: Bearer ${API_TOKEN}
+documents: src/graphql/**/*.gql
+generates:
+  src/graphql/schema.ts:
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    hooks:
+      afterOneFileWrite:
+        - prettier --write
+    config:
+      noSchemaStitching: true
+  graphql-schema.json:
+    plugins:
+      - introspection
+    config:
+      minify: false

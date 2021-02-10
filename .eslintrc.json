@@ -3,6 +3,7 @@
 		"browser": true,
 		"es2021": true
 	},
+	"plugins": ["react", "@typescript-eslint", "graphql"],
 	"extends": [
 		"react-app",
 		"eslint:recommended",
@@ -20,8 +21,11 @@
 		"ecmaVersion": 12,
 		"sourceType": "module"
 	},
-	"plugins": ["react", "@typescript-eslint"],
 	"rules": {
-		"@typescript-eslint/explicit-module-boundary-types": 0
+		"@typescript-eslint/explicit-module-boundary-types": 0,
+		"graphql/capitalized-type-name": ["error", { "env": "literal" }],
+		"graphql/named-operations": ["error", { "env": "literal" }],
+		"graphql/no-deprecated-fields": ["warn", { "env": "literal" }],
+		"graphql/template-strings": ["error", { "env": "literal" }]
 	}
 }

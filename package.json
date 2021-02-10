@@ -10,18 +10,27 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "graphql": "^15.5.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-query": "^3.8.2",
     "react-scripts": "4.0.2",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^2.0.2",
+    "@graphql-codegen/cli": "^1.20.1",
+    "@graphql-codegen/introspection": "^1.18.1",
+    "@graphql-codegen/typescript": "^1.21.0",
+    "@graphql-codegen/typescript-operations": "^1.17.14",
+    "@graphql-codegen/typescript-react-query": "^1.2.0",
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-graphql": "^4.0.0",
     "eslint-plugin-react": "^7.22.0",
     "husky": ">=4",
     "lint-staged": ">=10",
@@ -31,7 +40,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "lint": "eslint --ext ts,tsx src"
+    "lint": "eslint --ext ts,tsx src",
+    "codegen": "graphql-codegen -r dotenv/config --config codegen.yml dotenv_config_path=.env.local"
   },
   "eslintConfig": {
     "extends": [
