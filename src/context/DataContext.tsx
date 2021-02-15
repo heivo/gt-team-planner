@@ -1,10 +1,9 @@
 import React from 'react';
 import { useGetDataQuery, GetDataQuery, Hero, Weapon } from '../graphql/schema';
-import { DeepNonNullable } from '../utils/types';
 
 const DataContext = React.createContext<{
-	heroes: DeepNonNullable<Hero>[];
-	weapons: DeepNonNullable<Weapon>[];
+	heroes: Hero[];
+	weapons: Weapon[];
 }>({ heroes: [], weapons: [] });
 
 export default DataContext;
@@ -14,7 +13,7 @@ interface Props {
 }
 
 export const DataContextProvider = ({ children }: Props) => {
-	const { data } = useGetDataQuery<DeepNonNullable<GetDataQuery>>({
+	const { data } = useGetDataQuery<GetDataQuery>({
 		endpoint: process.env.REACT_APP_GQL_ENDPOINT ?? '',
 		fetchParams: {
 			headers: {
@@ -23,14 +22,14 @@ export const DataContextProvider = ({ children }: Props) => {
 			},
 		},
 	});
-	if (!data) {
+	if (!data || !data.heroCollection || !data.weaponCollection) {
 		return null;
 	}
 	return (
 		<DataContext.Provider
 			value={{
-				heroes: data.heroCollection.items as DeepNonNullable<Hero>[],
-				weapons: data.weaponCollection.items as DeepNonNullable<Weapon>[],
+				heroes: data.heroCollection.items as Hero[],
+				weapons: data.weaponCollection.items as Weapon[],
 			}}
 		>
 			{children}

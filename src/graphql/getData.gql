@@ -21,6 +21,10 @@ query getData {
 			chainAilmentEnd {
 				name
 			}
+			partyBuff {
+				name
+			}
+			partyBuffValue
 			defaultWeapon {
 				sys {
 					id

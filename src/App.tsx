@@ -1,6 +1,6 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import HeroSelectionView from './components/HeroSelectionView';
+import MainView from './components/MainView';
 import { DataContextProvider } from './context/DataContext';
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<DataContextProvider>
-				<HeroSelectionView />
+				<MainView />
 			</DataContextProvider>
 		</QueryClientProvider>
 	);

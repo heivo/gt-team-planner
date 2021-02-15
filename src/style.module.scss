@@ -7,6 +7,7 @@
 }
 
 .hero-slot {
+	cursor: pointer;
 	width: 150px;
 	height: 150px;
 	margin: 20px;
@@ -14,17 +15,19 @@
 	align-items: center;
 	justify-content: center;
 	border: 1px solid grey;
-	border-radius: 10px;
+	border-radius: 20px;
+	overflow: hidden;
 	background-color: lightgray;
 }
 
-.hero-selection-wrapper {
+.hero-picker-wrapper {
 	display: flex;
 	max-width: 80vf;
 	flex-wrap: wrap;
 }
 
-.hero-selection-item {
+.hero-picker-item {
+	cursor: pointer;
 	height: 150px;
 	width: 150px;
 	margin: 10px;
@@ -35,6 +38,10 @@
 	&:hover {
 		border: 2px solid lightcoral;
 	}
+}
+
+.hero-picker-item-locked {
+	filter: blur(10px);
 }
 
 body {

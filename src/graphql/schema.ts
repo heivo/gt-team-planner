@@ -1200,13 +1200,14 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 		{ __typename?: 'HeroCollection' } & {
 			items: Array<
 				Maybe<
-					{ __typename?: 'Hero' } & Pick<Hero, 'name' | 'rarity'> & {
+					{ __typename?: 'Hero' } & Pick<Hero, 'name' | 'rarity' | 'partyBuffValue'> & {
 							sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
 							image?: Maybe<{ __typename?: 'Asset' } & Pick<Asset, 'url'>>;
 							role?: Maybe<{ __typename?: 'HeroRole' } & Pick<HeroRole, 'name'>>;
 							element?: Maybe<{ __typename?: 'Element' } & Pick<Element, 'name'>>;
 							chainAilmentStart?: Maybe<{ __typename?: 'Ailment' } & Pick<Ailment, 'name'>>;
 							chainAilmentEnd?: Maybe<{ __typename?: 'Ailment' } & Pick<Ailment, 'name'>>;
+							partyBuff?: Maybe<{ __typename?: 'HeroPartyBuff' } & Pick<HeroPartyBuff, 'name'>>;
 							defaultWeapon?: Maybe<
 								{ __typename?: 'Weapon' } & { sys: { __typename?: 'Sys' } & Pick<Sys, 'id'> }
 							>;
@@ -1255,6 +1256,10 @@ export const GetDataDocument = `
       chainAilmentEnd {
         name
       }
+      partyBuff {
+        name
+      }
+      partyBuffValue
       defaultWeapon {
         sys {
           id
