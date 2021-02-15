@@ -1,20 +1,11 @@
 /* eslint-disable */
 import { useQuery, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-	[K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-	{ [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-	{ [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 
-function fetcher<TData, TVariables>(
-	endpoint: string,
-	requestInit: RequestInit,
-	query: string,
-	variables?: TVariables
-) {
+function fetcher<TData, TVariables>(endpoint: string, requestInit: RequestInit, query: string, variables?: TVariables) {
 	return async (): Promise<TData> => {
 		const res = await fetch(endpoint, {
 			method: 'POST',
@@ -375,8 +366,8 @@ export type Hero = Entry & {
 	element?: Maybe<Element>;
 	chainAilmentStart?: Maybe<Ailment>;
 	chainAilmentEnd?: Maybe<Ailment>;
-	defaultWeapon?: Maybe<Weapon>;
 	partyBuff?: Maybe<HeroPartyBuff>;
+	defaultWeapon?: Maybe<Weapon>;
 	partyBuffValue?: Maybe<Scalars['Int']>;
 	image?: Maybe<Asset>;
 };
@@ -421,13 +412,13 @@ export type HeroChainAilmentEndArgs = {
 };
 
 /** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/hero) */
-export type HeroDefaultWeaponArgs = {
+export type HeroPartyBuffArgs = {
 	preview?: Maybe<Scalars['Boolean']>;
 	locale?: Maybe<Scalars['String']>;
 };
 
 /** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/hero) */
-export type HeroPartyBuffArgs = {
+export type HeroDefaultWeaponArgs = {
 	preview?: Maybe<Scalars['Boolean']>;
 	locale?: Maybe<Scalars['String']>;
 };
@@ -863,8 +854,8 @@ export type HeroFilter = {
 	element?: Maybe<CfElementNestedFilter>;
 	chainAilmentStart?: Maybe<CfAilmentNestedFilter>;
 	chainAilmentEnd?: Maybe<CfAilmentNestedFilter>;
-	defaultWeapon?: Maybe<CfWeaponNestedFilter>;
 	partyBuff?: Maybe<CfHeroPartyBuffNestedFilter>;
+	defaultWeapon?: Maybe<CfWeaponNestedFilter>;
 	sys?: Maybe<SysFilter>;
 	name_exists?: Maybe<Scalars['Boolean']>;
 	name?: Maybe<Scalars['String']>;
@@ -886,8 +877,8 @@ export type HeroFilter = {
 	element_exists?: Maybe<Scalars['Boolean']>;
 	chainAilmentStart_exists?: Maybe<Scalars['Boolean']>;
 	chainAilmentEnd_exists?: Maybe<Scalars['Boolean']>;
-	defaultWeapon_exists?: Maybe<Scalars['Boolean']>;
 	partyBuff_exists?: Maybe<Scalars['Boolean']>;
+	defaultWeapon_exists?: Maybe<Scalars['Boolean']>;
 	partyBuffValue_exists?: Maybe<Scalars['Boolean']>;
 	partyBuffValue?: Maybe<Scalars['Int']>;
 	partyBuffValue_not?: Maybe<Scalars['Int']>;
@@ -941,6 +932,19 @@ export type CfAilmentNestedFilter = {
 	AND?: Maybe<Array<Maybe<CfAilmentNestedFilter>>>;
 };
 
+export type CfHeroPartyBuffNestedFilter = {
+	sys?: Maybe<SysFilter>;
+	name_exists?: Maybe<Scalars['Boolean']>;
+	name?: Maybe<Scalars['String']>;
+	name_not?: Maybe<Scalars['String']>;
+	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_contains?: Maybe<Scalars['String']>;
+	name_not_contains?: Maybe<Scalars['String']>;
+	OR?: Maybe<Array<Maybe<CfHeroPartyBuffNestedFilter>>>;
+	AND?: Maybe<Array<Maybe<CfHeroPartyBuffNestedFilter>>>;
+};
+
 export type CfWeaponNestedFilter = {
 	sys?: Maybe<SysFilter>;
 	name_exists?: Maybe<Scalars['Boolean']>;
@@ -955,19 +959,6 @@ export type CfWeaponNestedFilter = {
 	category_exists?: Maybe<Scalars['Boolean']>;
 	OR?: Maybe<Array<Maybe<CfWeaponNestedFilter>>>;
 	AND?: Maybe<Array<Maybe<CfWeaponNestedFilter>>>;
-};
-
-export type CfHeroPartyBuffNestedFilter = {
-	sys?: Maybe<SysFilter>;
-	name_exists?: Maybe<Scalars['Boolean']>;
-	name?: Maybe<Scalars['String']>;
-	name_not?: Maybe<Scalars['String']>;
-	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_contains?: Maybe<Scalars['String']>;
-	name_not_contains?: Maybe<Scalars['String']>;
-	OR?: Maybe<Array<Maybe<CfHeroPartyBuffNestedFilter>>>;
-	AND?: Maybe<Array<Maybe<CfHeroPartyBuffNestedFilter>>>;
 };
 
 export enum HeroOrder {
@@ -1202,44 +1193,37 @@ export type AilmentCollection = {
 	items: Array<Maybe<Ailment>>;
 };
 
-export type GetHerosQueryVariables = Exact<{ [key: string]: never }>;
+export type GetDataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetHerosQuery = { __typename?: 'Query' } & {
+export type GetDataQuery = { __typename?: 'Query' } & {
 	heroCollection?: Maybe<
 		{ __typename?: 'HeroCollection' } & {
 			items: Array<
 				Maybe<
 					{ __typename?: 'Hero' } & Pick<Hero, 'name' | 'rarity'> & {
-							role?: Maybe<
-								{ __typename?: 'HeroRole' } & Pick<
-									HeroRole,
-									'name'
-								>
-							>;
-							element?: Maybe<
-								{ __typename?: 'Element' } & Pick<
-									Element,
-									'name'
-								>
-							>;
-							image?: Maybe<
-								{ __typename?: 'Asset' } & Pick<Asset, 'url'>
-							>;
-							chainAilmentStart?: Maybe<
-								{ __typename?: 'Ailment' } & Pick<
-									Ailment,
-									'name'
-								>
-							>;
-							chainAilmentEnd?: Maybe<
-								{ __typename?: 'Ailment' } & Pick<
-									Ailment,
-									'name'
-								>
-							>;
+							sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
+							image?: Maybe<{ __typename?: 'Asset' } & Pick<Asset, 'url'>>;
+							role?: Maybe<{ __typename?: 'HeroRole' } & Pick<HeroRole, 'name'>>;
+							element?: Maybe<{ __typename?: 'Element' } & Pick<Element, 'name'>>;
+							chainAilmentStart?: Maybe<{ __typename?: 'Ailment' } & Pick<Ailment, 'name'>>;
+							chainAilmentEnd?: Maybe<{ __typename?: 'Ailment' } & Pick<Ailment, 'name'>>;
 							defaultWeapon?: Maybe<
-								{ __typename?: 'Weapon' } & Pick<Weapon, 'name'>
+								{ __typename?: 'Weapon' } & { sys: { __typename?: 'Sys' } & Pick<Sys, 'id'> }
 							>;
+						}
+				>
+			>;
+		}
+	>;
+	weaponCollection?: Maybe<
+		{ __typename?: 'WeaponCollection' } & {
+			items: Array<
+				Maybe<
+					{ __typename?: 'Weapon' } & Pick<Weapon, 'name'> & {
+							sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
+							element?: Maybe<{ __typename?: 'Element' } & Pick<Element, 'name'>>;
+							ailment?: Maybe<{ __typename?: 'Ailment' } & Pick<Ailment, 'name'>>;
+							category?: Maybe<{ __typename?: 'WeaponCategory' } & Pick<WeaponCategory, 'name'>>;
 						}
 				>
 			>;
@@ -1247,20 +1231,23 @@ export type GetHerosQuery = { __typename?: 'Query' } & {
 	>;
 };
 
-export const GetHerosDocument = `
-    query getHeros {
+export const GetDataDocument = `
+    query getData {
   heroCollection {
     items {
+      sys {
+        id
+      }
       name
+      image {
+        url
+      }
       rarity
       role {
         name
       }
       element {
         name
-      }
-      image {
-        url
       }
       chainAilmentStart {
         name
@@ -1269,23 +1256,42 @@ export const GetHerosDocument = `
         name
       }
       defaultWeapon {
+        sys {
+          id
+        }
+      }
+    }
+  }
+  weaponCollection {
+    items {
+      sys {
+        id
+      }
+      name
+      element {
+        name
+      }
+      ailment {
+        name
+      }
+      category {
         name
       }
     }
   }
 }
     `;
-export const useGetHerosQuery = <TData = GetHerosQuery, TError = unknown>(
+export const useGetDataQuery = <TData = GetDataQuery, TError = unknown>(
 	dataSource: { endpoint: string; fetchParams?: RequestInit },
-	variables?: GetHerosQueryVariables,
-	options?: UseQueryOptions<GetHerosQuery, TError, TData>
+	variables?: GetDataQueryVariables,
+	options?: UseQueryOptions<GetDataQuery, TError, TData>
 ) =>
-	useQuery<GetHerosQuery, TError, TData>(
-		['getHeros', variables],
-		fetcher<GetHerosQuery, GetHerosQueryVariables>(
+	useQuery<GetDataQuery, TError, TData>(
+		['getData', variables],
+		fetcher<GetDataQuery, GetDataQueryVariables>(
 			dataSource.endpoint,
 			dataSource.fetchParams || {},
-			GetHerosDocument,
+			GetDataDocument,
 			variables
 		),
 		options

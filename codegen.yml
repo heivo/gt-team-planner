@@ -2,7 +2,7 @@ overwrite: true
 schema:
   - https://graphql.contentful.com/content/v1/spaces/fyrmlfwxhp4g:
       headers:
-        Authorization: Bearer ${API_TOKEN}
+        Authorization: Bearer ${REACT_APP_API_TOKEN}
 documents: src/graphql/**/*.gql
 generates:
   src/graphql/schema.ts:

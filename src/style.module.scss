@@ -1,0 +1,43 @@
+.hero-slot-container {
+	max-width: 1000px;
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.hero-slot {
+	width: 150px;
+	height: 150px;
+	margin: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid grey;
+	border-radius: 10px;
+	background-color: lightgray;
+}
+
+.hero-selection-wrapper {
+	display: flex;
+	max-width: 80vf;
+	flex-wrap: wrap;
+}
+
+.hero-selection-item {
+	height: 150px;
+	width: 150px;
+	margin: 10px;
+	border: 2px solid transparent;
+	border-radius: 20px;
+	overflow: hidden;
+
+	&:hover {
+		border: 2px solid lightcoral;
+	}
+}
+
+body {
+	display: flex;
+	justify-content: center;
+}

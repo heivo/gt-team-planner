@@ -1,0 +1,48 @@
+query getData {
+	heroCollection {
+		items {
+			sys {
+				id
+			}
+			name
+			image {
+				url
+			}
+			rarity
+			role {
+				name
+			}
+			element {
+				name
+			}
+			chainAilmentStart {
+				name
+			}
+			chainAilmentEnd {
+				name
+			}
+			defaultWeapon {
+				sys {
+					id
+				}
+			}
+		}
+	}
+	weaponCollection {
+		items {
+			sys {
+				id
+			}
+			name
+			element {
+				name
+			}
+			ailment {
+				name
+			}
+			category {
+				name
+			}
+		}
+	}
+}
