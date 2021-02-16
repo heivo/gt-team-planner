@@ -79,6 +79,9 @@ query getData {
 				}
 				name
 			}
+			image {
+				url(transform: {height: 80, width: 80})
+			}
 		}
 	}
 	weaponCategoryCollection {

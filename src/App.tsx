@@ -5,7 +5,17 @@ import { DataContextProvider } from './context/DataContext';
 import { StateContextProvider } from './context/StateContext';
 
 function App() {
-	const queryClient = new QueryClient();
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false,
+				refetchInterval: -1,
+				refetchIntervalInBackground: false,
+				refetchOnReconnect: false,
+				refetchOnMount: false
+			},
+		},
+	});
 
 	return (
 		<QueryClientProvider client={queryClient}>

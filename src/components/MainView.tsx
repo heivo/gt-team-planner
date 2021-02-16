@@ -5,16 +5,22 @@ import HeroSlot from './HeroSlot';
 import HeroSlotContainer from './HeroSlotContainer';
 import HeroesBuffSummary from './HeroesBuffSummary';
 import StateContext from '../context/StateContext';
+import WeaponSlotContainer from './WeaponSlotContainer';
+import WeaponSlot from './WeaponSlot';
 
 function MainView() {
-	const { heroSlots, selectHero } = useContext(StateContext);
+	const { slots, selectHero } = useContext(StateContext);
 
-	const selectedHeros = heroSlots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
+	const selectedHeros = slots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
 
 	const [heroPickerSlot, setHeroPickerSlot] = useState<number>();
 
 	const openHeroPicker = (slotNumber: number) => () => {
 		setHeroPickerSlot(slotNumber);
+	};
+
+	const openWeaponPicker = (slotNumber: number) => () => {
+		// setHeroPickerSlot(slotNumber);
 	};
 
 	const handleSelectHero = (slotNumber: number, hero: Hero) => {
@@ -23,7 +29,7 @@ function MainView() {
 	};
 
 	if (heroPickerSlot !== undefined) {
-		const currentHero = heroSlots[heroPickerSlot].hero;
+		const currentHero = slots[heroPickerSlot].hero;
 		const lockedHeros = selectedHeros.filter((hero) => hero !== currentHero);
 		return <HeroPicker lockedHeros={lockedHeros} onSelect={(hero) => handleSelectHero(heroPickerSlot, hero)} />;
 	}
@@ -31,11 +37,17 @@ function MainView() {
 	return (
 		<>
 			<HeroSlotContainer>
-				<HeroSlot heroSlot={heroSlots[0]} onClick={openHeroPicker(0)} />
-				<HeroSlot heroSlot={heroSlots[1]} onClick={openHeroPicker(1)} />
-				<HeroSlot heroSlot={heroSlots[2]} onClick={openHeroPicker(2)} />
-				<HeroSlot heroSlot={heroSlots[3]} onClick={openHeroPicker(3)} />
+				<HeroSlot hero={slots[0].hero} onClick={openHeroPicker(0)} />
+				<HeroSlot hero={slots[1].hero} onClick={openHeroPicker(1)} />
+				<HeroSlot hero={slots[2].hero} onClick={openHeroPicker(2)} />
+				<HeroSlot hero={slots[3].hero} onClick={openHeroPicker(3)} />
 			</HeroSlotContainer>
+			<WeaponSlotContainer>
+				<WeaponSlot weapon={slots[0].weapon} onClick={openWeaponPicker(0)} />
+				<WeaponSlot weapon={slots[1].weapon} onClick={openWeaponPicker(1)} />
+				<WeaponSlot weapon={slots[2].weapon} onClick={openWeaponPicker(2)} />
+				<WeaponSlot weapon={slots[3].weapon} onClick={openWeaponPicker(3)} />
+			</WeaponSlotContainer>
 			<HeroesBuffSummary heroes={selectedHeros} />
 		</>
 	);

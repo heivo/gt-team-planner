@@ -1,16 +1,16 @@
 import React from 'react';
 import styles from '../style.module.scss';
-import { HeroSlotData } from '../context/StateContext';
+import { Hero } from '../graphql/schema';
 
 interface Props {
-	heroSlot: HeroSlotData;
+	hero: Hero | null;
 	onClick: () => void;
 }
 
-const HeroSlot = ({ heroSlot, onClick }: Props) => {
+const HeroSlot = ({ hero, onClick }: Props) => {
 	return (
 		<div className={styles['hero-slot']} onClick={onClick}>
-			{heroSlot.hero ? <img src={heroSlot.hero.image?.url ?? ''} alt={heroSlot.hero.name ?? ''} /> : '<empty>'}
+			{hero ? <img src={hero.image?.url ?? ''} alt={hero.name ?? ''} /> : '<empty>'}
 		</div>
 	);
 };

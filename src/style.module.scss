@@ -25,6 +25,28 @@ body {
 	background-color: lightgray;
 }
 
+.weapon-slot-container {
+	max-width: 1000px;
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.weapon-slot {
+	cursor: pointer;
+	width: 80px;
+	height: 80px;
+	margin: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid grey;
+	border-radius: 20px;
+	overflow: hidden;
+	background-color: lightgray;
+}
+
 .hero-picker-wrapper {
 	display: flex;
 	max-width: 80vf;

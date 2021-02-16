@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import DataContext from '../context/DataContext';
 import { Hero } from '../graphql/schema';
 
 interface Props {
-	heroes: Array<Hero | undefined>;
+	heroes: Array<Hero>;
 }
 
 const HeroesBuffSummary = ({ heroes }: Props) => {
-	const groupedStats = heroes.reduce<Record<string, number>>((acc, hero) => {
-		if (hero?.partyBuff?.name && hero.partyBuffValue) {
-			acc[hero.partyBuff.name] = (acc[hero.partyBuff.name] ?? 0) + hero.partyBuffValue;
+	const { heroPartyBuffs } = useContext(DataContext);
+	const groupedStatsByBuffId = heroes.reduce<Record<string, number>>((acc, hero) => {
+		if (hero?.partyBuff && hero.partyBuffValue) {
+			acc[hero.partyBuff.sys.id] = (acc[hero.partyBuff.sys.id] ?? 0) + hero.partyBuffValue;
 		}
 		return acc;
 	}, {});
 	return (
 		<>
-			{Object.entries(groupedStats).map(([name, value]) => (
-				<div key={name}>
-					{name}: {value}%
-				</div>
-			))}
+			{heroPartyBuffs
+				.filter(({ sys: { id } }) => groupedStatsByBuffId[id])
+				.map(({ sys: { id }, name }) => (
+					<div key={id}>
+						{name}: {groupedStatsByBuffId[id]}%
+					</div>
+				))}
 		</>
 	);
 };

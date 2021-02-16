@@ -1253,6 +1253,17 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 			>;
 		}
 	>;
+	heroRoleCollection?: Maybe<
+		{ __typename?: 'HeroRoleCollection' } & {
+			items: Array<
+				Maybe<
+					{ __typename?: 'HeroRole' } & Pick<HeroRole, 'name'> & {
+							sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
+						}
+				>
+			>;
+		}
+	>;
 	weaponCollection?: Maybe<
 		{ __typename?: 'WeaponCollection' } & {
 			items: Array<
@@ -1274,6 +1285,7 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 										sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
 									}
 							>;
+							image?: Maybe<{ __typename?: 'Asset' } & Pick<Asset, 'url'>>;
 						}
 				>
 			>;
@@ -1284,17 +1296,6 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 			items: Array<
 				Maybe<
 					{ __typename?: 'WeaponCategory' } & Pick<WeaponCategory, 'name'> & {
-							sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
-						}
-				>
-			>;
-		}
-	>;
-	heroRoleCollection?: Maybe<
-		{ __typename?: 'HeroRoleCollection' } & {
-			items: Array<
-				Maybe<
-					{ __typename?: 'HeroRole' } & Pick<HeroRole, 'name'> & {
 							sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
 						}
 				>
@@ -1386,6 +1387,14 @@ export const GetDataDocument = `
       }
     }
   }
+  heroRoleCollection {
+    items {
+      sys {
+        id
+      }
+      name
+    }
+  }
   weaponCollection {
     items {
       sys {
@@ -1410,17 +1419,12 @@ export const GetDataDocument = `
         }
         name
       }
+      image {
+        url(transform: {height: 80, width: 80})
+      }
     }
   }
   weaponCategoryCollection {
-    items {
-      sys {
-        id
-      }
-      name
-    }
-  }
-  heroRoleCollection {
     items {
       sys {
         id

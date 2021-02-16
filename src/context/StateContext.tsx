@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Hero, Weapon } from '../graphql/schema';
+import DataContext from './DataContext';
 
-export interface HeroSlotData {
+export interface SlotData {
 	hero: Hero | null;
 	weapon: Weapon | null;
 }
 
 const StateContext = React.createContext<{
-	heroSlots: HeroSlotData[];
+	slots: SlotData[];
 	selectHero: (slotNumber: number, hero: Hero) => void;
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
-}>({ heroSlots: [], selectHero: () => {} });
+}>({ slots: [], selectHero: () => {} });
 
 export default StateContext;
 
@@ -19,16 +20,19 @@ interface Props {
 }
 
 export const StateContextProvider = ({ children }: Props) => {
-	const heroSlots: HeroSlotData[] = [
+	const slots: SlotData[] = [
 		{ hero: null, weapon: null },
 		{ hero: null, weapon: null },
 		{ hero: null, weapon: null },
 		{ hero: null, weapon: null },
 	];
 
+	const { weapons } = useContext(DataContext);
+
 	const selectHero = (slotNumber: number, hero: Hero) => {
-		heroSlots[slotNumber] = { hero, weapon: null };
+		const weapon = weapons.find((w) => w.sys.id === hero.defaultWeapon?.sys.id) ?? null;
+		slots[slotNumber] = { hero, weapon };
 	};
 
-	return <StateContext.Provider value={{ heroSlots, selectHero }}>{children}</StateContext.Provider>;
+	return <StateContext.Provider value={{ slots, selectHero }}>{children}</StateContext.Provider>;
 };
