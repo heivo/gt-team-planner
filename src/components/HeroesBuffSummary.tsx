@@ -4,6 +4,7 @@ import { Hero } from '../graphql/schema';
 interface Props {
 	heroes: Array<Hero | undefined>;
 }
+
 const HeroesBuffSummary = ({ heroes }: Props) => {
 	const groupedStats = heroes.reduce<Record<string, number>>((acc, hero) => {
 		if (hero?.partyBuff?.name && hero.partyBuffValue) {

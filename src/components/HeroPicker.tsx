@@ -5,21 +5,28 @@ import styles from '../style.module.scss';
 import classnames from 'classnames';
 
 interface Props {
-	locked: Hero[];
+	lockedHeros: Hero[];
 	onSelect: (hero: Hero) => void;
 }
 
-function HeroPicker({ locked, onSelect }: Props) {
+function HeroPicker({ lockedHeros, onSelect }: Props) {
 	const { heroes } = useContext(DataContext);
+
+	const handleSelectHero = (hero: Hero) => {
+		if (!lockedHeros.includes(hero)) {
+			onSelect(hero);
+		}
+	};
+
 	return (
 		<div className={styles['hero-picker-wrapper']}>
 			{heroes.map((hero) => (
 				<div
 					key={hero.name}
 					className={classnames(styles['hero-picker-item'], {
-						[styles['hero-picker-item-locked']]: locked.includes(hero),
+						[styles['hero-picker-item-locked']]: lockedHeros.includes(hero),
 					})}
-					onClick={() => onSelect(hero)}
+					onClick={() => handleSelectHero(hero)}
 				>
 					{hero.image?.url && <img src={hero.image.url} alt={hero.name ?? ''} />}
 				</div>

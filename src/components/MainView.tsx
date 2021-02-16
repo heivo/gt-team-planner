@@ -1,44 +1,42 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Hero } from '../graphql/schema';
 import HeroPicker from './HeroPicker';
 import HeroSlot from './HeroSlot';
 import HeroSlotContainer from './HeroSlotContainer';
 import HeroesBuffSummary from './HeroesBuffSummary';
+import StateContext from '../context/StateContext';
 
 function MainView() {
-	const [heroes, setHeroes] = useState<Array<Hero | undefined>>([undefined, undefined, undefined, undefined]);
+	const { heroSlots, selectHero } = useContext(StateContext);
+
+	const selectedHeros = heroSlots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
+
 	const [heroPickerSlot, setHeroPickerSlot] = useState<number>();
 
-	const handleClick = (slotNumber: number) => () => {
+	const openHeroPicker = (slotNumber: number) => () => {
 		setHeroPickerSlot(slotNumber);
 	};
 
 	const handleSelectHero = (slotNumber: number, hero: Hero) => {
-		setHeroes((state) =>
-			state.map((h, i) => {
-				if (i === slotNumber) {
-					return hero;
-				}
-				return h;
-			})
-		);
+		selectHero(slotNumber, hero);
 		setHeroPickerSlot(undefined);
 	};
 
 	if (heroPickerSlot !== undefined) {
-		const current = heroes[heroPickerSlot];
-		const locked = heroes.filter((h) => h != null && h.sys.id !== current?.sys.id) as Hero[];
-		return <HeroPicker locked={locked} onSelect={(hero) => handleSelectHero(heroPickerSlot, hero)} />;
+		const currentHero = heroSlots[heroPickerSlot].hero;
+		const lockedHeros = selectedHeros.filter((hero) => hero !== currentHero);
+		return <HeroPicker lockedHeros={lockedHeros} onSelect={(hero) => handleSelectHero(heroPickerSlot, hero)} />;
 	}
+
 	return (
 		<>
 			<HeroSlotContainer>
-				<HeroSlot hero={heroes[0]} onClick={handleClick(0)} />
-				<HeroSlot hero={heroes[1]} onClick={handleClick(1)} />
-				<HeroSlot hero={heroes[2]} onClick={handleClick(2)} />
-				<HeroSlot hero={heroes[3]} onClick={handleClick(3)} />
+				<HeroSlot heroSlot={heroSlots[0]} onClick={openHeroPicker(0)} />
+				<HeroSlot heroSlot={heroSlots[1]} onClick={openHeroPicker(1)} />
+				<HeroSlot heroSlot={heroSlots[2]} onClick={openHeroPicker(2)} />
+				<HeroSlot heroSlot={heroSlots[3]} onClick={openHeroPicker(3)} />
 			</HeroSlotContainer>
-			<HeroesBuffSummary heroes={heroes} />
+			<HeroesBuffSummary heroes={selectedHeros} />
 		</>
 	);
 }

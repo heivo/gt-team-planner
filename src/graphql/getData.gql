@@ -10,18 +10,33 @@ query getData {
 			}
 			rarity
 			role {
+				sys {
+					id
+				}
 				name
 			}
 			element {
+				sys {
+					id
+				}
 				name
 			}
 			chainAilmentStart {
+				sys {
+					id
+				}
 				name
 			}
 			chainAilmentEnd {
+				sys {
+					id
+				}
 				name
 			}
 			partyBuff {
+				sys {
+					id
+				}
 				name
 			}
 			partyBuffValue
@@ -32,6 +47,14 @@ query getData {
 			}
 		}
 	}
+	heroRoleCollection {
+		items {
+			sys {
+				id
+			}
+			name
+		}
+	}
 	weaponCollection {
 		items {
 			sys {
@@ -39,14 +62,55 @@ query getData {
 			}
 			name
 			element {
+				sys {
+					id
+				}
 				name
 			}
 			ailment {
+				sys {
+					id
+				}
 				name
 			}
 			category {
+				sys {
+					id
+				}
 				name
 			}
+		}
+	}
+	weaponCategoryCollection {
+		items {
+			sys {
+				id
+			}
+			name
+		}
+	}
+	elementCollection {
+		items {
+			sys {
+				id
+			}
+			name
+		}
+	}
+	ailmentCollection {
+		items {
+			sys {
+				id
+			}
+			name
+		}
+	}
+	heroPartyBuffCollection {
+		items {
+			sys {
+				id
+			}
+			name
 		}
 	}
 }
