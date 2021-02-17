@@ -3,7 +3,7 @@ body {
 	justify-content: center;
 }
 
-.hero-slot-container {
+.slotContainer {
 	max-width: 1000px;
 	width: 100vw;
 	display: flex;
@@ -11,21 +11,64 @@ body {
 	justify-content: space-between;
 }
 
-.hero-slot {
-	cursor: pointer;
+.slot {
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+}
+
+.heroBadge {
+	position: relative;
 	width: 150px;
 	height: 150px;
-	margin: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid grey;
 	border-radius: 20px;
 	overflow: hidden;
 	background-color: lightgray;
+	cursor: pointer;
+
+	&.locked {
+		cursor: default;
+		filter: opacity(20%);
+	}
+
+	.heroBadgeChainContainer {
+		background-color: rgba(255, 255, 255, 0.5);
+		border-top-left-radius: 10px;
+		align-self: flex-end;
+		margin-left: auto;
+		padding-bottom: 3px;
+		padding-right: 3px;
+	}
 }
 
-.weapon-slot-container {
+.chain {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 50px;
+	height: 45px;
+	:nth-child(1) {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	:nth-child(2) {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+	}
+	:nth-child(3) {
+		position: absolute;
+		width: 20px;
+		height: 20px;
+	}
+}
+
+/* .weapon-slot-container {
 	max-width: 1000px;
 	width: 100vw;
 	display: flex;
@@ -45,29 +88,14 @@ body {
 	border-radius: 20px;
 	overflow: hidden;
 	background-color: lightgray;
-}
+} */
 
-.hero-picker-wrapper {
+.heroPicker {
 	display: flex;
 	max-width: 80vf;
 	flex-wrap: wrap;
-}
 
-.hero-picker-item {
-	cursor: pointer;
-	height: 150px;
-	width: 150px;
-	margin: 10px;
-	border: 2px solid transparent;
-	border-radius: 20px;
-	overflow: hidden;
-
-	&:hover {
-		border: 2px solid lightcoral;
+	&.badgeWrapper {
+		margin: 10px;
 	}
-}
-
-.hero-picker-item-locked {
-	cursor: not-allowed;
-	filter: blur(10px);
 }

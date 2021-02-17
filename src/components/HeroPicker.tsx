@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import DataContext from '../context/DataContext';
 import { Hero } from '../graphql/schema';
 import styles from '../style.module.scss';
-import classnames from 'classnames';
+import HeroBadge from './HeroBadge';
 
 interface Props {
 	lockedHeros: Hero[];
@@ -19,16 +19,10 @@ function HeroPicker({ lockedHeros, onSelect }: Props) {
 	};
 
 	return (
-		<div className={styles['hero-picker-wrapper']}>
+		<div className={styles.heroPicker}>
 			{heroes.map((hero) => (
-				<div
-					key={hero.name}
-					className={classnames(styles['hero-picker-item'], {
-						[styles['hero-picker-item-locked']]: lockedHeros.includes(hero),
-					})}
-					onClick={() => handleSelectHero(hero)}
-				>
-					{hero.image?.url && <img src={hero.image.url} alt={hero.name ?? ''} />}
+				<div key={hero.sys.id} className={styles.badgeWrapper}>
+					<HeroBadge hero={hero} locked={lockedHeros.includes(hero)} onClick={() => handleSelectHero(hero)} />
 				</div>
 			))}
 		</div>

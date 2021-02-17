@@ -1,12 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Hero } from '../graphql/schema';
 import HeroPicker from './HeroPicker';
-import HeroSlot from './HeroSlot';
-import HeroSlotContainer from './HeroSlotContainer';
 import HeroesBuffSummary from './HeroesBuffSummary';
 import StateContext from '../context/StateContext';
-import WeaponSlotContainer from './WeaponSlotContainer';
-import WeaponSlot from './WeaponSlot';
+import Slot from './Slot';
+import styles from '../style.module.scss';
 
 function MainView() {
 	const { slots, selectHero } = useContext(StateContext);
@@ -36,18 +34,20 @@ function MainView() {
 
 	return (
 		<>
-			<HeroSlotContainer>
-				<HeroSlot hero={slots[0].hero} onClick={openHeroPicker(0)} />
-				<HeroSlot hero={slots[1].hero} onClick={openHeroPicker(1)} />
-				<HeroSlot hero={slots[2].hero} onClick={openHeroPicker(2)} />
-				<HeroSlot hero={slots[3].hero} onClick={openHeroPicker(3)} />
-			</HeroSlotContainer>
-			<WeaponSlotContainer>
+			<div className={styles.slotContainer}>
+				<Slot data={slots[0]} onClickHero={openHeroPicker(0)} />
+				<Slot data={slots[1]} onClickHero={openHeroPicker(1)} />
+				<Slot data={slots[2]} onClickHero={openHeroPicker(2)} />
+				<Slot data={slots[3]} onClickHero={openHeroPicker(3)} />
+			</div>
+
+			{/* <WeaponSlotContainer>
 				<WeaponSlot weapon={slots[0].weapon} onClick={openWeaponPicker(0)} />
 				<WeaponSlot weapon={slots[1].weapon} onClick={openWeaponPicker(1)} />
 				<WeaponSlot weapon={slots[2].weapon} onClick={openWeaponPicker(2)} />
 				<WeaponSlot weapon={slots[3].weapon} onClick={openWeaponPicker(3)} />
-			</WeaponSlotContainer>
+			</WeaponSlotContainer> */}
+
 			<HeroesBuffSummary heroes={selectedHeros} />
 		</>
 	);
