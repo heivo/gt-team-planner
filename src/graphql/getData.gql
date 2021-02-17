@@ -1,5 +1,5 @@
 query getData {
-	heroCollection {
+	heroCollection(order: name_ASC) {
 		items {
 			sys {
 				id
@@ -55,7 +55,7 @@ query getData {
 			name
 		}
 	}
-	weaponCollection {
+	weaponCollection(order: name_ASC) {
 		items {
 			sys {
 				id
@@ -80,7 +80,7 @@ query getData {
 				name
 			}
 			image {
-				url(transform: { height: 80, width: 80 })
+				url(transform: { height: 75, width: 75 })
 			}
 		}
 	}

@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import DataContext from '../context/DataContext';
 import { Hero } from '../graphql/schema';
+import styles from '../style.module.scss';
 
 interface Props {
 	heroes: Array<Hero>;
 }
 
-const HeroesBuffSummary = ({ heroes }: Props) => {
+const PartyBuffSummary = ({ heroes }: Props) => {
 	const { heroPartyBuffs } = useContext(DataContext);
 	const groupedStatsByBuffId = heroes.reduce<Record<string, number>>((acc, hero) => {
 		if (hero?.partyBuff && hero.partyBuffValue) {
@@ -15,16 +16,17 @@ const HeroesBuffSummary = ({ heroes }: Props) => {
 		return acc;
 	}, {});
 	return (
-		<>
+		<div className={styles.partyBuffSummary}>
 			{heroPartyBuffs
 				.filter(({ sys: { id } }) => groupedStatsByBuffId[id])
 				.map(({ sys: { id }, name }) => (
 					<div key={id}>
-						{name}: {groupedStatsByBuffId[id]}%
+						<strong>{name}:</strong> {groupedStatsByBuffId[id]}%
 					</div>
 				))}
-		</>
+				{!heroes.length && <i>no party buffs</i>}
+		</div>
 	);
 };
 
-export default HeroesBuffSummary;
+export default PartyBuffSummary;

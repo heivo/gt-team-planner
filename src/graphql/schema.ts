@@ -1357,7 +1357,7 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 
 export const GetDataDocument = `
     query getData {
-  heroCollection {
+  heroCollection(order: name_ASC) {
     items {
       sys {
         id
@@ -1438,7 +1438,7 @@ export const GetDataDocument = `
         name
       }
       image {
-        url(transform: {height: 80, width: 80})
+        url(transform: {height: 75, width: 75})
       }
     }
   }

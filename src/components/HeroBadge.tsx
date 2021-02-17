@@ -28,7 +28,7 @@ const HeroBadge = ({ hero, onClick, locked = false }: Props) => {
 					{ailmentStart && ailmentEnd && <Chain ailmentStart={ailmentStart} ailmentEnd={ailmentEnd} />}
 				</div>
 			) : (
-				'<empty>'
+				<i>&lt;empty&gt;</i>
 			)}
 		</div>
 	);
