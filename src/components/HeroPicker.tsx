@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import DataContext from '../context/DataContext';
-import { Hero } from '../graphql/schema';
+import DataContext, { Hero } from '../context/DataContext';
 import styles from '../style.module.scss';
 import HeroBadge from './HeroBadge';
 

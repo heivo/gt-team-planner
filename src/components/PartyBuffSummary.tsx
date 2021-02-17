@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import DataContext from '../context/DataContext';
-import { Hero } from '../graphql/schema';
+import DataContext, { Hero } from '../context/DataContext';
 import styles from '../style.module.scss';
 
 interface Props {
@@ -24,7 +23,7 @@ const PartyBuffSummary = ({ heroes }: Props) => {
 						<strong>{name}:</strong> {groupedStatsByBuffId[id]}%
 					</div>
 				))}
-				{!heroes.length && <i>no party buffs</i>}
+			{!heroes.length && <i>no party buffs</i>}
 		</div>
 	);
 };

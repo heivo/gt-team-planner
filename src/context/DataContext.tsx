@@ -1,14 +1,17 @@
 import React from 'react';
-import {
-	useGetDataQuery,
-	Hero,
-	Weapon,
-	WeaponCategory,
-	HeroRole,
-	Element,
-	Ailment,
-	HeroPartyBuff,
-} from '../graphql/schema';
+import { useGetDataQuery, GetDataQuery } from '../graphql/schema';
+import { DeepOmit } from '../utils/typeUtils';
+import { DeepNonNullable, ValuesType } from 'utility-types';
+
+type ConstructType<T extends Array<unknown>> = ValuesType<Required<DeepNonNullable<DeepOmit<T, '__typename'>>>>;
+
+export type Hero = ConstructType<NonNullable<NonNullable<GetDataQuery['heroCollection']>['items']>>;
+export type HeroRole = ConstructType<NonNullable<NonNullable<GetDataQuery['heroRoleCollection']>['items']>>;
+export type HeroPartyBuff = ConstructType<NonNullable<NonNullable<GetDataQuery['heroPartyBuffCollection']>['items']>>;
+export type Weapon = ConstructType<NonNullable<NonNullable<GetDataQuery['weaponCollection']>['items']>>;
+export type WeaponCategory = ConstructType<NonNullable<NonNullable<GetDataQuery['weaponCategoryCollection']>['items']>>;
+export type Element = ConstructType<NonNullable<NonNullable<GetDataQuery['elementCollection']>['items']>>;
+export type Ailment = ConstructType<NonNullable<NonNullable<GetDataQuery['ailmentCollection']>['items']>>;
 
 const DataContext = React.createContext<{
 	heroes: Hero[];

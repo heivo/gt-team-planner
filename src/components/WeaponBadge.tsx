@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import styles from '../style.module.scss';
-import { Ailment, Weapon } from '../graphql/schema';
-import DataContext from '../context/DataContext';
+import DataContext, { Ailment, Weapon } from '../context/DataContext';
 
 interface Props {
 	weapon: Weapon;

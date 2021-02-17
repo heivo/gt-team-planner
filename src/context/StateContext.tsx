@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { Hero, Weapon } from '../graphql/schema';
-import DataContext from './DataContext';
+import DataContext, { Hero, Weapon } from './DataContext';
 
 export interface SlotData {
 	hero: Hero | null;

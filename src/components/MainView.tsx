@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Hero } from '../graphql/schema';
 import HeroPicker from './HeroPicker';
 import PartyBuffSummary from './PartyBuffSummary';
 import StateContext from '../context/StateContext';
 import Slot from './Slot';
 import styles from '../style.module.scss';
+import { Hero } from '../context/DataContext';
 
 function MainView() {
 	const { slots, selectHero } = useContext(StateContext);

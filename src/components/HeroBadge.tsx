@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import styles from '../style.module.scss';
-import { Ailment, Hero } from '../graphql/schema';
-import DataContext from '../context/DataContext';
+import DataContext, { Hero } from '../context/DataContext';
 import cn from 'classnames';
 import Chain from './Chain';
 
@@ -20,7 +19,7 @@ const HeroBadge = ({ hero, onClick, locked = false }: Props) => {
 		<div
 			className={cn(styles.heroBadge, { [styles.locked]: locked })}
 			onClick={onClick}
-			style={{ backgroundImage: hero?.image?.url ? `url(${hero.image.url})` : undefined }}
+			style={{ backgroundImage: hero?.image.url ? `url(${hero.image.url})` : undefined }}
 			title={hero?.name ?? undefined}
 		>
 			{hero ? (
