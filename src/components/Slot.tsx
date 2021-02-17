@@ -8,13 +8,14 @@ interface Props {
 	data: SlotData;
 	onClickHero: () => void;
 	onClickWeapon: () => void;
+	index: number;
 }
 
-const Slot = ({ data: { hero, weapon }, onClickHero, onClickWeapon }: Props) => {
+const Slot = ({ data: { hero, weapon }, onClickHero, onClickWeapon, index }: Props) => {
 	return (
 		<div className={styles.slot}>
 			<HeroBadge hero={hero} onClick={onClickHero} />
-			{weapon && <WeaponBadge weapon={weapon} onClick={onClickWeapon} />}
+			{weapon && <WeaponBadge weapon={weapon} onClick={onClickWeapon} showAilment={index === 0} />}
 		</div>
 	);
 };

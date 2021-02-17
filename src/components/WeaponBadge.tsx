@@ -6,10 +6,10 @@ import DataContext from '../context/DataContext';
 interface Props {
 	weapon: Weapon;
 	onClick?: () => void;
-	locked?: boolean;
+	showAilment?: boolean;
 }
 
-const WeaponBadge = ({ weapon, onClick }: Props) => {
+const WeaponBadge = ({ weapon, onClick, showAilment = false }: Props) => {
 	const { ailments } = useContext(DataContext);
 	const ailment = ailments.find((a) => a.sys.id === weapon.ailment?.sys.id) as Ailment;
 
@@ -19,7 +19,13 @@ const WeaponBadge = ({ weapon, onClick }: Props) => {
 			onClick={onClick}
 			style={{ backgroundImage: weapon?.image?.url ? `url(${weapon.image.url})` : undefined }}
 			title={weapon?.name ?? undefined}
-		/>
+		>
+			{showAilment && (
+				<div className={styles.weaponBadgeAilment}>
+					<img src={ailment.image?.url ?? ''} alt={ailment.name ?? ''} title={ailment.name ?? ''} />
+				</div>
+			)}
+		</div>
 	);
 };
 

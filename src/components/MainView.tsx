@@ -35,10 +35,10 @@ function MainView() {
 	return (
 		<>
 			<div className={styles.slotContainer}>
-				<Slot data={slots[0]} onClickHero={openHeroPicker(0)} onClickWeapon={openWeaponPicker(0)} />
-				<Slot data={slots[1]} onClickHero={openHeroPicker(1)} onClickWeapon={openWeaponPicker(1)} />
-				<Slot data={slots[2]} onClickHero={openHeroPicker(2)} onClickWeapon={openWeaponPicker(2)} />
-				<Slot data={slots[3]} onClickHero={openHeroPicker(3)} onClickWeapon={openWeaponPicker(3)} />
+				<Slot data={slots[0]} onClickHero={openHeroPicker(0)} onClickWeapon={openWeaponPicker(0)} index={0} />
+				<Slot data={slots[1]} onClickHero={openHeroPicker(1)} onClickWeapon={openWeaponPicker(1)} index={1} />
+				<Slot data={slots[2]} onClickHero={openHeroPicker(2)} onClickWeapon={openWeaponPicker(2)} index={2} />
+				<Slot data={slots[3]} onClickHero={openHeroPicker(3)} onClickWeapon={openWeaponPicker(3)} index={3} />
 			</div>
 			<PartyBuffSummary heroes={selectedHeros} />
 		</>
