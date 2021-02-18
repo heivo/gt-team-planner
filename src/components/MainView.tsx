@@ -7,7 +7,7 @@ import styles from '../style.module.scss';
 import { Hero } from '../context/DataContext';
 
 function MainView() {
-	const { slots, selectHero } = useContext(StateContext);
+	const { slots, selectHero, reset } = useContext(StateContext);
 
 	const selectedHeros = slots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
 
@@ -34,6 +34,7 @@ function MainView() {
 
 	return (
 		<>
+			{selectedHeros.length > 0 && <button onClick={reset}>reset</button>}
 			<div className={styles.slotContainer}>
 				<Slot data={slots[0]} onClickHero={openHeroPicker(0)} onClickWeapon={openWeaponPicker(0)} index={0} />
 				<Slot data={slots[1]} onClickHero={openHeroPicker(1)} onClickWeapon={openWeaponPicker(1)} index={1} />
