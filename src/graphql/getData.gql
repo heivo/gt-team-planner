@@ -26,6 +26,7 @@ query getData {
 					id
 				}
 				name
+				isAny
 			}
 			chainAilmentEnd {
 				sys {
@@ -109,6 +110,7 @@ query getData {
 			image {
 				url(transform: { width: 30, height: 30 })
 			}
+			isAny
 		}
 	}
 	heroPartyBuffCollection {

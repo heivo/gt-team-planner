@@ -8,9 +8,9 @@ interface Props {
 	ailmentEnd: Ailment;
 }
 
-const Chain = ({ ailmentStart, ailmentEnd }: Props) => {
+const ChainIcon = ({ ailmentStart, ailmentEnd }: Props) => {
 	return (
-		<div className={styles.chain}>
+		<div className={styles.chainIcon}>
 			<img src={ailmentStart.image.url} alt={ailmentStart.name} title={ailmentStart.name} />
 			<img src={ailmentEnd.image.url} alt={ailmentEnd.name} title={ailmentEnd.name} />
 			<img src={chainIcon} alt="chain" />
@@ -18,4 +18,4 @@ const Chain = ({ ailmentStart, ailmentEnd }: Props) => {
 	);
 };
 
-export default Chain;
+export default ChainIcon;

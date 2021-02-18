@@ -21,7 +21,12 @@ function HeroPicker({ lockedHeros, onSelect }: Props) {
 		<div className={styles.heroPicker}>
 			{heroes.map((hero) => (
 				<div key={hero.sys.id} className={styles.badgeWrapper}>
-					<HeroBadge hero={hero} locked={lockedHeros.includes(hero)} onClick={() => handleSelectHero(hero)} />
+					<HeroBadge
+						hero={hero}
+						locked={lockedHeros.includes(hero)}
+						onClick={() => handleSelectHero(hero)}
+						size={100}
+					/>
 				</div>
 			))}
 		</div>

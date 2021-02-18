@@ -22,14 +22,13 @@ body {
 
 .heroBadge {
 	position: relative;
-	width: 150px;
-	height: 150px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-radius: 20px;
 	overflow: hidden;
 	background-color: lightgray;
+	background-size: contain;
 	border: 1px solid darkgray;
 	cursor: pointer;
 
@@ -69,7 +68,7 @@ body {
 	}
 }
 
-.chain {
+.chainIcon {
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -98,7 +97,7 @@ body {
 	max-width: 80vf;
 	flex-wrap: wrap;
 
-	&.badgeWrapper {
+	.badgeWrapper {
 		margin: 10px;
 	}
 }
@@ -109,4 +108,30 @@ body {
 	padding: 10px;
 	line-height: 25px;
 	margin-top: 30px;
+}
+
+.chainInfo {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 10px;
+	line-height: 25px;
+	margin-top: 30px;
+
+	.chain {
+		display: flex;
+		align-items: center;
+		margin: 10px 0;
+
+		.chainArrow {
+			font-size: 30px;
+			margin: 0 10px;
+			
+		}
+	}
+}
+
+.resetButton {
+	margin-top: 30px;
+	width: 80px;
+	height: 30px;
 }
