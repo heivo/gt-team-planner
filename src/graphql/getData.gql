@@ -41,6 +41,13 @@ query getData {
 				name
 			}
 			partyBuffValue
+			partyBuff2 {
+				sys {
+					id
+				}
+				name
+			}
+			partyBuffValue2
 			defaultWeapon {
 				sys {
 					id

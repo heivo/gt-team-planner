@@ -9,8 +9,9 @@ interface Props {
 const PartyBuffSummary = ({ heroes }: Props) => {
 	const { heroPartyBuffs } = useContext(DataContext);
 	const groupedStatsByBuffId = heroes.reduce<Record<string, number>>((acc, hero) => {
-		if (hero?.partyBuff && hero.partyBuffValue) {
-			acc[hero.partyBuff.sys.id] = (acc[hero.partyBuff.sys.id] ?? 0) + hero.partyBuffValue;
+		acc[hero.partyBuff.sys.id] = (acc[hero.partyBuff.sys.id] ?? 0) + hero.partyBuffValue;
+		if (hero.partyBuff2 && hero.partyBuffValue2) {
+			acc[hero.partyBuff2.sys.id] = (acc[hero.partyBuff2.sys.id] ?? 0) + hero.partyBuffValue2;
 		}
 		return acc;
 	}, {});
