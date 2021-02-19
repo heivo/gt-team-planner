@@ -50,20 +50,20 @@ export type Query = {
 	__typename?: 'Query';
 	asset?: Maybe<Asset>;
 	assetCollection?: Maybe<AssetCollection>;
+	heroRole?: Maybe<HeroRole>;
+	heroRoleCollection?: Maybe<HeroRoleCollection>;
+	element?: Maybe<Element>;
+	elementCollection?: Maybe<ElementCollection>;
 	hero?: Maybe<Hero>;
 	heroCollection?: Maybe<HeroCollection>;
 	weapon?: Maybe<Weapon>;
 	weaponCollection?: Maybe<WeaponCollection>;
 	ailment?: Maybe<Ailment>;
 	ailmentCollection?: Maybe<AilmentCollection>;
-	heroRole?: Maybe<HeroRole>;
-	heroRoleCollection?: Maybe<HeroRoleCollection>;
 	heroPartyBuff?: Maybe<HeroPartyBuff>;
 	heroPartyBuffCollection?: Maybe<HeroPartyBuffCollection>;
 	weaponCategory?: Maybe<WeaponCategory>;
 	weaponCategoryCollection?: Maybe<WeaponCategoryCollection>;
-	element?: Maybe<Element>;
-	elementCollection?: Maybe<ElementCollection>;
 };
 
 export type QueryAssetArgs = {
@@ -79,6 +79,36 @@ export type QueryAssetCollectionArgs = {
 	locale?: Maybe<Scalars['String']>;
 	where?: Maybe<AssetFilter>;
 	order?: Maybe<Array<Maybe<AssetOrder>>>;
+};
+
+export type QueryHeroRoleArgs = {
+	id: Scalars['String'];
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type QueryHeroRoleCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+	where?: Maybe<HeroRoleFilter>;
+	order?: Maybe<Array<Maybe<HeroRoleOrder>>>;
+};
+
+export type QueryElementArgs = {
+	id: Scalars['String'];
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type QueryElementCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+	where?: Maybe<ElementFilter>;
+	order?: Maybe<Array<Maybe<ElementOrder>>>;
 };
 
 export type QueryHeroArgs = {
@@ -126,21 +156,6 @@ export type QueryAilmentCollectionArgs = {
 	order?: Maybe<Array<Maybe<AilmentOrder>>>;
 };
 
-export type QueryHeroRoleArgs = {
-	id: Scalars['String'];
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type QueryHeroRoleCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-	where?: Maybe<HeroRoleFilter>;
-	order?: Maybe<Array<Maybe<HeroRoleOrder>>>;
-};
-
 export type QueryHeroPartyBuffArgs = {
 	id: Scalars['String'];
 	preview?: Maybe<Scalars['Boolean']>;
@@ -169,21 +184,6 @@ export type QueryWeaponCategoryCollectionArgs = {
 	locale?: Maybe<Scalars['String']>;
 	where?: Maybe<WeaponCategoryFilter>;
 	order?: Maybe<Array<Maybe<WeaponCategoryOrder>>>;
-};
-
-export type QueryElementArgs = {
-	id: Scalars['String'];
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type QueryElementCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-	where?: Maybe<ElementFilter>;
-	order?: Maybe<Array<Maybe<ElementOrder>>>;
 };
 
 /** Represents a binary file in a space. An asset can be any file type. */
@@ -318,12 +318,28 @@ export enum ImageFormat {
 export type AssetLinkingCollections = {
 	__typename?: 'AssetLinkingCollections';
 	entryCollection?: Maybe<EntryCollection>;
+	heroRoleCollection?: Maybe<HeroRoleCollection>;
+	elementCollection?: Maybe<ElementCollection>;
 	heroCollection?: Maybe<HeroCollection>;
 	weaponCollection?: Maybe<WeaponCollection>;
 	ailmentCollection?: Maybe<AilmentCollection>;
 };
 
 export type AssetLinkingCollectionsEntryCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type AssetLinkingCollectionsHeroRoleCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type AssetLinkingCollectionsElementCollectionArgs = {
 	skip?: Maybe<Scalars['Int']>;
 	limit?: Maybe<Scalars['Int']>;
 	preview?: Maybe<Scalars['Boolean']>;
@@ -361,6 +377,59 @@ export type EntryCollection = {
 
 export type Entry = {
 	sys: Sys;
+};
+
+export type HeroRoleCollection = {
+	__typename?: 'HeroRoleCollection';
+	total: Scalars['Int'];
+	skip: Scalars['Int'];
+	limit: Scalars['Int'];
+	items: Array<Maybe<HeroRole>>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/heroRole) */
+export type HeroRole = Entry & {
+	__typename?: 'HeroRole';
+	sys: Sys;
+	linkedFrom?: Maybe<HeroRoleLinkingCollections>;
+	name?: Maybe<Scalars['String']>;
+	image?: Maybe<Asset>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/heroRole) */
+export type HeroRoleLinkedFromArgs = {
+	allowedLocales?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/heroRole) */
+export type HeroRoleNameArgs = {
+	locale?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/heroRole) */
+export type HeroRoleImageArgs = {
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type HeroRoleLinkingCollections = {
+	__typename?: 'HeroRoleLinkingCollections';
+	entryCollection?: Maybe<EntryCollection>;
+	heroCollection?: Maybe<HeroCollection>;
+};
+
+export type HeroRoleLinkingCollectionsEntryCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type HeroRoleLinkingCollectionsHeroCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
 };
 
 export type HeroCollection = {
@@ -484,50 +553,13 @@ export type HeroLinkingCollectionsEntryCollectionArgs = {
 	locale?: Maybe<Scalars['String']>;
 };
 
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/heroRole) */
-export type HeroRole = Entry & {
-	__typename?: 'HeroRole';
-	sys: Sys;
-	linkedFrom?: Maybe<HeroRoleLinkingCollections>;
-	name?: Maybe<Scalars['String']>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/heroRole) */
-export type HeroRoleLinkedFromArgs = {
-	allowedLocales?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/heroRole) */
-export type HeroRoleNameArgs = {
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type HeroRoleLinkingCollections = {
-	__typename?: 'HeroRoleLinkingCollections';
-	entryCollection?: Maybe<EntryCollection>;
-	heroCollection?: Maybe<HeroCollection>;
-};
-
-export type HeroRoleLinkingCollectionsEntryCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type HeroRoleLinkingCollectionsHeroCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
 /** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
 export type Element = Entry & {
 	__typename?: 'Element';
 	sys: Sys;
 	linkedFrom?: Maybe<ElementLinkingCollections>;
 	name?: Maybe<Scalars['String']>;
+	image?: Maybe<Asset>;
 };
 
 /** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
@@ -537,6 +569,12 @@ export type ElementLinkedFromArgs = {
 
 /** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
 export type ElementNameArgs = {
+	locale?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
+export type ElementImageArgs = {
+	preview?: Maybe<Scalars['Boolean']>;
 	locale?: Maybe<Scalars['String']>;
 };
 
@@ -799,6 +837,14 @@ export type HeroWeaponCategoriesCollection = {
 	items: Array<Maybe<WeaponCategory>>;
 };
 
+export type ElementCollection = {
+	__typename?: 'ElementCollection';
+	total: Scalars['Int'];
+	skip: Scalars['Int'];
+	limit: Scalars['Int'];
+	items: Array<Maybe<Element>>;
+};
+
 export type AilmentCollection = {
 	__typename?: 'AilmentCollection';
 	total: Scalars['Int'];
@@ -937,6 +983,60 @@ export type AssetCollection = {
 	items: Array<Maybe<Asset>>;
 };
 
+export type HeroRoleFilter = {
+	sys?: Maybe<SysFilter>;
+	name_exists?: Maybe<Scalars['Boolean']>;
+	name?: Maybe<Scalars['String']>;
+	name_not?: Maybe<Scalars['String']>;
+	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_contains?: Maybe<Scalars['String']>;
+	name_not_contains?: Maybe<Scalars['String']>;
+	image_exists?: Maybe<Scalars['Boolean']>;
+	OR?: Maybe<Array<Maybe<HeroRoleFilter>>>;
+	AND?: Maybe<Array<Maybe<HeroRoleFilter>>>;
+};
+
+export enum HeroRoleOrder {
+	NameAsc = 'name_ASC',
+	NameDesc = 'name_DESC',
+	SysIdAsc = 'sys_id_ASC',
+	SysIdDesc = 'sys_id_DESC',
+	SysPublishedAtAsc = 'sys_publishedAt_ASC',
+	SysPublishedAtDesc = 'sys_publishedAt_DESC',
+	SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+	SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+	SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+}
+
+export type ElementFilter = {
+	sys?: Maybe<SysFilter>;
+	name_exists?: Maybe<Scalars['Boolean']>;
+	name?: Maybe<Scalars['String']>;
+	name_not?: Maybe<Scalars['String']>;
+	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_contains?: Maybe<Scalars['String']>;
+	name_not_contains?: Maybe<Scalars['String']>;
+	image_exists?: Maybe<Scalars['Boolean']>;
+	OR?: Maybe<Array<Maybe<ElementFilter>>>;
+	AND?: Maybe<Array<Maybe<ElementFilter>>>;
+};
+
+export enum ElementOrder {
+	NameAsc = 'name_ASC',
+	NameDesc = 'name_DESC',
+	SysIdAsc = 'sys_id_ASC',
+	SysIdDesc = 'sys_id_DESC',
+	SysPublishedAtAsc = 'sys_publishedAt_ASC',
+	SysPublishedAtDesc = 'sys_publishedAt_DESC',
+	SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+	SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+	SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+}
+
 export type HeroFilter = {
 	role?: Maybe<CfHeroRoleNestedFilter>;
 	element?: Maybe<CfElementNestedFilter>;
@@ -1002,6 +1102,7 @@ export type CfHeroRoleNestedFilter = {
 	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 	name_contains?: Maybe<Scalars['String']>;
 	name_not_contains?: Maybe<Scalars['String']>;
+	image_exists?: Maybe<Scalars['Boolean']>;
 	OR?: Maybe<Array<Maybe<CfHeroRoleNestedFilter>>>;
 	AND?: Maybe<Array<Maybe<CfHeroRoleNestedFilter>>>;
 };
@@ -1015,6 +1116,7 @@ export type CfElementNestedFilter = {
 	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 	name_contains?: Maybe<Scalars['String']>;
 	name_not_contains?: Maybe<Scalars['String']>;
+	image_exists?: Maybe<Scalars['Boolean']>;
 	OR?: Maybe<Array<Maybe<CfElementNestedFilter>>>;
 	AND?: Maybe<Array<Maybe<CfElementNestedFilter>>>;
 };
@@ -1179,40 +1281,6 @@ export enum AilmentOrder {
 	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
 }
 
-export type HeroRoleFilter = {
-	sys?: Maybe<SysFilter>;
-	name_exists?: Maybe<Scalars['Boolean']>;
-	name?: Maybe<Scalars['String']>;
-	name_not?: Maybe<Scalars['String']>;
-	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_contains?: Maybe<Scalars['String']>;
-	name_not_contains?: Maybe<Scalars['String']>;
-	OR?: Maybe<Array<Maybe<HeroRoleFilter>>>;
-	AND?: Maybe<Array<Maybe<HeroRoleFilter>>>;
-};
-
-export enum HeroRoleOrder {
-	NameAsc = 'name_ASC',
-	NameDesc = 'name_DESC',
-	SysIdAsc = 'sys_id_ASC',
-	SysIdDesc = 'sys_id_DESC',
-	SysPublishedAtAsc = 'sys_publishedAt_ASC',
-	SysPublishedAtDesc = 'sys_publishedAt_DESC',
-	SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
-	SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
-	SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
-	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
-}
-
-export type HeroRoleCollection = {
-	__typename?: 'HeroRoleCollection';
-	total: Scalars['Int'];
-	skip: Scalars['Int'];
-	limit: Scalars['Int'];
-	items: Array<Maybe<HeroRole>>;
-};
-
 export type HeroPartyBuffFilter = {
 	sys?: Maybe<SysFilter>;
 	name_exists?: Maybe<Scalars['Boolean']>;
@@ -1281,40 +1349,6 @@ export type WeaponCategoryCollection = {
 	items: Array<Maybe<WeaponCategory>>;
 };
 
-export type ElementFilter = {
-	sys?: Maybe<SysFilter>;
-	name_exists?: Maybe<Scalars['Boolean']>;
-	name?: Maybe<Scalars['String']>;
-	name_not?: Maybe<Scalars['String']>;
-	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_contains?: Maybe<Scalars['String']>;
-	name_not_contains?: Maybe<Scalars['String']>;
-	OR?: Maybe<Array<Maybe<ElementFilter>>>;
-	AND?: Maybe<Array<Maybe<ElementFilter>>>;
-};
-
-export enum ElementOrder {
-	NameAsc = 'name_ASC',
-	NameDesc = 'name_DESC',
-	SysIdAsc = 'sys_id_ASC',
-	SysIdDesc = 'sys_id_DESC',
-	SysPublishedAtAsc = 'sys_publishedAt_ASC',
-	SysPublishedAtDesc = 'sys_publishedAt_DESC',
-	SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
-	SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
-	SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
-	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
-}
-
-export type ElementCollection = {
-	__typename?: 'ElementCollection';
-	total: Scalars['Int'];
-	skip: Scalars['Int'];
-	limit: Scalars['Int'];
-	items: Array<Maybe<Element>>;
-};
-
 export type GetDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetDataQuery = { __typename?: 'Query' } & {
@@ -1380,6 +1414,7 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 				Maybe<
 					{ __typename?: 'HeroRole' } & Pick<HeroRole, 'name'> & {
 							sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
+							image?: Maybe<{ __typename?: 'Asset' } & Pick<Asset, 'url'>>;
 						}
 				>
 			>;
@@ -1429,6 +1464,7 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 				Maybe<
 					{ __typename?: 'Element' } & Pick<Element, 'name'> & {
 							sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
+							image?: Maybe<{ __typename?: 'Asset' } & Pick<Asset, 'url'>>;
 						}
 				>
 			>;
@@ -1530,6 +1566,9 @@ export const GetDataDocument = `
         id
       }
       name
+      image {
+        url
+      }
     }
   }
   weaponCollection(order: name_ASC) {
@@ -1576,6 +1615,9 @@ export const GetDataDocument = `
         id
       }
       name
+      image {
+        url
+      }
     }
   }
   ailmentCollection(limit: 4) {

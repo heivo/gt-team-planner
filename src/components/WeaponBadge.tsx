@@ -21,6 +21,7 @@ const WeaponBadge = ({ weapon, onClick, showAilment = false, size = 150 }: Props
 				backgroundImage: weapon?.image?.url ? `url(${weapon.image.url})` : undefined,
 				width: size,
 				height: size,
+				cursor: onClick ? 'pointer' : 'default',
 			}}
 			title={weapon?.name ?? undefined}
 		>
