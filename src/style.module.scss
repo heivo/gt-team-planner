@@ -5,7 +5,7 @@ body {
 
 .slotContainer {
 	max-width: 800px;
-	width: 100vw;
+	width: 95vw;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -13,7 +13,6 @@ body {
 }
 
 .slot {
-	height: 240px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
@@ -26,7 +25,6 @@ body {
 	align-items: center;
 	justify-content: center;
 	border-radius: 20px;
-	overflow: hidden;
 	background-color: lightgray;
 	background-size: contain;
 	border: 1px solid darkgray;
@@ -49,16 +47,13 @@ body {
 
 .weaponBadge {
 	position: relative;
-	width: 75px;
-	height: 75px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-radius: 10px;
-	overflow: hidden;
-	background-color: lightgray;
 	border: 1px solid darkgray;
-	background-size: auto;
+	background-color: lightgray;
+	background-size: contain;
 	cursor: pointer;
 
 	.weaponBadgeAilment {
@@ -112,7 +107,6 @@ body {
 	}
 }
 
-
 .partyBuffSummary {
 	border: 1px solid lightgray;
 	border-radius: 5px;
@@ -136,7 +130,6 @@ body {
 		.chainArrow {
 			font-size: 30px;
 			margin: 0 10px;
-			
 		}
 	}
 }

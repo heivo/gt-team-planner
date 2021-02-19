@@ -1389,7 +1389,7 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 		{ __typename?: 'WeaponCollection' } & {
 			items: Array<
 				Maybe<
-					{ __typename?: 'Weapon' } & Pick<Weapon, 'name'> & {
+					{ __typename?: 'Weapon' } & Pick<Weapon, 'name' | 'rarity'> & {
 							sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
 							element?: Maybe<
 								{ __typename?: 'Element' } & Pick<Element, 'name'> & {
@@ -1556,8 +1556,9 @@ export const GetDataDocument = `
         }
         name
       }
+      rarity
       image {
-        url(transform: {height: 75, width: 75})
+        url
       }
     }
   }

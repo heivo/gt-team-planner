@@ -20,7 +20,12 @@ function WeaponPicker({ hero, showAilment, onSelect }: Props) {
 		<div className={styles.weaponPicker}>
 			{availableWeapons.map((weapon) => (
 				<div key={weapon.sys.id} className={styles.badgeWrapper}>
-					<WeaponBadge weapon={weapon} showAilment={showAilment} onClick={() => onSelect(weapon)} />
+					<WeaponBadge
+						weapon={weapon}
+						showAilment={showAilment}
+						size={100}
+						onClick={() => onSelect(weapon)}
+					/>
 				</div>
 			))}
 		</div>

@@ -94,8 +94,9 @@ query getData {
 				}
 				name
 			}
+			rarity
 			image {
-				url(transform: { height: 75, width: 75 })
+				url
 			}
 		}
 	}

@@ -6,9 +6,10 @@ interface Props {
 	weapon: Weapon;
 	onClick?: () => void;
 	showAilment?: boolean;
+	size?: number;
 }
 
-const WeaponBadge = ({ weapon, onClick, showAilment = false }: Props) => {
+const WeaponBadge = ({ weapon, onClick, showAilment = false, size = 150 }: Props) => {
 	const { ailments } = useContext(DataContext);
 	const ailment = ailments.find((a) => a.sys.id === weapon.ailment?.sys.id) as Ailment;
 
@@ -16,7 +17,11 @@ const WeaponBadge = ({ weapon, onClick, showAilment = false }: Props) => {
 		<div
 			className={styles.weaponBadge}
 			onClick={onClick}
-			style={{ backgroundImage: weapon?.image?.url ? `url(${weapon.image.url})` : undefined }}
+			style={{
+				backgroundImage: weapon?.image?.url ? `url(${weapon.image.url})` : undefined,
+				width: size,
+				height: size,
+			}}
 			title={weapon?.name ?? undefined}
 		>
 			{showAilment && (
