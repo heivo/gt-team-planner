@@ -53,9 +53,16 @@ query getData {
 					id
 				}
 			}
+			weaponCategoriesCollection(limit: 10) {
+				items {
+					sys {
+						id
+					}
+				}
+			}
 		}
 	}
-	heroRoleCollection {
+	heroRoleCollection(limit: 4) {
 		items {
 			sys {
 				id
@@ -92,7 +99,7 @@ query getData {
 			}
 		}
 	}
-	weaponCategoryCollection {
+	weaponCategoryCollection(limit: 10) {
 		items {
 			sys {
 				id
@@ -100,7 +107,7 @@ query getData {
 			name
 		}
 	}
-	elementCollection {
+	elementCollection(limit: 10) {
 		items {
 			sys {
 				id
@@ -108,7 +115,7 @@ query getData {
 			name
 		}
 	}
-	ailmentCollection {
+	ailmentCollection(limit: 4) {
 		items {
 			sys {
 				id
@@ -120,7 +127,7 @@ query getData {
 			isAny
 		}
 	}
-	heroPartyBuffCollection {
+	heroPartyBuffCollection(limit: 30) {
 		items {
 			sys {
 				id

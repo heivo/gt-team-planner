@@ -1358,6 +1358,17 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 							defaultWeapon?: Maybe<
 								{ __typename?: 'Weapon' } & { sys: { __typename?: 'Sys' } & Pick<Sys, 'id'> }
 							>;
+							weaponCategoriesCollection?: Maybe<
+								{ __typename?: 'HeroWeaponCategoriesCollection' } & {
+									items: Array<
+										Maybe<
+											{ __typename?: 'WeaponCategory' } & {
+												sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
+											}
+										>
+									>;
+								}
+							>;
 						}
 				>
 			>;
@@ -1504,9 +1515,16 @@ export const GetDataDocument = `
           id
         }
       }
+      weaponCategoriesCollection(limit: 10) {
+        items {
+          sys {
+            id
+          }
+        }
+      }
     }
   }
-  heroRoleCollection {
+  heroRoleCollection(limit: 4) {
     items {
       sys {
         id
@@ -1543,7 +1561,7 @@ export const GetDataDocument = `
       }
     }
   }
-  weaponCategoryCollection {
+  weaponCategoryCollection(limit: 10) {
     items {
       sys {
         id
@@ -1551,7 +1569,7 @@ export const GetDataDocument = `
       name
     }
   }
-  elementCollection {
+  elementCollection(limit: 10) {
     items {
       sys {
         id
@@ -1559,7 +1577,7 @@ export const GetDataDocument = `
       name
     }
   }
-  ailmentCollection {
+  ailmentCollection(limit: 4) {
     items {
       sys {
         id
@@ -1571,7 +1589,7 @@ export const GetDataDocument = `
       isAny
     }
   }
-  heroPartyBuffCollection {
+  heroPartyBuffCollection(limit: 30) {
     items {
       sys {
         id

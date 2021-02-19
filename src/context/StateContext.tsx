@@ -10,9 +10,10 @@ export interface SlotData {
 const StateContext = React.createContext<{
 	slots: SlotData[];
 	selectHero: (slotNumber: number, hero: Hero) => void;
+	selectWeapon: (slotNumber: number, weapon: Weapon) => void;
 	reset: () => void;
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
-}>({ slots: [], selectHero: () => {}, reset: () => {} });
+}>({ slots: [], selectHero: () => {}, selectWeapon: () => {}, reset: () => {} });
 
 export default StateContext;
 
@@ -33,11 +34,16 @@ export const StateContextProvider = ({ children }: Props) => {
 		updateStore(slots);
 	};
 
+	const selectWeapon = (slotNumber: number, weapon: Weapon) => {
+		slots[slotNumber].weapon = weapon;
+		updateStore(slots);
+	};
+
 	const reset = () => {
 		clearStore();
 	};
 
-	return <StateContext.Provider value={{ slots, selectHero, reset }}>{children}</StateContext.Provider>;
+	return <StateContext.Provider value={{ slots, selectHero, selectWeapon, reset }}>{children}</StateContext.Provider>;
 };
 
 const useHistoryStore = () => {

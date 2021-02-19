@@ -102,6 +102,17 @@ body {
 	}
 }
 
+.weaponPicker {
+	display: flex;
+	max-width: 80vf;
+	flex-wrap: wrap;
+
+	.badgeWrapper {
+		margin: 10px;
+	}
+}
+
+
 .partyBuffSummary {
 	border: 1px solid lightgray;
 	border-radius: 5px;
