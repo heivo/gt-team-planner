@@ -1,5 +1,5 @@
 query getData {
-	heroCollection(order: name_ASC) {
+	heroCollection(order: [rarity_DESC, name_ASC]) {
 		items {
 			sys {
 				id
@@ -120,6 +120,7 @@ query getData {
 			image {
 				url
 			}
+			color
 		}
 	}
 	ailmentCollection(limit: 4) {

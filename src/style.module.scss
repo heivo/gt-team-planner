@@ -78,6 +78,21 @@ body {
 		margin-left: auto;
 		padding-right: 2px;
 	}
+
+	.weaponBadgeElementContainer {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-self: flex-start;
+		height: inherit;
+		margin-right: auto;
+
+		img {
+			width: inherit;
+			border-top-left-radius: 10px;
+			border-bottom-right-radius: 5px;
+		}
+	}
 }
 
 .chainIcon {
@@ -102,21 +117,45 @@ body {
 
 .heroPicker {
 	display: flex;
-	max-width: 80vf;
-	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: center;
 
-	.badgeWrapper {
+	.heroPickerFilters {
+		width: 600px;
+		display: flex;
+		justify-content: space-between;
 		margin: 10px;
+	}
+
+	.heroPickerHeroes {
+		display: flex;
+		flex-wrap: wrap;
+
+		.badgeWrapper {
+			margin: 10px;
+		}
 	}
 }
 
 .weaponPicker {
 	display: flex;
-	max-width: 80vf;
-	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: center;
 
-	.badgeWrapper {
+	.weaponPickerFilters {
+		width: 370px;
+		display: flex;
+		justify-content: space-between;
 		margin: 10px;
+	}
+
+	.weaponPickerWeapons {
+		display: flex;
+		flex-wrap: wrap;
+
+		.badgeWrapper {
+			margin: 10px;
+		}
 	}
 }
 
@@ -151,4 +190,56 @@ body {
 	margin-top: 30px;
 	width: 80px;
 	height: 30px;
+}
+
+.elementPicker {
+	display: inline-block;
+
+	.elementPickerImageWrapper {
+		height: 48px;
+		display: inline-block;
+		cursor: pointer;
+		background-color: steelblue;
+
+		img {
+			&.selected {
+				transform: scale(0.85);
+			}
+			&:not(.selected):hover {
+				transform: scale(0.9);
+			}
+		}
+	}
+}
+
+.rolePicker {
+	display: inline-block;
+	height: 48px;
+	background-color: steelblue;
+
+	img {
+		cursor: pointer;
+		&.selected {
+			transform: scale(0.85);
+		}
+		&:not(.selected):hover {
+			transform: scale(0.95);
+		}
+	}
+}
+
+.closeButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	background-color: #283847;
+	cursor: pointer;
+	color: white;
+	font-size: 36px;
+
+	&::after {
+		content: '✘';
+	}
 }

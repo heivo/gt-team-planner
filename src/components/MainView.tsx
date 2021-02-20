@@ -29,15 +29,29 @@ function MainView() {
 		setHeroPickerSlot(undefined);
 	};
 
+	const handleCloseHeroPicker = () => {
+		setHeroPickerSlot(undefined);
+	};
+
 	const handleSelectWeapon = (slotNumber: number, weapon: Weapon) => {
 		selectWeapon(slotNumber, weapon);
+		setWeaponPickerSlot(undefined);
+	};
+
+	const handleCloseWeaponPicker = () => {
 		setWeaponPickerSlot(undefined);
 	};
 
 	if (heroPickerSlot !== undefined) {
 		const currentHero = slots[heroPickerSlot].hero;
 		const lockedHeros = selectedHeros.filter((hero) => hero !== currentHero);
-		return <HeroPicker lockedHeros={lockedHeros} onSelect={(hero) => handleSelectHero(heroPickerSlot, hero)} />;
+		return (
+			<HeroPicker
+				lockedHeros={lockedHeros}
+				onSelect={(hero) => handleSelectHero(heroPickerSlot, hero)}
+				onClose={handleCloseHeroPicker}
+			/>
+		);
 	}
 
 	if (weaponPickerSlot !== undefined) {
@@ -47,6 +61,7 @@ function MainView() {
 				hero={currentHero}
 				showAilment={weaponPickerSlot === 0}
 				onSelect={(weapon) => handleSelectWeapon(weaponPickerSlot, weapon)}
+				onClose={handleCloseWeaponPicker}
 			/>
 		);
 	}

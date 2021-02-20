@@ -39,6 +39,7 @@ const HeroBadge = ({ hero, onClick, locked = false, size = 150 }: Props) => {
 				backgroundImage: `url(${hero.image.url})`,
 				width: size,
 				height: size,
+				cursor: onClick ? 'pointer' : 'default',
 			}}
 			title={hero.name}
 		>
