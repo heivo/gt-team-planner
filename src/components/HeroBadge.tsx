@@ -7,11 +7,11 @@ import ChainIcon from './ChainIcon';
 interface Props {
 	hero: Hero | null;
 	onClick?: () => void;
-	locked?: boolean;
+	faded?: boolean;
 	size?: number;
 }
 
-const HeroBadge = ({ hero, onClick, locked = false, size = 150 }: Props) => {
+const HeroBadge = ({ hero, onClick, faded = false, size = 150 }: Props) => {
 	const { ailments, heroRoles, elements } = useContext(DataContext);
 
 	if (!hero) {
@@ -33,7 +33,7 @@ const HeroBadge = ({ hero, onClick, locked = false, size = 150 }: Props) => {
 
 	return (
 		<div
-			className={cn(styles.heroBadge, { [styles.locked]: locked })}
+			className={cn(styles.heroBadge, { [styles.faded]: faded })}
 			onClick={onClick}
 			style={{
 				backgroundImage: `url(${hero.image.url})`,

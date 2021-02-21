@@ -30,6 +30,14 @@ export const StateContextProvider = ({ children }: Props) => {
 
 	const selectHero = (slotNumber: number, hero: Hero) => {
 		const weapon = weapons.find((w) => w.sys.id === hero.defaultWeapon?.sys.id) ?? null;
+		const previousHeroSlotNumber = slots.findIndex((slot) => slot.hero === hero);
+		if (previousHeroSlotNumber >= 0) {
+			if (slots[slotNumber]) {
+				slots[previousHeroSlotNumber] = slots[slotNumber];
+			} else {
+				slots[previousHeroSlotNumber] = { hero: null, weapon: null };
+			}
+		}
 		slots[slotNumber] = { hero, weapon };
 		updateStore(slots);
 	};

@@ -29,9 +29,9 @@ body {
 	background-size: contain;
 	border: 1px solid darkgray;
 
-	&.locked {
+	&.faded {
 		cursor: default;
-		filter: opacity(20%);
+		filter: opacity(25%);
 	}
 
 	.heroBadgeChainContainer {

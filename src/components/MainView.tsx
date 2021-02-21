@@ -44,10 +44,10 @@ function MainView() {
 
 	if (heroPickerSlot !== undefined) {
 		const currentHero = slots[heroPickerSlot].hero;
-		const lockedHeros = selectedHeros.filter((hero) => hero !== currentHero);
+		const otherUsedHeros = selectedHeros.filter((hero) => hero !== currentHero);
 		return (
 			<HeroPicker
-				lockedHeros={lockedHeros}
+				otherUsedHeros={otherUsedHeros}
 				onSelect={(hero) => handleSelectHero(heroPickerSlot, hero)}
 				onClose={handleCloseHeroPicker}
 			/>

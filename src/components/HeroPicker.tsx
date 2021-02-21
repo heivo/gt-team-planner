@@ -7,12 +7,12 @@ import HeroBadge from './HeroBadge';
 import RolePicker from './RolePicker';
 
 interface Props {
-	lockedHeros: Hero[];
+	otherUsedHeros: Hero[];
 	onSelect: (hero: Hero) => void;
 	onClose: () => void;
 }
 
-function HeroPicker({ lockedHeros, onSelect, onClose }: Props) {
+function HeroPicker({ otherUsedHeros, onSelect, onClose }: Props) {
 	const { heroes } = useContext(DataContext);
 
 	const [elementFilter, setElementFilter] = useState<Element>();
@@ -32,12 +32,6 @@ function HeroPicker({ lockedHeros, onSelect, onClose }: Props) {
 		[heroes, elementFilter, roleFilter]
 	);
 
-	const handleSelectHero = (hero: Hero) => {
-		if (!lockedHeros.includes(hero)) {
-			onSelect(hero);
-		}
-	};
-
 	return (
 		<div className={styles.heroPicker}>
 			<div className={styles.heroPickerFilters}>
@@ -50,8 +44,8 @@ function HeroPicker({ lockedHeros, onSelect, onClose }: Props) {
 					<div key={hero.sys.id} className={styles.badgeWrapper}>
 						<HeroBadge
 							hero={hero}
-							locked={lockedHeros.includes(hero)}
-							onClick={() => handleSelectHero(hero)}
+							faded={otherUsedHeros.includes(hero)}
+							onClick={() => onSelect(hero)}
 							size={120}
 						/>
 					</div>
