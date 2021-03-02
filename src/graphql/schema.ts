@@ -1543,7 +1543,7 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 
 export const GetDataDocument = `
     query getData {
-  heroCollection(order: [rarity_DESC, name_ASC]) {
+  heroCollection(limit: 200, order: [rarity_DESC, name_ASC]) {
     items {
       sys {
         id
@@ -1617,7 +1617,7 @@ export const GetDataDocument = `
       }
     }
   }
-  weaponCollection(order: name_ASC, preview: false) {
+  weaponCollection(limit: 1000, order: name_ASC) {
     items {
       sys {
         id
