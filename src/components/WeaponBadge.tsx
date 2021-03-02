@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styles from '../style.module.scss';
-import DataContext, { Ailment, Element, Weapon } from '../context/DataContext';
+import DataContext, { Ailment, Element, Weapon, WeaponCategory } from '../context/DataContext';
 
 interface Props {
 	weapon: Weapon;
@@ -10,20 +10,24 @@ interface Props {
 }
 
 const WeaponBadge = ({ weapon, onClick, showAilment = false, size = 150 }: Props) => {
-	const { ailments, elements } = useContext(DataContext);
+	const { ailments, elements, weaponCategories } = useContext(DataContext);
 
 	const ailment = ailments.find((a) => a.sys.id === weapon.ailment.sys.id) as Ailment;
 	const element = elements.find((e) => e.sys.id === weapon.element.sys.id) as Element;
+	const category = weaponCategories.find((c) => c.sys.id === weapon.category.sys.id) as WeaponCategory;
 
 	return (
 		<div
 			className={styles.weaponBadge}
 			onClick={onClick}
 			style={{
-				backgroundImage: weapon?.image?.url ? `url(${weapon.image.url})` : undefined,
+				backgroundImage: weapon.image?.url ? `url(${weapon.image.url})` : `url(${category.image.url})`,
+				backgroundSize: weapon.image?.url ? 'contain' : 'auto',
 				width: size,
 				height: size,
 				cursor: onClick ? 'pointer' : 'default',
+				boxShadow: `inset 0 0 10px ${weapon.rarity === 'legend' ? '#ffdd5f' : '#95f053'}`,
+				borderColor: `${weapon.rarity === 'legend' ? '#c39f3e' : '#4b812d'}`,
 			}}
 			title={weapon?.name ?? undefined}
 		>

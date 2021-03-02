@@ -50,20 +50,20 @@ export type Query = {
 	__typename?: 'Query';
 	asset?: Maybe<Asset>;
 	assetCollection?: Maybe<AssetCollection>;
+	weaponCategory?: Maybe<WeaponCategory>;
+	weaponCategoryCollection?: Maybe<WeaponCategoryCollection>;
+	weapon?: Maybe<Weapon>;
+	weaponCollection?: Maybe<WeaponCollection>;
 	element?: Maybe<Element>;
 	elementCollection?: Maybe<ElementCollection>;
 	heroRole?: Maybe<HeroRole>;
 	heroRoleCollection?: Maybe<HeroRoleCollection>;
 	hero?: Maybe<Hero>;
 	heroCollection?: Maybe<HeroCollection>;
-	weapon?: Maybe<Weapon>;
-	weaponCollection?: Maybe<WeaponCollection>;
 	ailment?: Maybe<Ailment>;
 	ailmentCollection?: Maybe<AilmentCollection>;
 	heroPartyBuff?: Maybe<HeroPartyBuff>;
 	heroPartyBuffCollection?: Maybe<HeroPartyBuffCollection>;
-	weaponCategory?: Maybe<WeaponCategory>;
-	weaponCategoryCollection?: Maybe<WeaponCategoryCollection>;
 };
 
 export type QueryAssetArgs = {
@@ -79,6 +79,36 @@ export type QueryAssetCollectionArgs = {
 	locale?: Maybe<Scalars['String']>;
 	where?: Maybe<AssetFilter>;
 	order?: Maybe<Array<Maybe<AssetOrder>>>;
+};
+
+export type QueryWeaponCategoryArgs = {
+	id: Scalars['String'];
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type QueryWeaponCategoryCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+	where?: Maybe<WeaponCategoryFilter>;
+	order?: Maybe<Array<Maybe<WeaponCategoryOrder>>>;
+};
+
+export type QueryWeaponArgs = {
+	id: Scalars['String'];
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type QueryWeaponCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+	where?: Maybe<WeaponFilter>;
+	order?: Maybe<Array<Maybe<WeaponOrder>>>;
 };
 
 export type QueryElementArgs = {
@@ -126,21 +156,6 @@ export type QueryHeroCollectionArgs = {
 	order?: Maybe<Array<Maybe<HeroOrder>>>;
 };
 
-export type QueryWeaponArgs = {
-	id: Scalars['String'];
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type QueryWeaponCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-	where?: Maybe<WeaponFilter>;
-	order?: Maybe<Array<Maybe<WeaponOrder>>>;
-};
-
 export type QueryAilmentArgs = {
 	id: Scalars['String'];
 	preview?: Maybe<Scalars['Boolean']>;
@@ -169,21 +184,6 @@ export type QueryHeroPartyBuffCollectionArgs = {
 	locale?: Maybe<Scalars['String']>;
 	where?: Maybe<HeroPartyBuffFilter>;
 	order?: Maybe<Array<Maybe<HeroPartyBuffOrder>>>;
-};
-
-export type QueryWeaponCategoryArgs = {
-	id: Scalars['String'];
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type QueryWeaponCategoryCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-	where?: Maybe<WeaponCategoryFilter>;
-	order?: Maybe<Array<Maybe<WeaponCategoryOrder>>>;
 };
 
 /** Represents a binary file in a space. An asset can be any file type. */
@@ -318,14 +318,29 @@ export enum ImageFormat {
 export type AssetLinkingCollections = {
 	__typename?: 'AssetLinkingCollections';
 	entryCollection?: Maybe<EntryCollection>;
+	weaponCategoryCollection?: Maybe<WeaponCategoryCollection>;
+	weaponCollection?: Maybe<WeaponCollection>;
 	elementCollection?: Maybe<ElementCollection>;
 	heroRoleCollection?: Maybe<HeroRoleCollection>;
 	heroCollection?: Maybe<HeroCollection>;
-	weaponCollection?: Maybe<WeaponCollection>;
 	ailmentCollection?: Maybe<AilmentCollection>;
 };
 
 export type AssetLinkingCollectionsEntryCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type AssetLinkingCollectionsWeaponCategoryCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type AssetLinkingCollectionsWeaponCollectionArgs = {
 	skip?: Maybe<Scalars['Int']>;
 	limit?: Maybe<Scalars['Int']>;
 	preview?: Maybe<Scalars['Boolean']>;
@@ -353,13 +368,6 @@ export type AssetLinkingCollectionsHeroCollectionArgs = {
 	locale?: Maybe<Scalars['String']>;
 };
 
-export type AssetLinkingCollectionsWeaponCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
 export type AssetLinkingCollectionsAilmentCollectionArgs = {
 	skip?: Maybe<Scalars['Int']>;
 	limit?: Maybe<Scalars['Int']>;
@@ -379,67 +387,141 @@ export type Entry = {
 	sys: Sys;
 };
 
-export type ElementCollection = {
-	__typename?: 'ElementCollection';
+export type WeaponCategoryCollection = {
+	__typename?: 'WeaponCategoryCollection';
 	total: Scalars['Int'];
 	skip: Scalars['Int'];
 	limit: Scalars['Int'];
-	items: Array<Maybe<Element>>;
+	items: Array<Maybe<WeaponCategory>>;
 };
 
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
-export type Element = Entry & {
-	__typename?: 'Element';
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weaponCategory) */
+export type WeaponCategory = Entry & {
+	__typename?: 'WeaponCategory';
 	sys: Sys;
-	linkedFrom?: Maybe<ElementLinkingCollections>;
+	linkedFrom?: Maybe<WeaponCategoryLinkingCollections>;
 	name?: Maybe<Scalars['String']>;
 	image?: Maybe<Asset>;
-	color?: Maybe<Scalars['String']>;
 };
 
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
-export type ElementLinkedFromArgs = {
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weaponCategory) */
+export type WeaponCategoryLinkedFromArgs = {
 	allowedLocales?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
-export type ElementNameArgs = {
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weaponCategory) */
+export type WeaponCategoryNameArgs = {
 	locale?: Maybe<Scalars['String']>;
 };
 
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
-export type ElementImageArgs = {
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weaponCategory) */
+export type WeaponCategoryImageArgs = {
 	preview?: Maybe<Scalars['Boolean']>;
 	locale?: Maybe<Scalars['String']>;
 };
 
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
-export type ElementColorArgs = {
+export type WeaponCategoryLinkingCollections = {
+	__typename?: 'WeaponCategoryLinkingCollections';
+	entryCollection?: Maybe<EntryCollection>;
+	weaponCollection?: Maybe<WeaponCollection>;
+	heroCollection?: Maybe<HeroCollection>;
+};
+
+export type WeaponCategoryLinkingCollectionsEntryCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
 	locale?: Maybe<Scalars['String']>;
 };
 
-export type ElementLinkingCollections = {
-	__typename?: 'ElementLinkingCollections';
+export type WeaponCategoryLinkingCollectionsWeaponCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type WeaponCategoryLinkingCollectionsHeroCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type WeaponCollection = {
+	__typename?: 'WeaponCollection';
+	total: Scalars['Int'];
+	skip: Scalars['Int'];
+	limit: Scalars['Int'];
+	items: Array<Maybe<Weapon>>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
+export type Weapon = Entry & {
+	__typename?: 'Weapon';
+	sys: Sys;
+	linkedFrom?: Maybe<WeaponLinkingCollections>;
+	name?: Maybe<Scalars['String']>;
+	ailment?: Maybe<Ailment>;
+	element?: Maybe<Element>;
+	category?: Maybe<WeaponCategory>;
+	image?: Maybe<Asset>;
+	rarity?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
+export type WeaponLinkedFromArgs = {
+	allowedLocales?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
+export type WeaponNameArgs = {
+	locale?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
+export type WeaponAilmentArgs = {
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
+export type WeaponElementArgs = {
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
+export type WeaponCategoryArgs = {
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
+export type WeaponImageArgs = {
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
+export type WeaponRarityArgs = {
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type WeaponLinkingCollections = {
+	__typename?: 'WeaponLinkingCollections';
 	entryCollection?: Maybe<EntryCollection>;
 	heroCollection?: Maybe<HeroCollection>;
-	weaponCollection?: Maybe<WeaponCollection>;
 };
 
-export type ElementLinkingCollectionsEntryCollectionArgs = {
+export type WeaponLinkingCollectionsEntryCollectionArgs = {
 	skip?: Maybe<Scalars['Int']>;
 	limit?: Maybe<Scalars['Int']>;
 	preview?: Maybe<Scalars['Boolean']>;
 	locale?: Maybe<Scalars['String']>;
 };
 
-export type ElementLinkingCollectionsHeroCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type ElementLinkingCollectionsWeaponCollectionArgs = {
+export type WeaponLinkingCollectionsHeroCollectionArgs = {
 	skip?: Maybe<Scalars['Int']>;
 	limit?: Maybe<Scalars['Int']>;
 	preview?: Maybe<Scalars['Boolean']>;
@@ -612,6 +694,65 @@ export type HeroRoleLinkingCollectionsHeroCollectionArgs = {
 	locale?: Maybe<Scalars['String']>;
 };
 
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
+export type Element = Entry & {
+	__typename?: 'Element';
+	sys: Sys;
+	linkedFrom?: Maybe<ElementLinkingCollections>;
+	name?: Maybe<Scalars['String']>;
+	image?: Maybe<Asset>;
+	color?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
+export type ElementLinkedFromArgs = {
+	allowedLocales?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
+export type ElementNameArgs = {
+	locale?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
+export type ElementImageArgs = {
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/element) */
+export type ElementColorArgs = {
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type ElementLinkingCollections = {
+	__typename?: 'ElementLinkingCollections';
+	entryCollection?: Maybe<EntryCollection>;
+	weaponCollection?: Maybe<WeaponCollection>;
+	heroCollection?: Maybe<HeroCollection>;
+};
+
+export type ElementLinkingCollectionsEntryCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type ElementLinkingCollectionsWeaponCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type ElementLinkingCollectionsHeroCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
 /** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/ailment) */
 export type Ailment = Entry & {
 	__typename?: 'Ailment';
@@ -646,18 +787,11 @@ export type AilmentIsAnyArgs = {
 export type AilmentLinkingCollections = {
 	__typename?: 'AilmentLinkingCollections';
 	entryCollection?: Maybe<EntryCollection>;
-	heroCollection?: Maybe<HeroCollection>;
 	weaponCollection?: Maybe<WeaponCollection>;
+	heroCollection?: Maybe<HeroCollection>;
 };
 
 export type AilmentLinkingCollectionsEntryCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type AilmentLinkingCollectionsHeroCollectionArgs = {
 	skip?: Maybe<Scalars['Int']>;
 	limit?: Maybe<Scalars['Int']>;
 	preview?: Maybe<Scalars['Boolean']>;
@@ -671,126 +805,7 @@ export type AilmentLinkingCollectionsWeaponCollectionArgs = {
 	locale?: Maybe<Scalars['String']>;
 };
 
-export type WeaponCollection = {
-	__typename?: 'WeaponCollection';
-	total: Scalars['Int'];
-	skip: Scalars['Int'];
-	limit: Scalars['Int'];
-	items: Array<Maybe<Weapon>>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
-export type Weapon = Entry & {
-	__typename?: 'Weapon';
-	sys: Sys;
-	linkedFrom?: Maybe<WeaponLinkingCollections>;
-	name?: Maybe<Scalars['String']>;
-	ailment?: Maybe<Ailment>;
-	element?: Maybe<Element>;
-	category?: Maybe<WeaponCategory>;
-	image?: Maybe<Asset>;
-	rarity?: Maybe<Scalars['String']>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
-export type WeaponLinkedFromArgs = {
-	allowedLocales?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
-export type WeaponNameArgs = {
-	locale?: Maybe<Scalars['String']>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
-export type WeaponAilmentArgs = {
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
-export type WeaponElementArgs = {
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
-export type WeaponCategoryArgs = {
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
-export type WeaponImageArgs = {
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weapon) */
-export type WeaponRarityArgs = {
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type WeaponLinkingCollections = {
-	__typename?: 'WeaponLinkingCollections';
-	entryCollection?: Maybe<EntryCollection>;
-	heroCollection?: Maybe<HeroCollection>;
-};
-
-export type WeaponLinkingCollectionsEntryCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type WeaponLinkingCollectionsHeroCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weaponCategory) */
-export type WeaponCategory = Entry & {
-	__typename?: 'WeaponCategory';
-	sys: Sys;
-	linkedFrom?: Maybe<WeaponCategoryLinkingCollections>;
-	name?: Maybe<Scalars['String']>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weaponCategory) */
-export type WeaponCategoryLinkedFromArgs = {
-	allowedLocales?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/weaponCategory) */
-export type WeaponCategoryNameArgs = {
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type WeaponCategoryLinkingCollections = {
-	__typename?: 'WeaponCategoryLinkingCollections';
-	entryCollection?: Maybe<EntryCollection>;
-	heroCollection?: Maybe<HeroCollection>;
-	weaponCollection?: Maybe<WeaponCollection>;
-};
-
-export type WeaponCategoryLinkingCollectionsEntryCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type WeaponCategoryLinkingCollectionsHeroCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type WeaponCategoryLinkingCollectionsWeaponCollectionArgs = {
+export type AilmentLinkingCollectionsHeroCollectionArgs = {
 	skip?: Maybe<Scalars['Int']>;
 	limit?: Maybe<Scalars['Int']>;
 	preview?: Maybe<Scalars['Boolean']>;
@@ -841,6 +856,14 @@ export type HeroWeaponCategoriesCollection = {
 	skip: Scalars['Int'];
 	limit: Scalars['Int'];
 	items: Array<Maybe<WeaponCategory>>;
+};
+
+export type ElementCollection = {
+	__typename?: 'ElementCollection';
+	total: Scalars['Int'];
+	skip: Scalars['Int'];
+	limit: Scalars['Int'];
+	items: Array<Maybe<Element>>;
 };
 
 export type HeroRoleCollection = {
@@ -936,26 +959,32 @@ export type SysFilter = {
 	id_contains?: Maybe<Scalars['String']>;
 	id_not_contains?: Maybe<Scalars['String']>;
 	publishedAt_exists?: Maybe<Scalars['Boolean']>;
-	publishedAt?: Maybe<Scalars['String']>;
-	publishedAt_not?: Maybe<Scalars['String']>;
-	publishedAt_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	publishedAt_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	publishedAt_contains?: Maybe<Scalars['String']>;
-	publishedAt_not_contains?: Maybe<Scalars['String']>;
+	publishedAt?: Maybe<Scalars['DateTime']>;
+	publishedAt_not?: Maybe<Scalars['DateTime']>;
+	publishedAt_in?: Maybe<Array<Maybe<Scalars['DateTime']>>>;
+	publishedAt_not_in?: Maybe<Array<Maybe<Scalars['DateTime']>>>;
+	publishedAt_gt?: Maybe<Scalars['DateTime']>;
+	publishedAt_gte?: Maybe<Scalars['DateTime']>;
+	publishedAt_lt?: Maybe<Scalars['DateTime']>;
+	publishedAt_lte?: Maybe<Scalars['DateTime']>;
 	firstPublishedAt_exists?: Maybe<Scalars['Boolean']>;
-	firstPublishedAt?: Maybe<Scalars['String']>;
-	firstPublishedAt_not?: Maybe<Scalars['String']>;
-	firstPublishedAt_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	firstPublishedAt_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	firstPublishedAt_contains?: Maybe<Scalars['String']>;
-	firstPublishedAt_not_contains?: Maybe<Scalars['String']>;
+	firstPublishedAt?: Maybe<Scalars['DateTime']>;
+	firstPublishedAt_not?: Maybe<Scalars['DateTime']>;
+	firstPublishedAt_in?: Maybe<Array<Maybe<Scalars['DateTime']>>>;
+	firstPublishedAt_not_in?: Maybe<Array<Maybe<Scalars['DateTime']>>>;
+	firstPublishedAt_gt?: Maybe<Scalars['DateTime']>;
+	firstPublishedAt_gte?: Maybe<Scalars['DateTime']>;
+	firstPublishedAt_lt?: Maybe<Scalars['DateTime']>;
+	firstPublishedAt_lte?: Maybe<Scalars['DateTime']>;
 	publishedVersion_exists?: Maybe<Scalars['Boolean']>;
-	publishedVersion?: Maybe<Scalars['String']>;
-	publishedVersion_not?: Maybe<Scalars['String']>;
-	publishedVersion_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	publishedVersion_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	publishedVersion_contains?: Maybe<Scalars['String']>;
-	publishedVersion_not_contains?: Maybe<Scalars['String']>;
+	publishedVersion?: Maybe<Scalars['Float']>;
+	publishedVersion_not?: Maybe<Scalars['Float']>;
+	publishedVersion_in?: Maybe<Array<Maybe<Scalars['Float']>>>;
+	publishedVersion_not_in?: Maybe<Array<Maybe<Scalars['Float']>>>;
+	publishedVersion_gt?: Maybe<Scalars['Float']>;
+	publishedVersion_gte?: Maybe<Scalars['Float']>;
+	publishedVersion_lt?: Maybe<Scalars['Float']>;
+	publishedVersion_lte?: Maybe<Scalars['Float']>;
 };
 
 export enum AssetOrder {
@@ -988,6 +1017,127 @@ export type AssetCollection = {
 	limit: Scalars['Int'];
 	items: Array<Maybe<Asset>>;
 };
+
+export type WeaponCategoryFilter = {
+	sys?: Maybe<SysFilter>;
+	name_exists?: Maybe<Scalars['Boolean']>;
+	name?: Maybe<Scalars['String']>;
+	name_not?: Maybe<Scalars['String']>;
+	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_contains?: Maybe<Scalars['String']>;
+	name_not_contains?: Maybe<Scalars['String']>;
+	image_exists?: Maybe<Scalars['Boolean']>;
+	OR?: Maybe<Array<Maybe<WeaponCategoryFilter>>>;
+	AND?: Maybe<Array<Maybe<WeaponCategoryFilter>>>;
+};
+
+export enum WeaponCategoryOrder {
+	NameAsc = 'name_ASC',
+	NameDesc = 'name_DESC',
+	SysIdAsc = 'sys_id_ASC',
+	SysIdDesc = 'sys_id_DESC',
+	SysPublishedAtAsc = 'sys_publishedAt_ASC',
+	SysPublishedAtDesc = 'sys_publishedAt_DESC',
+	SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+	SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+	SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+}
+
+export type WeaponFilter = {
+	ailment?: Maybe<CfAilmentNestedFilter>;
+	element?: Maybe<CfElementNestedFilter>;
+	category?: Maybe<CfWeaponCategoryNestedFilter>;
+	sys?: Maybe<SysFilter>;
+	name_exists?: Maybe<Scalars['Boolean']>;
+	name?: Maybe<Scalars['String']>;
+	name_not?: Maybe<Scalars['String']>;
+	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_contains?: Maybe<Scalars['String']>;
+	name_not_contains?: Maybe<Scalars['String']>;
+	ailment_exists?: Maybe<Scalars['Boolean']>;
+	element_exists?: Maybe<Scalars['Boolean']>;
+	category_exists?: Maybe<Scalars['Boolean']>;
+	image_exists?: Maybe<Scalars['Boolean']>;
+	rarity_exists?: Maybe<Scalars['Boolean']>;
+	rarity?: Maybe<Scalars['String']>;
+	rarity_not?: Maybe<Scalars['String']>;
+	rarity_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	rarity_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	rarity_contains?: Maybe<Scalars['String']>;
+	rarity_not_contains?: Maybe<Scalars['String']>;
+	OR?: Maybe<Array<Maybe<WeaponFilter>>>;
+	AND?: Maybe<Array<Maybe<WeaponFilter>>>;
+};
+
+export type CfAilmentNestedFilter = {
+	sys?: Maybe<SysFilter>;
+	name_exists?: Maybe<Scalars['Boolean']>;
+	name?: Maybe<Scalars['String']>;
+	name_not?: Maybe<Scalars['String']>;
+	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_contains?: Maybe<Scalars['String']>;
+	name_not_contains?: Maybe<Scalars['String']>;
+	image_exists?: Maybe<Scalars['Boolean']>;
+	isAny_exists?: Maybe<Scalars['Boolean']>;
+	isAny?: Maybe<Scalars['Boolean']>;
+	isAny_not?: Maybe<Scalars['Boolean']>;
+	OR?: Maybe<Array<Maybe<CfAilmentNestedFilter>>>;
+	AND?: Maybe<Array<Maybe<CfAilmentNestedFilter>>>;
+};
+
+export type CfElementNestedFilter = {
+	sys?: Maybe<SysFilter>;
+	name_exists?: Maybe<Scalars['Boolean']>;
+	name?: Maybe<Scalars['String']>;
+	name_not?: Maybe<Scalars['String']>;
+	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_contains?: Maybe<Scalars['String']>;
+	name_not_contains?: Maybe<Scalars['String']>;
+	image_exists?: Maybe<Scalars['Boolean']>;
+	color_exists?: Maybe<Scalars['Boolean']>;
+	color?: Maybe<Scalars['String']>;
+	color_not?: Maybe<Scalars['String']>;
+	color_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	color_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	color_contains?: Maybe<Scalars['String']>;
+	color_not_contains?: Maybe<Scalars['String']>;
+	OR?: Maybe<Array<Maybe<CfElementNestedFilter>>>;
+	AND?: Maybe<Array<Maybe<CfElementNestedFilter>>>;
+};
+
+export type CfWeaponCategoryNestedFilter = {
+	sys?: Maybe<SysFilter>;
+	name_exists?: Maybe<Scalars['Boolean']>;
+	name?: Maybe<Scalars['String']>;
+	name_not?: Maybe<Scalars['String']>;
+	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_contains?: Maybe<Scalars['String']>;
+	name_not_contains?: Maybe<Scalars['String']>;
+	image_exists?: Maybe<Scalars['Boolean']>;
+	OR?: Maybe<Array<Maybe<CfWeaponCategoryNestedFilter>>>;
+	AND?: Maybe<Array<Maybe<CfWeaponCategoryNestedFilter>>>;
+};
+
+export enum WeaponOrder {
+	NameAsc = 'name_ASC',
+	NameDesc = 'name_DESC',
+	RarityAsc = 'rarity_ASC',
+	RarityDesc = 'rarity_DESC',
+	SysIdAsc = 'sys_id_ASC',
+	SysIdDesc = 'sys_id_DESC',
+	SysPublishedAtAsc = 'sys_publishedAt_ASC',
+	SysPublishedAtDesc = 'sys_publishedAt_DESC',
+	SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+	SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+	SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+}
 
 export type ElementFilter = {
 	sys?: Maybe<SysFilter>;
@@ -1122,44 +1272,6 @@ export type CfHeroRoleNestedFilter = {
 	AND?: Maybe<Array<Maybe<CfHeroRoleNestedFilter>>>;
 };
 
-export type CfElementNestedFilter = {
-	sys?: Maybe<SysFilter>;
-	name_exists?: Maybe<Scalars['Boolean']>;
-	name?: Maybe<Scalars['String']>;
-	name_not?: Maybe<Scalars['String']>;
-	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_contains?: Maybe<Scalars['String']>;
-	name_not_contains?: Maybe<Scalars['String']>;
-	image_exists?: Maybe<Scalars['Boolean']>;
-	color_exists?: Maybe<Scalars['Boolean']>;
-	color?: Maybe<Scalars['String']>;
-	color_not?: Maybe<Scalars['String']>;
-	color_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	color_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	color_contains?: Maybe<Scalars['String']>;
-	color_not_contains?: Maybe<Scalars['String']>;
-	OR?: Maybe<Array<Maybe<CfElementNestedFilter>>>;
-	AND?: Maybe<Array<Maybe<CfElementNestedFilter>>>;
-};
-
-export type CfAilmentNestedFilter = {
-	sys?: Maybe<SysFilter>;
-	name_exists?: Maybe<Scalars['Boolean']>;
-	name?: Maybe<Scalars['String']>;
-	name_not?: Maybe<Scalars['String']>;
-	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_contains?: Maybe<Scalars['String']>;
-	name_not_contains?: Maybe<Scalars['String']>;
-	image_exists?: Maybe<Scalars['Boolean']>;
-	isAny_exists?: Maybe<Scalars['Boolean']>;
-	isAny?: Maybe<Scalars['Boolean']>;
-	isAny_not?: Maybe<Scalars['Boolean']>;
-	OR?: Maybe<Array<Maybe<CfAilmentNestedFilter>>>;
-	AND?: Maybe<Array<Maybe<CfAilmentNestedFilter>>>;
-};
-
 export type CfHeroPartyBuffNestedFilter = {
 	sys?: Maybe<SysFilter>;
 	name_exists?: Maybe<Scalars['Boolean']>;
@@ -1206,61 +1318,6 @@ export enum HeroOrder {
 	PartyBuffValueDesc = 'partyBuffValue_DESC',
 	PartyBuffValue2Asc = 'partyBuffValue2_ASC',
 	PartyBuffValue2Desc = 'partyBuffValue2_DESC',
-	SysIdAsc = 'sys_id_ASC',
-	SysIdDesc = 'sys_id_DESC',
-	SysPublishedAtAsc = 'sys_publishedAt_ASC',
-	SysPublishedAtDesc = 'sys_publishedAt_DESC',
-	SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
-	SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
-	SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
-	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
-}
-
-export type WeaponFilter = {
-	ailment?: Maybe<CfAilmentNestedFilter>;
-	element?: Maybe<CfElementNestedFilter>;
-	category?: Maybe<CfWeaponCategoryNestedFilter>;
-	sys?: Maybe<SysFilter>;
-	name_exists?: Maybe<Scalars['Boolean']>;
-	name?: Maybe<Scalars['String']>;
-	name_not?: Maybe<Scalars['String']>;
-	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_contains?: Maybe<Scalars['String']>;
-	name_not_contains?: Maybe<Scalars['String']>;
-	ailment_exists?: Maybe<Scalars['Boolean']>;
-	element_exists?: Maybe<Scalars['Boolean']>;
-	category_exists?: Maybe<Scalars['Boolean']>;
-	image_exists?: Maybe<Scalars['Boolean']>;
-	rarity_exists?: Maybe<Scalars['Boolean']>;
-	rarity?: Maybe<Scalars['String']>;
-	rarity_not?: Maybe<Scalars['String']>;
-	rarity_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	rarity_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	rarity_contains?: Maybe<Scalars['String']>;
-	rarity_not_contains?: Maybe<Scalars['String']>;
-	OR?: Maybe<Array<Maybe<WeaponFilter>>>;
-	AND?: Maybe<Array<Maybe<WeaponFilter>>>;
-};
-
-export type CfWeaponCategoryNestedFilter = {
-	sys?: Maybe<SysFilter>;
-	name_exists?: Maybe<Scalars['Boolean']>;
-	name?: Maybe<Scalars['String']>;
-	name_not?: Maybe<Scalars['String']>;
-	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_contains?: Maybe<Scalars['String']>;
-	name_not_contains?: Maybe<Scalars['String']>;
-	OR?: Maybe<Array<Maybe<CfWeaponCategoryNestedFilter>>>;
-	AND?: Maybe<Array<Maybe<CfWeaponCategoryNestedFilter>>>;
-};
-
-export enum WeaponOrder {
-	NameAsc = 'name_ASC',
-	NameDesc = 'name_DESC',
-	RarityAsc = 'rarity_ASC',
-	RarityDesc = 'rarity_DESC',
 	SysIdAsc = 'sys_id_ASC',
 	SysIdDesc = 'sys_id_DESC',
 	SysPublishedAtAsc = 'sys_publishedAt_ASC',
@@ -1335,40 +1392,6 @@ export type HeroPartyBuffCollection = {
 	skip: Scalars['Int'];
 	limit: Scalars['Int'];
 	items: Array<Maybe<HeroPartyBuff>>;
-};
-
-export type WeaponCategoryFilter = {
-	sys?: Maybe<SysFilter>;
-	name_exists?: Maybe<Scalars['Boolean']>;
-	name?: Maybe<Scalars['String']>;
-	name_not?: Maybe<Scalars['String']>;
-	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_contains?: Maybe<Scalars['String']>;
-	name_not_contains?: Maybe<Scalars['String']>;
-	OR?: Maybe<Array<Maybe<WeaponCategoryFilter>>>;
-	AND?: Maybe<Array<Maybe<WeaponCategoryFilter>>>;
-};
-
-export enum WeaponCategoryOrder {
-	NameAsc = 'name_ASC',
-	NameDesc = 'name_DESC',
-	SysIdAsc = 'sys_id_ASC',
-	SysIdDesc = 'sys_id_DESC',
-	SysPublishedAtAsc = 'sys_publishedAt_ASC',
-	SysPublishedAtDesc = 'sys_publishedAt_DESC',
-	SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
-	SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
-	SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
-	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
-}
-
-export type WeaponCategoryCollection = {
-	__typename?: 'WeaponCategoryCollection';
-	total: Scalars['Int'];
-	skip: Scalars['Int'];
-	limit: Scalars['Int'];
-	items: Array<Maybe<WeaponCategory>>;
 };
 
 export type GetDataQueryVariables = Exact<{ [key: string]: never }>;
@@ -1475,6 +1498,7 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 				Maybe<
 					{ __typename?: 'WeaponCategory' } & Pick<WeaponCategory, 'name'> & {
 							sys: { __typename?: 'Sys' } & Pick<Sys, 'id'>;
+							image?: Maybe<{ __typename?: 'Asset' } & Pick<Asset, 'url'>>;
 						}
 				>
 			>;
@@ -1593,7 +1617,7 @@ export const GetDataDocument = `
       }
     }
   }
-  weaponCollection(order: name_ASC) {
+  weaponCollection(order: name_ASC, preview: false) {
     items {
       sys {
         id
@@ -1629,6 +1653,9 @@ export const GetDataDocument = `
         id
       }
       name
+      image {
+        url
+      }
     }
   }
   elementCollection(limit: 10) {

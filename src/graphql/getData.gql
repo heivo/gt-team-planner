@@ -73,7 +73,7 @@ query getData {
 			}
 		}
 	}
-	weaponCollection(order: name_ASC) {
+	weaponCollection(order: name_ASC, preview: false) {
 		items {
 			sys {
 				id
@@ -109,6 +109,9 @@ query getData {
 				id
 			}
 			name
+			image {
+				url
+			}
 		}
 	}
 	elementCollection(limit: 10) {
