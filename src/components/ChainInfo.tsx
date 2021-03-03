@@ -37,7 +37,7 @@ const ChainInfo = ({ heroes, weapon }: Props) => {
 				<div key={i} className={styles.chain}>
 					{chain.map((hero, i) => (
 						<React.Fragment key={hero.sys.id}>
-							{i > 0 && <span className={styles.chainArrow}></span>}
+							{i > 0 && <span className={styles.chainArrow}>➞</span>}
 							<HeroBadge  hero={hero} size={100} />
 						</React.Fragment>
 					))}
