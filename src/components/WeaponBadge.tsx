@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import styles from '../style.module.scss';
 import DataContext, { Ailment, Element, Weapon, WeaponCategory } from '../context/DataContext';
 
@@ -16,6 +16,32 @@ const WeaponBadge = ({ weapon, onClick, showAilment = false, size = 150 }: Props
 	const element = elements.find((e) => e.sys.id === weapon.element.sys.id) as Element;
 	const category = weaponCategories.find((c) => c.sys.id === weapon.category.sys.id) as WeaponCategory;
 
+	const borderColor = useMemo<string>(() => {
+		switch (weapon.rarity) {
+			case 'unique':
+				return '#ad5833';
+			case 'legend':
+				return '#c39f3e';
+			case 'epic':
+				return '#4b812d';
+			default:
+				return '#fff';
+		}
+	}, [weapon.rarity]);
+
+	const shadowColor = useMemo<string>(() => {
+		switch (weapon.rarity) {
+			case 'unique':
+				return '#e69465';
+			case 'legend':
+				return '#ffdd5f';
+			case 'epic':
+				return '#95f053';
+			default:
+				return '#fff';
+		}
+	}, [weapon.rarity]);
+
 	return (
 		<div
 			className={styles.weaponBadge}
@@ -26,8 +52,8 @@ const WeaponBadge = ({ weapon, onClick, showAilment = false, size = 150 }: Props
 				width: size,
 				height: size,
 				cursor: onClick ? 'pointer' : 'default',
-				boxShadow: `inset 0 0 10px ${weapon.rarity === 'legend' ? '#ffdd5f' : '#95f053'}`,
-				borderColor: `${weapon.rarity === 'legend' ? '#c39f3e' : '#4b812d'}`,
+				boxShadow: `inset 0 0 10px ${shadowColor}`,
+				borderColor,
 			}}
 			title={weapon?.name ?? undefined}
 		>
