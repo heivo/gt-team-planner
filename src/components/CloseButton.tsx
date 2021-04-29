@@ -7,7 +7,7 @@ interface Props {
 }
 
 const CloseButton = ({ onClick, title }: Props) => (
-	<div className={styles.closeButton} onClick={() => onClick()} title={title}></div>
+	<div className={styles.closeButton} onClick={() => onClick()} data-tip={title}></div>
 );
 
 export default CloseButton;

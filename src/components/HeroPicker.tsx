@@ -5,6 +5,7 @@ import CloseButton from './CloseButton';
 import ElementPicker from './ElementPicker';
 import HeroBadge from './HeroBadge';
 import RolePicker from './RolePicker';
+import ReactTooltip from 'react-tooltip';
 
 interface Props {
 	otherUsedHeros: Hero[];
@@ -51,6 +52,7 @@ function HeroPicker({ otherUsedHeros, onSelect, onClose }: Props) {
 					</div>
 				))}
 			</div>
+			<ReactTooltip effect="solid" place="bottom" multiline delayShow={200} />
 		</div>
 	);
 }

@@ -4,6 +4,7 @@ import styles from '../style.module.scss';
 import CloseButton from './CloseButton';
 import ElementPicker from './ElementPicker';
 import WeaponBadge from './WeaponBadge';
+import ReactTooltip from 'react-tooltip';
 
 interface Props {
 	hero: Hero;
@@ -62,6 +63,7 @@ function WeaponPicker({ hero, showAilment, onSelect, onClose }: Props) {
 					</div>
 				))}
 			</div>
+			<ReactTooltip effect="solid" place="bottom" multiline delayShow={200} />
 		</div>
 	);
 }

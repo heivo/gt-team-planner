@@ -42,6 +42,13 @@ const WeaponBadge = ({ weapon, onClick, showAilment = false, size = 150 }: Props
 		}
 	}, [weapon.rarity]);
 
+	const tooltip = `
+		${weapon.name}<br /><br /><br />
+		Category: ${weapon.category.name}<br />
+		Element: ${weapon.element.name}<br />
+		Skill Ailment: ${weapon.ailment.name}
+	`;
+
 	return (
 		<div
 			className={styles.weaponBadge}
@@ -55,14 +62,14 @@ const WeaponBadge = ({ weapon, onClick, showAilment = false, size = 150 }: Props
 				boxShadow: `inset 0 0 10px ${shadowColor}`,
 				borderColor,
 			}}
-			title={weapon?.name ?? undefined}
+			data-tip={tooltip}
 		>
 			<div className={styles.weaponBadgeElementContainer} style={{ width: Math.max(size / 4, 25) }}>
-				<img src={element.image.url} title={element.name} alt={element.name} />
+				<img src={element.image.url} alt={element.name} />
 			</div>
 			{showAilment && (
 				<div className={styles.weaponBadgeAilment}>
-					<img src={ailment.image?.url ?? ''} alt={ailment.name ?? ''} title={ailment.name ?? ''} />
+					<img src={ailment.image?.url ?? ''} alt={ailment.name ?? ''} />
 				</div>
 			)}
 		</div>

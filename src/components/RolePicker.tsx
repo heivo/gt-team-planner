@@ -26,7 +26,7 @@ const RolePicker = ({ selected, onSelect }: Props) => {
 					key={role.sys.id}
 					src={role.image.url}
 					className={cn({ [styles.selected]: selected === role })}
-					title={role.name}
+					data-tip={role.name}
 					alt={role.name}
 					onClick={() => handleClick(role)}
 				/>

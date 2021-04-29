@@ -7,6 +7,7 @@ import styles from '../style.module.scss';
 import { Hero, Weapon } from '../context/DataContext';
 import ChainInfo from './ChainInfo';
 import WeaponPicker from './WeaponPicker';
+import ReactTooltip from 'react-tooltip';
 
 function MainView() {
 	const { slots, selectHero, selectWeapon, reset } = useContext(StateContext);
@@ -86,6 +87,7 @@ function MainView() {
 					reset
 				</button>
 			)}
+			<ReactTooltip effect="solid" place="bottom" multiline delayShow={200} />
 		</>
 	);
 }

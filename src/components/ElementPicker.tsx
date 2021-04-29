@@ -30,7 +30,7 @@ const ElementPicker = ({ selected, onSelect }: Props) => {
 					<img
 						src={element.image.url}
 						className={cn({ [styles.selected]: selected === element })}
-						title={element.name}
+						data-tip={element.name}
 						alt={element.name}
 						onClick={() => handleClick(element)}
 					/>
