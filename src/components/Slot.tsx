@@ -3,6 +3,7 @@ import styles from '../style.module.scss';
 import StateContext, { SlotData } from '../context/StateContext';
 import HeroBadge from './HeroBadge';
 import WeaponBadge from './WeaponBadge';
+import ReactTooltip from 'react-tooltip';
 
 interface Props {
 	number: number;
@@ -14,6 +15,14 @@ interface Props {
 
 const Slot = ({ number, data: { hero, weapon }, onClickHero, onClickWeapon, index }: Props) => {
 	const { selectHero } = useContext(StateContext);
+
+	const makeLeader = () => {
+		if (hero) {
+			selectHero(0, hero);
+		}
+		ReactTooltip.hide();
+	};
+
 	return (
 		<div className={styles.slot}>
 			<HeroBadge hero={hero} onClick={onClickHero} size={150} />
@@ -25,8 +34,8 @@ const Slot = ({ number, data: { hero, weapon }, onClickHero, onClickWeapon, inde
 					{number > 0 && hero && (
 						<div
 							className={styles.slotLeaderButton}
-							onClick={() => selectHero(0, hero)}
-							data-tip="Make party leader"
+							onClick={makeLeader}
+							data-tip={`Make ${hero.name} party leader`}
 							data-delay-show="500"
 						/>
 					)}
