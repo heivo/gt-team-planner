@@ -73,6 +73,7 @@ function MainView() {
 				{slots.map((slot, slotNumber) => (
 					<Slot
 						key={slotNumber}
+						number={slotNumber}
 						data={slot}
 						onClickHero={openHeroPicker(slotNumber)}
 						onClickWeapon={openWeaponPicker(slotNumber)}
