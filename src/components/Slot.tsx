@@ -26,7 +26,7 @@ const Slot = ({ number, data: { hero, weapon }, onClickHero, onClickWeapon, inde
 						<div
 							className={styles.slotLeaderButton}
 							onClick={() => selectHero(0, hero)}
-							data-tip={`Make ${hero.name} party leader`}
+							data-tip="Make party leader"
 							data-delay-show="500"
 						/>
 					)}

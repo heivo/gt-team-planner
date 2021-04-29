@@ -34,9 +34,11 @@ body {
 			content: '👑';
 		}
 
-		&:hover {
-			filter: none;
-			opacity: 1;
+		@media (hover: hover) {
+			&:hover {
+				filter: none;
+				opacity: 1;
+			}
 		}
 	}
 }
