@@ -138,7 +138,7 @@ query getData {
 			isAny
 		}
 	}
-	heroPartyBuffCollection(limit: 30) {
+	heroPartyBuffCollection(limit: 30, order: prio_ASC) {
 		items {
 			sys {
 				id

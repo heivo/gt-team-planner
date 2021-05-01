@@ -21,7 +21,7 @@ const HeroBadge = ({ hero, onClick, faded = false, size = 150 }: Props) => {
 				onClick={onClick}
 				style={{ width: size, height: size, cursor: onClick ? 'pointer' : 'default' }}
 			>
-				<i>&lt;empty&gt;</i>
+				<i>&lt;click here&gt;</i>
 			</div>
 		);
 	}

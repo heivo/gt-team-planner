@@ -50,6 +50,8 @@ export type Query = {
 	__typename?: 'Query';
 	asset?: Maybe<Asset>;
 	assetCollection?: Maybe<AssetCollection>;
+	heroPartyBuff?: Maybe<HeroPartyBuff>;
+	heroPartyBuffCollection?: Maybe<HeroPartyBuffCollection>;
 	weapon?: Maybe<Weapon>;
 	weaponCollection?: Maybe<WeaponCollection>;
 	weaponCategory?: Maybe<WeaponCategory>;
@@ -62,8 +64,6 @@ export type Query = {
 	heroCollection?: Maybe<HeroCollection>;
 	ailment?: Maybe<Ailment>;
 	ailmentCollection?: Maybe<AilmentCollection>;
-	heroPartyBuff?: Maybe<HeroPartyBuff>;
-	heroPartyBuffCollection?: Maybe<HeroPartyBuffCollection>;
 	entryCollection?: Maybe<EntryCollection>;
 };
 
@@ -80,6 +80,21 @@ export type QueryAssetCollectionArgs = {
 	locale?: Maybe<Scalars['String']>;
 	where?: Maybe<AssetFilter>;
 	order?: Maybe<Array<Maybe<AssetOrder>>>;
+};
+
+export type QueryHeroPartyBuffArgs = {
+	id: Scalars['String'];
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+};
+
+export type QueryHeroPartyBuffCollectionArgs = {
+	skip?: Maybe<Scalars['Int']>;
+	limit?: Maybe<Scalars['Int']>;
+	preview?: Maybe<Scalars['Boolean']>;
+	locale?: Maybe<Scalars['String']>;
+	where?: Maybe<HeroPartyBuffFilter>;
+	order?: Maybe<Array<Maybe<HeroPartyBuffOrder>>>;
 };
 
 export type QueryWeaponArgs = {
@@ -170,21 +185,6 @@ export type QueryAilmentCollectionArgs = {
 	locale?: Maybe<Scalars['String']>;
 	where?: Maybe<AilmentFilter>;
 	order?: Maybe<Array<Maybe<AilmentOrder>>>;
-};
-
-export type QueryHeroPartyBuffArgs = {
-	id: Scalars['String'];
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-};
-
-export type QueryHeroPartyBuffCollectionArgs = {
-	skip?: Maybe<Scalars['Int']>;
-	limit?: Maybe<Scalars['Int']>;
-	preview?: Maybe<Scalars['Boolean']>;
-	locale?: Maybe<Scalars['String']>;
-	where?: Maybe<HeroPartyBuffFilter>;
-	order?: Maybe<Array<Maybe<HeroPartyBuffOrder>>>;
 };
 
 export type QueryEntryCollectionArgs = {
@@ -790,6 +790,7 @@ export type HeroPartyBuff = Entry & {
 	contentfulMetadata: ContentfulMetadata;
 	linkedFrom?: Maybe<HeroPartyBuffLinkingCollections>;
 	name?: Maybe<Scalars['String']>;
+	prio?: Maybe<Scalars['Int']>;
 };
 
 /** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/heroPartyBuff) */
@@ -799,6 +800,11 @@ export type HeroPartyBuffLinkedFromArgs = {
 
 /** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/heroPartyBuff) */
 export type HeroPartyBuffNameArgs = {
+	locale?: Maybe<Scalars['String']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/fyrmlfwxhp4g/content_types/heroPartyBuff) */
+export type HeroPartyBuffPrioArgs = {
 	locale?: Maybe<Scalars['String']>;
 };
 
@@ -1054,6 +1060,52 @@ export enum AssetOrder {
 	WidthDesc = 'width_DESC',
 	HeightAsc = 'height_ASC',
 	HeightDesc = 'height_DESC',
+	SysIdAsc = 'sys_id_ASC',
+	SysIdDesc = 'sys_id_DESC',
+	SysPublishedAtAsc = 'sys_publishedAt_ASC',
+	SysPublishedAtDesc = 'sys_publishedAt_DESC',
+	SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+	SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+	SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+}
+
+export type HeroPartyBuffCollection = {
+	__typename?: 'HeroPartyBuffCollection';
+	total: Scalars['Int'];
+	skip: Scalars['Int'];
+	limit: Scalars['Int'];
+	items: Array<Maybe<HeroPartyBuff>>;
+};
+
+export type HeroPartyBuffFilter = {
+	sys?: Maybe<SysFilter>;
+	contentfulMetadata?: Maybe<ContentfulMetadataFilter>;
+	name_exists?: Maybe<Scalars['Boolean']>;
+	name?: Maybe<Scalars['String']>;
+	name_not?: Maybe<Scalars['String']>;
+	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+	name_contains?: Maybe<Scalars['String']>;
+	name_not_contains?: Maybe<Scalars['String']>;
+	prio_exists?: Maybe<Scalars['Boolean']>;
+	prio?: Maybe<Scalars['Int']>;
+	prio_not?: Maybe<Scalars['Int']>;
+	prio_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+	prio_not_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+	prio_gt?: Maybe<Scalars['Int']>;
+	prio_gte?: Maybe<Scalars['Int']>;
+	prio_lt?: Maybe<Scalars['Int']>;
+	prio_lte?: Maybe<Scalars['Int']>;
+	OR?: Maybe<Array<Maybe<HeroPartyBuffFilter>>>;
+	AND?: Maybe<Array<Maybe<HeroPartyBuffFilter>>>;
+};
+
+export enum HeroPartyBuffOrder {
+	NameAsc = 'name_ASC',
+	NameDesc = 'name_DESC',
+	PrioAsc = 'prio_ASC',
+	PrioDesc = 'prio_DESC',
 	SysIdAsc = 'sys_id_ASC',
 	SysIdDesc = 'sys_id_DESC',
 	SysPublishedAtAsc = 'sys_publishedAt_ASC',
@@ -1337,6 +1389,15 @@ export type CfHeroPartyBuffNestedFilter = {
 	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 	name_contains?: Maybe<Scalars['String']>;
 	name_not_contains?: Maybe<Scalars['String']>;
+	prio_exists?: Maybe<Scalars['Boolean']>;
+	prio?: Maybe<Scalars['Int']>;
+	prio_not?: Maybe<Scalars['Int']>;
+	prio_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+	prio_not_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+	prio_gt?: Maybe<Scalars['Int']>;
+	prio_gte?: Maybe<Scalars['Int']>;
+	prio_lt?: Maybe<Scalars['Int']>;
+	prio_lte?: Maybe<Scalars['Int']>;
 	OR?: Maybe<Array<Maybe<CfHeroPartyBuffNestedFilter>>>;
 	AND?: Maybe<Array<Maybe<CfHeroPartyBuffNestedFilter>>>;
 };
@@ -1408,41 +1469,6 @@ export enum AilmentOrder {
 	NameDesc = 'name_DESC',
 	IsAnyAsc = 'isAny_ASC',
 	IsAnyDesc = 'isAny_DESC',
-	SysIdAsc = 'sys_id_ASC',
-	SysIdDesc = 'sys_id_DESC',
-	SysPublishedAtAsc = 'sys_publishedAt_ASC',
-	SysPublishedAtDesc = 'sys_publishedAt_DESC',
-	SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
-	SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
-	SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
-	SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
-}
-
-export type HeroPartyBuffCollection = {
-	__typename?: 'HeroPartyBuffCollection';
-	total: Scalars['Int'];
-	skip: Scalars['Int'];
-	limit: Scalars['Int'];
-	items: Array<Maybe<HeroPartyBuff>>;
-};
-
-export type HeroPartyBuffFilter = {
-	sys?: Maybe<SysFilter>;
-	contentfulMetadata?: Maybe<ContentfulMetadataFilter>;
-	name_exists?: Maybe<Scalars['Boolean']>;
-	name?: Maybe<Scalars['String']>;
-	name_not?: Maybe<Scalars['String']>;
-	name_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-	name_contains?: Maybe<Scalars['String']>;
-	name_not_contains?: Maybe<Scalars['String']>;
-	OR?: Maybe<Array<Maybe<HeroPartyBuffFilter>>>;
-	AND?: Maybe<Array<Maybe<HeroPartyBuffFilter>>>;
-};
-
-export enum HeroPartyBuffOrder {
-	NameAsc = 'name_ASC',
-	NameDesc = 'name_DESC',
 	SysIdAsc = 'sys_id_ASC',
 	SysIdDesc = 'sys_id_DESC',
 	SysPublishedAtAsc = 'sys_publishedAt_ASC',
@@ -1759,7 +1785,7 @@ export const GetDataDocument = `
       isAny
     }
   }
-  heroPartyBuffCollection(limit: 30) {
+  heroPartyBuffCollection(limit: 30, order: prio_ASC) {
     items {
       sys {
         id
