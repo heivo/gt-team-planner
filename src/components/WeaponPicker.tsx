@@ -13,7 +13,7 @@ interface Props {
 	onClose: () => void;
 }
 
-const weaponSort = (w1: Weapon, w2: Weapon): number => {
+const compareWeapons = (w1: Weapon, w2: Weapon): number => {
 	let i = w1.rarity.localeCompare(w2.rarity);
 	if (i === 0) {
 		i = (w2.image ? 1 : 0) - (w1.image ? 1 : 0);
@@ -29,20 +29,28 @@ function WeaponPicker({ hero, showAilment, onSelect, onClose }: Props) {
 
 	const [elementFilter, setElementFilter] = useState<Element>();
 
-	const filteredWeapons = useMemo(
+	const availableWeapons = useMemo(
 		() =>
 			weapons
 				.filter((weapon) => {
 					if (!hero.weaponCategoriesCollection.items.some((cat) => cat.sys.id === weapon.category.sys.id)) {
 						return false;
 					}
-					if (elementFilter && weapon.element.sys.id !== elementFilter.sys.id) {
-						return false;
-					}
 					return true;
 				})
-				.sort(weaponSort),
-		[weapons, hero.weaponCategoriesCollection.items, elementFilter]
+				.sort(compareWeapons),
+		[weapons, hero.weaponCategoriesCollection.items]
+	);
+
+	const filteredWeapons = useMemo(
+		() =>
+			availableWeapons.filter((weapon) => {
+				if (elementFilter && weapon.element.sys.id !== elementFilter.sys.id) {
+					return false;
+				}
+				return true;
+			}),
+		[availableWeapons, elementFilter]
 	);
 
 	return (
@@ -52,10 +60,11 @@ function WeaponPicker({ hero, showAilment, onSelect, onClose }: Props) {
 				<CloseButton onClick={onClose} title="Close" />
 			</div>
 			<div className={styles.weaponPickerWeapons}>
-				{filteredWeapons.map((weapon) => (
+				{availableWeapons.map((weapon) => (
 					<div key={weapon.sys.id} className={styles.badgeWrapper}>
 						<WeaponBadge
 							weapon={weapon}
+							faded={!filteredWeapons.includes(weapon)}
 							showAilment={showAilment}
 							size={100}
 							onClick={() => onSelect(weapon)}

@@ -1720,7 +1720,7 @@ export const GetDataDocument = `
       }
     }
   }
-  weaponCollection(limit: 1000, order: name_ASC) {
+  weaponCollection(limit: 1000, order: [rarity_ASC, name_ASC]) {
     items {
       sys {
         id

@@ -99,6 +99,11 @@ body {
 	background-repeat: no-repeat;
 	background-position: center;
 
+	&.faded {
+		cursor: default;
+		filter: opacity(25%);
+	}
+
 	.weaponBadgeAilment {
 		align-self: flex-end;
 		margin-left: auto;

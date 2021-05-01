@@ -1,15 +1,17 @@
 import React, { useContext, useMemo } from 'react';
 import styles from '../style.module.scss';
 import DataContext, { Ailment, Element, Weapon, WeaponCategory } from '../context/DataContext';
+import cn from 'classnames';
 
 interface Props {
 	weapon: Weapon;
 	onClick?: () => void;
+	faded?: boolean;
 	showAilment?: boolean;
 	size?: number;
 }
 
-const WeaponBadge = ({ weapon, onClick, showAilment = false, size = 150 }: Props) => {
+const WeaponBadge = ({ weapon, onClick, faded = false, showAilment = false, size = 150 }: Props) => {
 	const { ailments, elements, weaponCategories } = useContext(DataContext);
 
 	const ailment = ailments.find((a) => a.sys.id === weapon.ailment.sys.id) as Ailment;
@@ -51,7 +53,7 @@ const WeaponBadge = ({ weapon, onClick, showAilment = false, size = 150 }: Props
 
 	return (
 		<div
-			className={styles.weaponBadge}
+			className={cn(styles.weaponBadge, { [styles.faded]: faded })}
 			onClick={onClick}
 			style={{
 				backgroundImage: weapon.image?.url ? `url(${weapon.image.url})` : `url(${category.image.url})`,
