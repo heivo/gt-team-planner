@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import MainView from './components/MainView';
 import { DataContextProvider } from './context/DataContext';
 import { StateContextProvider } from './context/StateContext';
-import { Route } from 'react-router-dom';
 
 function App() {
 	const queryClient = new QueryClient({
@@ -21,11 +20,9 @@ function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<DataContextProvider>
-				<Route path={['/:slug', '/']}>
-					<StateContextProvider>
-						<MainView />
-					</StateContextProvider>
-				</Route>
+				<StateContextProvider>
+					<MainView />
+				</StateContextProvider>
 			</DataContextProvider>
 		</QueryClientProvider>
 	);

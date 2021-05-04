@@ -1834,6 +1834,13 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
+"@jaredpalmer/after@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@jaredpalmer/after/-/after-3.1.3.tgz#303bb9d66faf95725995112a830b64715b20d0fa"
+  integrity sha512-uxH1RXa61uymtlJT4UfnzKcwWHwTmibkxkTBkevbdikGXCK/oskDs4C3ckOORyzfNqrqh0Sx3oYaRqinlmaaJg==
+  dependencies:
+    babel-plugin-after "^3.1.3"
+
 "@jest/console@^26.6.2":
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-26.6.2.tgz#4e04bc464014358b03ab4937805ee36a0aeb98f2"
@@ -2733,11 +2740,6 @@ adjust-sourcemap-loader@3.0.0:
     loader-utils "^2.0.0"
     regex-parser "^2.2.11"
 
-after@^0.8.2:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/after/-/after-0.8.2.tgz#fedb394f9f0e02aa9768e702bda23b505fae7e1f"
-  integrity sha1-/ts5T58OAqqXaOcCvaI7UF+ufh8=
-
 agent-base@6:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
@@ -3127,6 +3129,11 @@ babel-loader@^8.0.6:
     loader-utils "^1.4.0"
     make-dir "^3.1.0"
     schema-utils "^2.6.5"
+
+babel-plugin-after@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-after/-/babel-plugin-after-3.1.3.tgz#8b7c53c65580d3a7bac62df91ad950a046796db1"
+  integrity sha512-MlHAcpE0yQvZEYnmpIXqA9s7hGcLzrTrFwOWNOkCAc9vNqEFfQy1Q9i7PU3WCFKKQBD+JHup6xYex90yE5vdBQ==
 
 babel-plugin-dynamic-import-node@^2.3.3:
   version "2.3.3"
