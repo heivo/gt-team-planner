@@ -37,11 +37,11 @@ interface Props {
 
 export const DataContextProvider = ({ children }: Props) => {
 	const { data } = useGetDataQuery({
-		endpoint: process.env.REACT_APP_GQL_ENDPOINT ?? '',
+		endpoint: process.env.RAZZLE_GQL_ENDPOINT ?? '',
 		fetchParams: {
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+				Authorization: `Bearer ${process.env.RAZZLE_API_TOKEN}`,
 			},
 		},
 	});
