@@ -98,6 +98,7 @@ function MainView() {
 			)}
 			{tooltipVisible && <ReactTooltip effect="solid" place="bottom" multiline delayShow={200} />}
 			<Helmet>
+				<meta property="og:type" content="article" />
 				<meta property="og:title" content="Guardian Tales - Team Planner" />
 				<meta property="og:description" content="Beth, Eugene (Tartaros), Lupina, Arabelle" />
 				<meta property="og:image" content="/example.png" />
