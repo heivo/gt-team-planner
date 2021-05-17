@@ -14,13 +14,7 @@ import { StateContextProvider } from './context/StateContext';
 import { Helmet } from 'react-helmet';
 import { GraphQLClient } from 'graphql-request';
 import { GetDataDocument, GetDataQuery } from './graphql/schema';
-
-const graphQLClient = new GraphQLClient(process.env.RAZZLE_GQL_ENDPOINT ?? '', {
-	headers: {
-		'Content-Type': 'application/json',
-		Authorization: `Bearer ${process.env.RAZZLE_API_TOKEN}`,
-	},
-});
+import graphQLClient from './graphQLClient';
 
 interface Props extends GetDataQuery {}
 

@@ -1,0 +1,12 @@
+query getHeroImages {
+	heroCollection(limit: 200) {
+		items {
+			sys {
+				id
+			}
+			image {
+				url
+			}
+		}
+	}
+}

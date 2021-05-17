@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import DataContext, { Hero, Weapon } from './DataContext';
 import { SlotData } from './StateContext';
-import { decode as decodeBase64, encode as encodeBase64 } from 'universal-base64';
+import { decode, encode } from 'universal-base64';
 
 const ID_LENGTH = 5;
 
@@ -26,7 +26,7 @@ const useHistoryStore = () => {
 	const hydrateSlots = (): SlotData[] => {
 		if (slug) {
 			try {
-				const decoded = decode(slug);
+				const decoded = decodeSlug(slug);
 				return [
 					{ hero: findHero(decoded.h0), weapon: findWeapon(decoded.w0) },
 					{ hero: findHero(decoded.h1), weapon: findWeapon(decoded.w1) },
@@ -46,7 +46,7 @@ const useHistoryStore = () => {
 	};
 
 	const updateStore = (slots: SlotData[]) => {
-		history.push(encode(slots, ID_LENGTH));
+		history.push(encodeSlug(slots, ID_LENGTH));
 	};
 
 	const clearStore = () => {
@@ -56,16 +56,16 @@ const useHistoryStore = () => {
 	return { hydrateSlots, updateStore, clearStore };
 };
 
-const encode = (slots: SlotData[], idLength = 99): string => {
-	return encodeBase64(
+const encodeSlug = (slots: SlotData[], idLength = 99): string => {
+	return encode(
 		slots
 			.map((s) => `${s.hero?.sys.id?.substr(0, idLength) ?? ''}-${s.weapon?.sys.id?.substr(0, idLength) ?? ''}`)
 			.join('-')
 	);
 };
 
-const decode = (slug: string) => {
-	const [h0, w0, h1, w1, h2, w2, h3, w3] = decodeBase64(slug).split('-');
+export const decodeSlug = (slug: string) => {
+	const [h0, w0, h1, w1, h2, w2, h3, w3] = decode(slug).split('-');
 	return { h0, w0, h1, w1, h2, w2, h3, w3 };
 };
 

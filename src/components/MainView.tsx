@@ -4,15 +4,16 @@ import PartyBuffSummary from './PartyBuffSummary';
 import StateContext from '../context/StateContext';
 import Slot from './Slot';
 import styles from '../style.module.scss';
-import DataContext, { Hero, Weapon } from '../context/DataContext';
+import { Hero, Weapon } from '../context/DataContext';
 import ChainInfo from './ChainInfo';
 import WeaponPicker from './WeaponPicker';
 import ReactTooltip from 'react-tooltip';
 import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
 
 function MainView() {
 	const { slots, selectHero, selectWeapon, reset } = useContext(StateContext);
-	const { heroes } = useContext(DataContext);
+	const { slug } = useParams<{ slug: string | undefined }>();
 
 	const selectedHeroes = slots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
 
@@ -68,6 +69,12 @@ function MainView() {
 		}
 	}, [slots]);
 
+	const ogImage = useMemo<string | undefined>(() => {
+		if (slug && slots.filter((slot) => slot.hero).length === 4) {
+			return `/img/${slug}`;
+		}
+	}, [slots, slug]);
+
 	if (heroPickerSlot !== undefined) {
 		const currentHero = slots[heroPickerSlot].hero;
 		const otherUsedHeroes = selectedHeroes.filter((hero) => hero !== currentHero);
@@ -119,6 +126,7 @@ function MainView() {
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta property="og:title" content="Guardian Tales - Team Planner" />
 				<meta property="og:description" content={ogDescription} />
+				{ogImage && <meta property="og:image" content={ogImage} />}
 			</Helmet>
 		</>
 	);
