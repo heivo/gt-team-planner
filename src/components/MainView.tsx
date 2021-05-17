@@ -101,7 +101,6 @@ function MainView() {
 				<meta property="og:title" content="Guardian Tales - Team Planner" />
 				<meta property="og:description" content="Beth, Eugene (Tartaros), Lupina, Arabelle" />
 				<meta property="og:image" content="/example.png" />
-				<meta property="og:image:width" content="500" />
 			</Helmet>
 		</>
 	);
