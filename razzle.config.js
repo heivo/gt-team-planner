@@ -32,8 +32,6 @@ const createRazzlePluginNodeRuntimeVars =
 		return config;
 	};
 
-export default createRazzlePluginNodeRuntimeVars;
-
 module.exports = {
 	plugins: ['scss', createRazzlePluginNodeRuntimeVars('PORT')],
 };
