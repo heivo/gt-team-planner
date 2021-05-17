@@ -14,7 +14,10 @@ if (module.hot) {
 	console.info('✅  Server-side HMR Enabled!');
 }
 
-const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+// This will extract the env during production execution.. PORT will not be inlined during build
+const getEnv = (c: string) => process.env[c];
+
+const port = parseInt(getEnv('PORT') ?? '3000', 10);
 
 export default express()
 	.use((req, res) => app.handle(req, res))
