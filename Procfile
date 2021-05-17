@@ -1,1 +1,1 @@
-web: yarn build --noninteractive && yarn start:prod
+web: yarn start:prod
