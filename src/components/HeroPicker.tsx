@@ -9,12 +9,12 @@ import ReactTooltip from 'react-tooltip';
 import Select from 'react-select';
 
 interface Props {
-	otherUsedHeros: Hero[];
+	otherUsedHeroes: Hero[];
 	onSelect: (hero: Hero) => void;
 	onClose: () => void;
 }
 
-function HeroPicker({ otherUsedHeros, onSelect, onClose }: Props) {
+function HeroPicker({ otherUsedHeroes, onSelect, onClose }: Props) {
 	const { heroes, heroPartyBuffs } = useContext(DataContext);
 
 	const [elementFilter, setElementFilter] = useState<Element>();
@@ -74,7 +74,7 @@ function HeroPicker({ otherUsedHeros, onSelect, onClose }: Props) {
 					<div key={hero.sys.id} className={styles.badgeWrapper}>
 						<HeroBadge
 							hero={hero}
-							faded={otherUsedHeros.includes(hero) || !filteredHeroes.includes(hero)}
+							faded={otherUsedHeroes.includes(hero) || !filteredHeroes.includes(hero)}
 							onClick={() => onSelect(hero)}
 							size={120}
 						/>

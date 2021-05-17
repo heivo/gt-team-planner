@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import HeroPicker from './HeroPicker';
 import PartyBuffSummary from './PartyBuffSummary';
 import StateContext from '../context/StateContext';
 import Slot from './Slot';
 import styles from '../style.module.scss';
-import { Hero, Weapon } from '../context/DataContext';
+import DataContext, { Hero, Weapon } from '../context/DataContext';
 import ChainInfo from './ChainInfo';
 import WeaponPicker from './WeaponPicker';
 import ReactTooltip from 'react-tooltip';
@@ -12,8 +12,9 @@ import { Helmet } from 'react-helmet';
 
 function MainView() {
 	const { slots, selectHero, selectWeapon, reset } = useContext(StateContext);
+	const { heroes } = useContext(DataContext);
 
-	const selectedHeros = slots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
+	const selectedHeroes = slots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
 
 	const [heroPickerSlot, setHeroPickerSlot] = useState<number>();
 	const [weaponPickerSlot, setWeaponPickerSlot] = useState<number>();
@@ -51,12 +52,28 @@ function MainView() {
 		setTooltipVisible(true);
 	}, []);
 
+	const ogDescription = useMemo<string | null>(() => {
+		if (slots.filter((slot) => slot.hero).length === 4) {
+			return slots
+				.map((slot) => {
+					let name = slot.hero?.name;
+					if (slot.hero?.defaultWeapon.sys.id !== slot.weapon?.sys.id) {
+						name += ` (${slot.weapon?.name})`;
+					}
+					return name;
+				})
+				.join(', ');
+		} else {
+			return null;
+		}
+	}, [slots]);
+
 	if (heroPickerSlot !== undefined) {
 		const currentHero = slots[heroPickerSlot].hero;
-		const otherUsedHeros = selectedHeros.filter((hero) => hero !== currentHero);
+		const otherUsedHeroes = selectedHeroes.filter((hero) => hero !== currentHero);
 		return (
 			<HeroPicker
-				otherUsedHeros={otherUsedHeros}
+				otherUsedHeroes={otherUsedHeroes}
 				onSelect={(hero) => handleSelectHero(heroPickerSlot, hero)}
 				onClose={handleCloseHeroPicker}
 			/>
@@ -89,21 +106,19 @@ function MainView() {
 					/>
 				))}
 			</div>
-			<PartyBuffSummary heroes={selectedHeros} />
-			<ChainInfo heroes={selectedHeros} weapon={slots?.[0].weapon} />
-			{selectedHeros.length > 0 && (
+			<PartyBuffSummary heroes={selectedHeroes} />
+			<ChainInfo heroes={selectedHeroes} weapon={slots?.[0].weapon} />
+			{selectedHeroes.length > 0 && (
 				<button onClick={reset} className={styles.resetButton}>
 					reset
 				</button>
 			)}
 			{tooltipVisible && <ReactTooltip effect="solid" place="bottom" multiline delayShow={200} />}
 			<Helmet>
+				{/* this makes the image larger on discord */}
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta property="og:title" content="Guardian Tales - Team Planner" />
-				<meta property="og:description" content="Beth, Eugene (Tartaros), Lupina, Arabelle" />
-				<meta property="og:image" content="/example.png" />
-				<meta property="og:image:width" content="1200" />
-				<meta property="og:image:height" content="243" />
+				{ogDescription && <meta property="og:description" content={ogDescription} />}
 			</Helmet>
 		</>
 	);
