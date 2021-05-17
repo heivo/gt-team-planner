@@ -52,7 +52,7 @@ function MainView() {
 		setTooltipVisible(true);
 	}, []);
 
-	const ogDescription = useMemo<string | null>(() => {
+	const ogDescription = useMemo<string>(() => {
 		if (slots.filter((slot) => slot.hero).length === 4) {
 			return slots
 				.map((slot) => {
@@ -64,7 +64,7 @@ function MainView() {
 				})
 				.join(', ');
 		} else {
-			return null;
+			return 'Online team planning tool for Guardian Tales: select your heroes and weapons, see party buffs and possible chain skill combinations, share your setup via URL.';
 		}
 	}, [slots]);
 
@@ -118,7 +118,7 @@ function MainView() {
 				{/* this makes the image larger on discord */}
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta property="og:title" content="Guardian Tales - Team Planner" />
-				{ogDescription && <meta property="og:description" content={ogDescription} />}
+				<meta property="og:description" content={ogDescription} />
 			</Helmet>
 		</>
 	);
