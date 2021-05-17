@@ -8,6 +8,7 @@ import { Hero, Weapon } from '../context/DataContext';
 import ChainInfo from './ChainInfo';
 import WeaponPicker from './WeaponPicker';
 import ReactTooltip from 'react-tooltip';
+import { Helmet } from 'react-helmet';
 
 function MainView() {
 	const { slots, selectHero, selectWeapon, reset } = useContext(StateContext);
@@ -96,6 +97,11 @@ function MainView() {
 				</button>
 			)}
 			{tooltipVisible && <ReactTooltip effect="solid" place="bottom" multiline delayShow={200} />}
+			<Helmet>
+				<meta property="og:title" content="Guardian Tales - Team Planner" />
+				<meta property="og:description" content="Beth, Eugene (Tartaros), Lupina, Arabelle" />
+				<meta property="og:image" content="/example.png" />
+			</Helmet>
 		</>
 	);
 }
