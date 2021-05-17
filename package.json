@@ -5,7 +5,7 @@
   "homepage": "https://heivo.github.io/gt-party-builder",
   "scripts": {
     "start": "razzle start",
-    "build": "razzle build",
+    "build": "razzle build --noninteractive",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js",
     "lint": "eslint --ext ts,tsx src",
