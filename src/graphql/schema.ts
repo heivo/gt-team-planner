@@ -1,29 +1,11 @@
 /* eslint-disable */
-import { useQuery, UseQueryOptions } from 'react-query';
+import { GraphQLClient } from 'graphql-request';
+import * as Dom from 'graphql-request/dist/types.dom';
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-
-function fetcher<TData, TVariables>(endpoint: string, requestInit: RequestInit, query: string, variables?: TVariables) {
-	return async (): Promise<TData> => {
-		const res = await fetch(endpoint, {
-			method: 'POST',
-			...requestInit,
-			body: JSON.stringify({ query, variables }),
-		});
-
-		const json = await res.json();
-
-		if (json.errors) {
-			const { message } = json.errors[0];
-
-			throw new Error(message);
-		}
-
-		return json.data;
-	};
-}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
 	ID: string;
@@ -1644,169 +1626,177 @@ export type GetDataQuery = { __typename?: 'Query' } & {
 	>;
 };
 
-export const GetDataDocument = `
-    query getData {
-  heroCollection(limit: 200, order: [rarity_DESC, name_ASC]) {
-    items {
-      sys {
-        id
-      }
-      name
-      image {
-        url
-      }
-      rarity
-      role {
-        sys {
-          id
-        }
-        name
-      }
-      element {
-        sys {
-          id
-        }
-        name
-      }
-      chainAilmentStart {
-        sys {
-          id
-        }
-        name
-        isAny
-      }
-      chainAilmentEnd {
-        sys {
-          id
-        }
-        name
-      }
-      partyBuff {
-        sys {
-          id
-        }
-        name
-      }
-      partyBuffValue
-      partyBuff2 {
-        sys {
-          id
-        }
-        name
-      }
-      partyBuffValue2
-      defaultWeapon {
-        sys {
-          id
-        }
-      }
-      weaponCategoriesCollection(limit: 10) {
-        items {
-          sys {
-            id
-          }
-        }
-      }
-    }
-  }
-  heroRoleCollection(limit: 4) {
-    items {
-      sys {
-        id
-      }
-      name
-      image {
-        url
-      }
-    }
-  }
-  weaponCollection(limit: 1000, order: [rarity_ASC, name_ASC]) {
-    items {
-      sys {
-        id
-      }
-      name
-      element {
-        sys {
-          id
-        }
-        name
-      }
-      ailment {
-        sys {
-          id
-        }
-        name
-      }
-      category {
-        sys {
-          id
-        }
-        name
-      }
-      rarity
-      image {
-        url
-      }
-    }
-  }
-  weaponCategoryCollection(limit: 10) {
-    items {
-      sys {
-        id
-      }
-      name
-      image {
-        url
-      }
-    }
-  }
-  elementCollection(limit: 10) {
-    items {
-      sys {
-        id
-      }
-      name
-      image {
-        url
-      }
-      color
-    }
-  }
-  ailmentCollection(limit: 4) {
-    items {
-      sys {
-        id
-      }
-      name
-      image {
-        url(transform: {width: 30, height: 30})
-      }
-      isAny
-    }
-  }
-  heroPartyBuffCollection(limit: 30, order: prio_ASC) {
-    items {
-      sys {
-        id
-      }
-      name
-    }
-  }
+export const GetDataDocument = gql`
+	query getData {
+		heroCollection(limit: 200, order: [rarity_DESC, name_ASC]) {
+			items {
+				sys {
+					id
+				}
+				name
+				image {
+					url
+				}
+				rarity
+				role {
+					sys {
+						id
+					}
+					name
+				}
+				element {
+					sys {
+						id
+					}
+					name
+				}
+				chainAilmentStart {
+					sys {
+						id
+					}
+					name
+					isAny
+				}
+				chainAilmentEnd {
+					sys {
+						id
+					}
+					name
+				}
+				partyBuff {
+					sys {
+						id
+					}
+					name
+				}
+				partyBuffValue
+				partyBuff2 {
+					sys {
+						id
+					}
+					name
+				}
+				partyBuffValue2
+				defaultWeapon {
+					sys {
+						id
+					}
+				}
+				weaponCategoriesCollection(limit: 10) {
+					items {
+						sys {
+							id
+						}
+					}
+				}
+			}
+		}
+		heroRoleCollection(limit: 4) {
+			items {
+				sys {
+					id
+				}
+				name
+				image {
+					url
+				}
+			}
+		}
+		weaponCollection(limit: 1000, order: [rarity_ASC, name_ASC]) {
+			items {
+				sys {
+					id
+				}
+				name
+				element {
+					sys {
+						id
+					}
+					name
+				}
+				ailment {
+					sys {
+						id
+					}
+					name
+				}
+				category {
+					sys {
+						id
+					}
+					name
+				}
+				rarity
+				image {
+					url
+				}
+			}
+		}
+		weaponCategoryCollection(limit: 10) {
+			items {
+				sys {
+					id
+				}
+				name
+				image {
+					url
+				}
+			}
+		}
+		elementCollection(limit: 10) {
+			items {
+				sys {
+					id
+				}
+				name
+				image {
+					url
+				}
+				color
+			}
+		}
+		ailmentCollection(limit: 4) {
+			items {
+				sys {
+					id
+				}
+				name
+				image {
+					url(transform: { width: 30, height: 30 })
+				}
+				isAny
+			}
+		}
+		heroPartyBuffCollection(limit: 30, order: prio_ASC) {
+			items {
+				sys {
+					id
+				}
+				name
+			}
+		}
+	}
+`;
+
+export type SdkFunctionWrapper = <T>(
+	action: (requestHeaders?: Record<string, string>) => Promise<T>,
+	operationName: string
+) => Promise<T>;
+
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
+
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+	return {
+		getData(variables?: GetDataQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<GetDataQuery> {
+			return withWrapper(
+				(wrappedRequestHeaders) =>
+					client.request<GetDataQuery>(GetDataDocument, variables, {
+						...requestHeaders,
+						...wrappedRequestHeaders,
+					}),
+				'getData'
+			);
+		},
+	};
 }
-    `;
-export const useGetDataQuery = <TData = GetDataQuery, TError = unknown>(
-	dataSource: { endpoint: string; fetchParams?: RequestInit },
-	variables?: GetDataQueryVariables,
-	options?: UseQueryOptions<GetDataQuery, TError, TData>
-) =>
-	useQuery<GetDataQuery, TError, TData>(
-		['getData', variables],
-		fetcher<GetDataQuery, GetDataQueryVariables>(
-			dataSource.endpoint,
-			dataSource.fetchParams || {},
-			GetDataDocument,
-			variables
-		),
-		options
-	);
+export type Sdk = ReturnType<typeof getSdk>;

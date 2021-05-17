@@ -1,16 +1,13 @@
 import { asyncComponent } from '@jaredpalmer/after';
+import App from './App';
 
 export default [
 	{
 		path: '/:slug',
-		component: asyncComponent({
-			loader: () => import('./App'),
-		}),
+		component: App,
 	},
 	{
 		path: '',
-		component: asyncComponent({
-			loader: () => import('./App'),
-		}),
+		component: App,
 	},
 ];

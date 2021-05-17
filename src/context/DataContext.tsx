@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetDataQuery, GetDataQuery } from '../graphql/schema';
+import { GetDataQuery } from '../graphql/schema';
 import { DeepOmit } from '../utils/typeUtils';
 import { DeepNonNullable, ValuesType } from 'utility-types';
 
@@ -30,37 +30,3 @@ const DataContext = React.createContext<{
 }>({ heroes: [], heroRoles: [], heroPartyBuffs: [], weapons: [], weaponCategories: [], elements: [], ailments: [] });
 
 export default DataContext;
-
-interface Props {
-	children: React.ReactNode;
-}
-
-export const DataContextProvider = ({ children }: Props) => {
-	const { data } = useGetDataQuery({
-		endpoint: process.env.RAZZLE_GQL_ENDPOINT ?? '',
-		fetchParams: {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${process.env.RAZZLE_API_TOKEN}`,
-			},
-		},
-	});
-	if (!data) {
-		return null;
-	}
-	return (
-		<DataContext.Provider
-			value={{
-				heroes: data.heroCollection?.items as Hero[],
-				heroRoles: data.heroRoleCollection?.items as HeroRole[],
-				heroPartyBuffs: data.heroPartyBuffCollection?.items as HeroPartyBuff[],
-				weapons: data.weaponCollection?.items as Weapon[],
-				weaponCategories: data.weaponCategoryCollection?.items as WeaponCategory[],
-				elements: data.elementCollection?.items as Element[],
-				ailments: data.ailmentCollection?.items as Ailment[],
-			}}
-		>
-			{children}
-		</DataContext.Provider>
-	);
-};

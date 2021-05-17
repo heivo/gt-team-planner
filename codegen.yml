@@ -11,7 +11,7 @@ generates:
           content: '/* eslint-disable */'
       - typescript
       - typescript-operations
-      - typescript-react-query
+      - typescript-graphql-request
     hooks:
       afterOneFileWrite:
         - prettier --write

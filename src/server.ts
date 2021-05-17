@@ -3,8 +3,8 @@ import { render } from '@jaredpalmer/after';
 import routes from './routes';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
-//const chunks = require(process.env.RAZZLE_CHUNKS_MANIFEST!);
-const chunks = require(process.env.RAZZLE_ASSETS_MANIFEST!.replace('assets.json', 'chunks.json'));
+// const chunks = require(process.env.RAZZLE_CHUNKS_MANIFEST!);
+// const chunks = require(process.env.RAZZLE_ASSETS_MANIFEST!.replace('assets.json', 'chunks.json'));
 
 const server = express()
 	.disable('x-powered-by')
@@ -16,7 +16,7 @@ const server = express()
 				res,
 				routes,
 				assets,
-				chunks,
+				chunks: {},
 			});
 			res.send(html);
 		} catch (error) {

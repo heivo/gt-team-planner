@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import HeroPicker from './HeroPicker';
 import PartyBuffSummary from './PartyBuffSummary';
 import StateContext from '../context/StateContext';
@@ -42,6 +42,13 @@ function MainView() {
 	const handleCloseWeaponPicker = () => {
 		setWeaponPickerSlot(undefined);
 	};
+
+	// delay rendering of tooltip so it's not rendered on the server
+	const [tooltipVisible, setTooltipVisible] = useState(false);
+
+	useEffect(() => {
+		setTooltipVisible(true);
+	}, []);
 
 	if (heroPickerSlot !== undefined) {
 		const currentHero = slots[heroPickerSlot].hero;
@@ -88,7 +95,7 @@ function MainView() {
 					reset
 				</button>
 			)}
-			<ReactTooltip effect="solid" place="bottom" multiline delayShow={200} />
+			{tooltipVisible && <ReactTooltip effect="solid" place="bottom" multiline delayShow={200} />}
 		</>
 	);
 }
