@@ -4,6 +4,7 @@ import StateContext, { SlotData } from '../context/StateContext';
 import HeroBadge from './HeroBadge';
 import WeaponBadge from './WeaponBadge';
 import ReactTooltip from 'react-tooltip';
+import crownIcon from '../assets/crown.png';
 
 interface Props {
 	number: number;
@@ -32,10 +33,11 @@ const Slot = ({ number, data: { hero, weapon }, onClickHero, onClickWeapon, inde
 						<WeaponBadge weapon={weapon} onClick={onClickWeapon} showAilment={index === 0} size={80} />
 					)}
 					{number > 0 && hero && (
-						<div
+						<img
+							src={crownIcon}
 							className={styles.slotLeaderButton}
 							onClick={makeLeader}
-							data-tip={`Make ${hero.name} party leader`}
+							data-tip={`Appoint ${hero.name} to party leader`}
 							data-delay-show="500"
 						/>
 					)}
