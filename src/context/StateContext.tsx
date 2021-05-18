@@ -29,9 +29,10 @@ export const StateContextProvider = ({ children }: Props) => {
 	const slots = useMemo<SlotData[]>(() => hydrateSlots(), [hydrateSlots]);
 
 	const selectHero = (slotNumber: number, hero: Hero) => {
-		const weapon = weapons.find((w) => w.sys.id === hero.defaultWeapon?.sys.id) ?? null;
+		let weapon = weapons.find((w) => w.sys.id === hero.defaultWeapon?.sys.id) ?? null;
 		const previousHeroSlotNumber = slots.findIndex((slot) => slot.hero === hero);
 		if (previousHeroSlotNumber >= 0) {
+			weapon = slots[previousHeroSlotNumber].weapon;
 			if (slots[slotNumber]) {
 				slots[previousHeroSlotNumber] = slots[slotNumber];
 			} else {
