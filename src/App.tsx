@@ -35,6 +35,11 @@ const App = (props: Props) => {
 				<Helmet>
 					<title>GT Team Planner</title>
 					<meta
+						name="description"
+						content="Online team planning tool for Guardian Tales: select your heroes and weapons, see party buffs and possible chain skill combinations, share your setup via URL."
+					/>
+					<meta name="keywords" content="Guardian Tales, Team Planner, Party Builder, Tool" />
+					<meta
 						name="viewport"
 						content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5"
 					/>
