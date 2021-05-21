@@ -101,25 +101,44 @@ function MainView() {
 
 	return (
 		<>
-			<div className={styles.slotContainer}>
-				{slots.map((slot, slotNumber) => (
-					<Slot
-						key={slotNumber}
-						number={slotNumber}
-						data={slot}
-						onClickHero={openHeroPicker(slotNumber)}
-						onClickWeapon={openWeaponPicker(slotNumber)}
-						index={slotNumber}
-					/>
-				))}
+			<div className={styles.contentWrapper}>
+				<div className={styles.slotContainer}>
+					{slots.map((slot, slotNumber) => (
+						<Slot
+							key={slotNumber}
+							number={slotNumber}
+							data={slot}
+							onClickHero={openHeroPicker(slotNumber)}
+							onClickWeapon={openWeaponPicker(slotNumber)}
+							index={slotNumber}
+						/>
+					))}
+				</div>
+				<PartyBuffSummary heroes={selectedHeroes} />
+				<ChainInfo heroes={selectedHeroes} weapon={slots?.[0].weapon} />
+				{selectedHeroes.length > 0 && (
+					<button onClick={reset} className={styles.resetButton}>
+						reset
+					</button>
+				)}
 			</div>
-			<PartyBuffSummary heroes={selectedHeroes} />
-			<ChainInfo heroes={selectedHeroes} weapon={slots?.[0].weapon} />
-			{selectedHeroes.length > 0 && (
-				<button onClick={reset} className={styles.resetButton}>
-					reset
-				</button>
-			)}
+			<footer className={styles.footer}>
+				<span>
+					Found a bug or have a suggestion for improvements? File an issue on&nbsp;
+					<a href="https://github.com/heivo/gt-team-planner/issues" target="_blank">
+						GitHub
+					</a>
+					.
+				</span>
+				<span>
+					Like this tool? Please consider to{' '}
+					<a href="https://www.buymeacoffee.com/heivo" target="_blank">
+						{' '}
+						buy me a coffee
+					</a>{' '}
+					;)
+				</span>
+			</footer>
 			{tooltipVisible && <ReactTooltip effect="solid" place="bottom" multiline delayShow={200} />}
 			<Helmet>
 				{/* this makes the image larger on discord */}

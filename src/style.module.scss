@@ -1,4 +1,6 @@
 body {
+	position: relative;
+	min-height: 100vh;
 	margin: 0;
 	display: flex;
 	justify-content: center;
@@ -6,6 +8,10 @@ body {
 		'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.contentWrapper {
+	padding-bottom: 80px; /* footer height */
 }
 
 .slotContainer {
@@ -281,5 +287,29 @@ body {
 
 	&::after {
 		content: '✘';
+	}
+}
+
+.footer {
+	color: #283847;
+	font-size: 14px;
+	position: absolute;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-end;
+	width: 96vw;
+	max-width: 800px;
+	height: 80px;
+	line-height: 20px;
+	padding-bottom: 5px;
+	font-style: italic;
+
+	a,
+	a:visited,
+	a:hover,
+	a:active {
+		color: inherit;
 	}
 }
