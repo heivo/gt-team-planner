@@ -1,6 +1,11 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useRef, useState } from 'react';
 import DataContext, { Hero, Weapon } from './DataContext';
 import useHistoryStore from './useHistoryStore';
+
+export interface State {
+	slots: SlotData[];
+	selectedChain: number | undefined;
+}
 
 export interface SlotData {
 	hero: Hero | null;
@@ -9,11 +14,20 @@ export interface SlotData {
 
 const StateContext = React.createContext<{
 	slots: SlotData[];
+	selectedChain: number | undefined;
 	selectHero: (slotNumber: number, hero: Hero) => void;
 	selectWeapon: (slotNumber: number, weapon: Weapon) => void;
+	setSelectedChain: (index?: number) => void;
 	reset: () => void;
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
-}>({ slots: [], selectHero: () => {}, selectWeapon: () => {}, reset: () => {} });
+}>({
+	slots: [],
+	selectedChain: undefined,
+	selectHero: () => {},
+	selectWeapon: () => {},
+	setSelectedChain: () => {},
+	reset: () => {},
+});
 
 export default StateContext;
 
@@ -24,33 +38,53 @@ interface Props {
 export const StateContextProvider = ({ children }: Props) => {
 	const { weapons } = useContext(DataContext);
 
-	const { hydrateSlots, updateStore, clearStore } = useHistoryStore();
+	const { hydrateState, updateStore, clearStore } = useHistoryStore();
 
-	const slots = useMemo<SlotData[]>(() => hydrateSlots(), [hydrateSlots]);
+	const state = useMemo<State>(() => hydrateState(), [hydrateState]);
 
 	const selectHero = (slotNumber: number, hero: Hero) => {
 		let weapon = weapons.find((w) => w.sys.id === hero.defaultWeapon?.sys.id) ?? null;
-		const previousHeroSlotNumber = slots.findIndex((slot) => slot.hero === hero);
+		const previousHeroSlotNumber = state.slots.findIndex((slot) => slot.hero === hero);
 		if (previousHeroSlotNumber >= 0) {
-			weapon = slots[previousHeroSlotNumber].weapon;
-			if (slots[slotNumber]) {
-				slots[previousHeroSlotNumber] = slots[slotNumber];
+			weapon = state.slots[previousHeroSlotNumber].weapon;
+			if (state.slots[slotNumber]) {
+				state.slots[previousHeroSlotNumber] = state.slots[slotNumber];
 			} else {
-				slots[previousHeroSlotNumber] = { hero: null, weapon: null };
+				state.slots[previousHeroSlotNumber] = { hero: null, weapon: null };
 			}
 		}
-		slots[slotNumber] = { hero, weapon };
-		updateStore(slots);
+		state.slots[slotNumber] = { hero, weapon };
+		state.selectedChain = undefined;
+		updateStore(state);
 	};
 
 	const selectWeapon = (slotNumber: number, weapon: Weapon) => {
-		slots[slotNumber].weapon = weapon;
-		updateStore(slots);
+		state.slots[slotNumber].weapon = weapon;
+		state.selectedChain = undefined;
+		updateStore(state);
+	};
+
+	const setSelectedChain = (index?: number) => {
+		state.selectedChain = index;
+		updateStore(state);
 	};
 
 	const reset = () => {
 		clearStore();
 	};
 
-	return <StateContext.Provider value={{ slots, selectHero, selectWeapon, reset }}>{children}</StateContext.Provider>;
+	return (
+		<StateContext.Provider
+			value={{
+				slots: state.slots,
+				selectedChain: state.selectedChain,
+				selectHero,
+				selectWeapon,
+				setSelectedChain,
+				reset,
+			}}
+		>
+			{children}
+		</StateContext.Provider>
+	);
 };
