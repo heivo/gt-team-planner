@@ -3,7 +3,7 @@ import App from './App';
 
 export default [
 	{
-		path: '/:slug',
+		path: '/:encodedState',
 		component: App,
 	},
 	{

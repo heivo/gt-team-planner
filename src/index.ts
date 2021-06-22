@@ -1,5 +1,5 @@
 import express from 'express';
-import { decodeSlug } from './context/useHistoryStore';
+import { decodeState } from './context/useHistoryStore';
 import graphQLClient from './graphQLClient';
 import { GetHeroImagesQuery, GetHeroImagesDocument } from './graphql/schema';
 import sharp from 'sharp';
@@ -26,8 +26,8 @@ const port = parseInt(getEnv('PORT') ?? '3000', 10);
 
 export default express()
 	.use('/img', async (req, res) => {
-		const slug = req.path.substr(1);
-		const { h0, h1, h2, h3 } = decodeSlug(slug);
+		const encodedState = req.path.substr(1);
+		const [{ h0, h1, h2, h3 }] = decodeState(encodedState);
 		const data = await graphQLClient.request<GetHeroImagesQuery>(GetHeroImagesDocument);
 		const img0 = data.heroCollection?.items.find((hero) => hero?.sys.id.startsWith(h0))?.image?.url;
 		const img1 = data.heroCollection?.items.find((hero) => hero?.sys.id.startsWith(h1))?.image?.url;

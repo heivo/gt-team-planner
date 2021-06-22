@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useMemo } from 'react';
 import HeroPicker from './HeroPicker';
 import PartyBuffSummary from './PartyBuffSummary';
 import StateContext from '../context/StateContext';
-import Slot from './Slot';
+import SlotContainer from './SlotContainer';
 import styles from '../style.module.scss';
 import { Hero, Weapon } from '../context/DataContext';
 import ChainInfo from './ChainInfo';
@@ -12,10 +12,10 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
 function MainView() {
-	const { slots, selectHero, selectWeapon, reset } = useContext(StateContext);
-	const { slug } = useParams<{ slug: string | undefined }>();
+	const { teams, selectHero, selectWeapon, reset } = useContext(StateContext);
+	const { encodedState } = useParams<{ encodedState: string | undefined }>();
 
-	const selectedHeroes = slots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
+	const selectedHeroes = teams[0].slots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
 
 	const [heroPickerSlot, setHeroPickerSlot] = useState<number>();
 	const [weaponPickerSlot, setWeaponPickerSlot] = useState<number>();
@@ -29,7 +29,7 @@ function MainView() {
 	};
 
 	const handleSelectHero = (slotNumber: number, hero: Hero) => {
-		selectHero(slotNumber, hero);
+		selectHero(0, slotNumber, hero);
 		setHeroPickerSlot(undefined);
 	};
 
@@ -38,7 +38,7 @@ function MainView() {
 	};
 
 	const handleSelectWeapon = (slotNumber: number, weapon: Weapon) => {
-		selectWeapon(slotNumber, weapon);
+		selectWeapon(0, slotNumber, weapon);
 		setWeaponPickerSlot(undefined);
 	};
 
@@ -54,8 +54,8 @@ function MainView() {
 	}, []);
 
 	const ogDescription = useMemo<string>(() => {
-		if (slots.filter((slot) => slot.hero).length === 4) {
-			return slots
+		if (teams[0].slots.filter((slot) => slot.hero).length === 4) {
+			return teams[0].slots
 				.map((slot) => {
 					let name = slot.hero?.name;
 					if (slot.hero?.defaultWeapon.sys.id !== slot.weapon?.sys.id) {
@@ -67,16 +67,16 @@ function MainView() {
 		} else {
 			return 'Online team planning tool for Guardian Tales: select your heroes and weapons, see party buffs and possible chain skill combinations, share your setup via URL.';
 		}
-	}, [slots]);
+	}, [teams[0].slots]);
 
 	const ogImage = useMemo<string | undefined>(() => {
-		if (slug && slots.filter((slot) => slot.hero).length === 4) {
-			return `/img/${slug}`;
+		if (encodedState && teams[0].slots.filter((slot) => slot.hero).length === 4) {
+			return `/img/${encodedState}`;
 		}
-	}, [slots, slug]);
+	}, [teams[0].slots, encodedState]);
 
 	if (heroPickerSlot !== undefined) {
-		const currentHero = slots[heroPickerSlot].hero;
+		const currentHero = teams[0].slots[heroPickerSlot].hero;
 		const otherUsedHeroes = selectedHeroes.filter((hero) => hero !== currentHero);
 		return (
 			<HeroPicker
@@ -88,7 +88,7 @@ function MainView() {
 	}
 
 	if (weaponPickerSlot !== undefined) {
-		const currentHero = slots[weaponPickerSlot].hero as Hero;
+		const currentHero = teams[0].slots[weaponPickerSlot].hero as Hero;
 		return (
 			<WeaponPicker
 				hero={currentHero}
@@ -103,11 +103,11 @@ function MainView() {
 		<>
 			<div className={styles.contentWrapper}>
 				<div className={styles.slotContainer}>
-					{slots.map((slot, slotNumber) => (
-						<Slot
+					{teams[0].slots.map((slot, slotNumber) => (
+						<SlotContainer
 							key={slotNumber}
 							number={slotNumber}
-							data={slot}
+							slot={slot}
 							onClickHero={openHeroPicker(slotNumber)}
 							onClickWeapon={openWeaponPicker(slotNumber)}
 							index={slotNumber}
@@ -115,7 +115,7 @@ function MainView() {
 					))}
 				</div>
 				<PartyBuffSummary heroes={selectedHeroes} />
-				<ChainInfo heroes={selectedHeroes} weapon={slots?.[0].weapon} />
+				<ChainInfo heroes={selectedHeroes} weapon={teams[0].slots?.[0].weapon} />
 				{selectedHeroes.length > 0 && (
 					<button onClick={reset} className={styles.resetButton}>
 						reset

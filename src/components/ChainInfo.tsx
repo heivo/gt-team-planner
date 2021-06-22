@@ -29,7 +29,7 @@ const extractValidChain = (chain: Hero[], weapon: Weapon | null): Hero[] => {
 const chainKey = (chain: Hero[]): string => chain.map((hero) => hero.sys.id).join('-');
 
 const ChainInfo = ({ heroes, weapon }: Props) => {
-	const { selectedChain, setSelectedChain } = useContext(StateContext);
+	const { teams, setSelectedChain } = useContext(StateContext);
 
 	const chains = permutations(heroes)
 		.map((chain) => extractValidChain(chain, weapon))
@@ -37,8 +37,8 @@ const ChainInfo = ({ heroes, weapon }: Props) => {
 		.map((heroes, index) => ({
 			heroes,
 			key: chainKey(heroes),
-			selected: selectedChain === index,
-			onSelect: () => setSelectedChain(selectedChain !== index ? index : undefined),
+			selected: teams[0].selectedChain === index,
+			onSelect: () => setSelectedChain(0, teams[0].selectedChain !== index ? index : undefined),
 		}))
 		.sort((c1, c2) => {
 			if (c1.selected) {

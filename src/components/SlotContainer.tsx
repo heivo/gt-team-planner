@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styles from '../style.module.scss';
-import StateContext, { SlotData } from '../context/StateContext';
+import StateContext, { Slot } from '../context/StateContext';
 import HeroBadge from './HeroBadge';
 import WeaponBadge from './WeaponBadge';
 import ReactTooltip from 'react-tooltip';
@@ -8,18 +8,18 @@ import crownIcon from '../assets/crown.png';
 
 interface Props {
 	number: number;
-	data: SlotData;
+	slot: Slot;
 	onClickHero: () => void;
 	onClickWeapon: () => void;
 	index: number;
 }
 
-const Slot = ({ number, data: { hero, weapon }, onClickHero, onClickWeapon, index }: Props) => {
+const SlotContainer = ({ number, slot: { hero, weapon }, onClickHero, onClickWeapon, index }: Props) => {
 	const { selectHero } = useContext(StateContext);
 
 	const makeLeader = () => {
 		if (hero) {
-			selectHero(0, hero);
+			selectHero(0, 0, hero);
 		}
 		ReactTooltip.hide();
 	};
@@ -47,4 +47,4 @@ const Slot = ({ number, data: { hero, weapon }, onClickHero, onClickWeapon, inde
 	);
 };
 
-export default Slot;
+export default SlotContainer;
