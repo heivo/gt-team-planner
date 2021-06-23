@@ -1,6 +1,8 @@
-import React, { useContext, useMemo } from 'react';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import React, { useContext, useState, useEffect } from 'react';
 import DataContext, { Hero, Weapon } from './DataContext';
 import useHistoryStore from './useHistoryStore';
+import { produce } from 'immer';
 
 export interface State {
 	teams: Team[];
@@ -25,7 +27,6 @@ const StateContext = React.createContext<{
 	setSelectedChain: (teamNumber: number, index?: number) => void;
 	findHero: (hero: Hero) => { teamNumber: number; slotNumber: number } | null;
 	reset: () => void;
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
 }>({
 	teams: [],
 	addTeam: () => {},
@@ -46,58 +47,79 @@ interface Props {
 export const StateContextProvider = ({ children }: Props) => {
 	const { weapons } = useContext(DataContext);
 
-	const { readState, writeState, clearState } = useHistoryStore();
+	const { readStateFromStore, writeStateToStore, clearState } = useHistoryStore();
 
-	const state = useMemo<State>(() => readState(), [readState]);
+	const [state, setState] = useState<State>(readStateFromStore);
+
+	useEffect(() => {
+		writeStateToStore(state);
+	}, [writeStateToStore, state]);
 
 	const addTeam = () => {
-		state.teams.push({
-			slots: [
-				{ hero: null, weapon: null },
-				{ hero: null, weapon: null },
-				{ hero: null, weapon: null },
-				{ hero: null, weapon: null },
-			],
-			selectedChain: undefined,
-		});
+		setState(
+			produce((draft) => {
+				draft.teams.push({
+					slots: [
+						{ hero: null, weapon: null },
+						{ hero: null, weapon: null },
+						{ hero: null, weapon: null },
+						{ hero: null, weapon: null },
+					],
+					selectedChain: undefined,
+				});
+			})
+		);
 	};
 
 	const removeTeam = (teamNumber: number) => {
-		state.teams.splice(teamNumber, 1);
+		setState(
+			produce((draft) => {
+				draft.teams.splice(teamNumber, 1);
+			})
+		);
 	};
 
 	const selectHero = (teamNumber: number, slotNumber: number, hero: Hero) => {
-		let weapon = weapons.find((w) => w.sys.id === hero.defaultWeapon?.sys.id) ?? null;
-		const prevHeroLocation = findHero(hero);
-		if (prevHeroLocation) {
-			if (teamNumber === prevHeroLocation.teamNumber) {
-				// if hero was already selected in the same team, use the previously selected weapon
-				weapon = state.teams[prevHeroLocation.teamNumber].slots[prevHeroLocation.slotNumber].weapon;
-				// if hero was already selected in the same team, switch positions
-				state.teams[prevHeroLocation.teamNumber].slots[prevHeroLocation.slotNumber] =
-					state.teams[teamNumber].slots[slotNumber];
-			} else {
-				// if hero was previously selected in a different team, remove it from there
-				state.teams[prevHeroLocation.teamNumber].slots[prevHeroLocation.slotNumber] = {
-					hero: null,
-					weapon: null,
-				};
-			}
-		}
-		state.teams[teamNumber].slots[slotNumber] = { hero, weapon };
-		state.teams[teamNumber].selectedChain = undefined;
-		writeState(state);
+		setState(
+			produce((draft) => {
+				let weapon = weapons.find((w) => w.sys.id === hero.defaultWeapon?.sys.id) ?? null;
+				const prevHeroLocation = findHero(hero);
+				if (prevHeroLocation) {
+					if (teamNumber === prevHeroLocation.teamNumber) {
+						// if hero was already selected in the same team, use the previously selected weapon
+						weapon = draft.teams[prevHeroLocation.teamNumber].slots[prevHeroLocation.slotNumber].weapon;
+						// if hero was already selected in the same team, switch positions
+						draft.teams[prevHeroLocation.teamNumber].slots[prevHeroLocation.slotNumber] =
+							draft.teams[teamNumber].slots[slotNumber];
+					} else {
+						// if hero was previously selected in a different team, remove it from there
+						draft.teams[prevHeroLocation.teamNumber].slots[prevHeroLocation.slotNumber] = {
+							hero: null,
+							weapon: null,
+						};
+					}
+				}
+				draft.teams[teamNumber].slots[slotNumber] = { hero, weapon };
+				draft.teams[teamNumber].selectedChain = undefined;
+			})
+		);
 	};
 
 	const selectWeapon = (teamNumber: number, slotNumber: number, weapon: Weapon) => {
-		state.teams[teamNumber].slots[slotNumber].weapon = weapon;
-		state.teams[teamNumber].selectedChain = undefined;
-		writeState(state);
+		setState(
+			produce((draft) => {
+				draft.teams[teamNumber].slots[slotNumber].weapon = weapon;
+				draft.teams[teamNumber].selectedChain = undefined;
+			})
+		);
 	};
 
 	const setSelectedChain = (teamNumber: number, index?: number) => {
-		state.teams[teamNumber].selectedChain = index;
-		writeState(state);
+		setState(
+			produce((draft) => {
+				draft.teams[teamNumber].selectedChain = index;
+			})
+		);
 	};
 
 	const findHero = (hero: Hero): { teamNumber: number; slotNumber: number } | null => {

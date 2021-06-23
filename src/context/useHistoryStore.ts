@@ -1,7 +1,7 @@
-import { useContext } from 'react';
+import { useContext, useCallback, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import DataContext, { Hero, Weapon } from './DataContext';
-import { State, Team, Slot } from './StateContext';
+import { State, Team } from './StateContext';
 import { decode, encode } from 'universal-base64';
 
 const ID_LENGTH = 5;
@@ -14,7 +14,17 @@ const useHistoryStore = () => {
 
 	const { heroes, weapons } = useContext(DataContext);
 
-	const readState = (): State => {
+	const findHero = useCallback(
+		(idPart: string): Hero | null => heroes.find((h) => idPart.length && h.sys.id.startsWith(idPart)) ?? null,
+		[heroes]
+	);
+
+	const findWeapon = useCallback(
+		(idPart: string): Weapon | null => weapons.find((h) => idPart.length && h.sys.id.startsWith(idPart)) ?? null,
+		[weapons]
+	);
+
+	const readStateFromStore = useCallback((): State => {
 		if (encodedState) {
 			try {
 				return {
@@ -45,28 +55,27 @@ const useHistoryStore = () => {
 				},
 			],
 		};
-	};
+	}, [encodedState, findHero, findWeapon]);
 
-	const findHero = (idPart: string): Hero | null =>
-		heroes.find((h) => idPart.length && h.sys.id.startsWith(idPart)) ?? null;
+	const writeStateToStore = useCallback(
+		(state: State) => {
+			history.push(encode(serializeState(state)));
+		},
+		[history]
+	);
 
-	const findWeapon = (idPart: string): Weapon | null =>
-		weapons.find((h) => idPart.length && h.sys.id.startsWith(idPart)) ?? null;
-
-	const writeState = (state: State) => {
-		history.push(encode(serializeState(state)));
-	};
-
-	const clearState = () => {
+	const clearState = useCallback(() => {
 		history.push('');
-	};
+	}, [history]);
 
-	if (process.env.NODE_ENV === 'development') {
-		testIdsUnique(heroes, ID_LENGTH);
-		testIdsUnique(weapons, ID_LENGTH);
-	}
+	useEffect(() => {
+		if (process.env.NODE_ENV === 'development') {
+			testIdsUnique(heroes, ID_LENGTH);
+			testIdsUnique(weapons, ID_LENGTH);
+		}
+	}, [heroes, weapons]);
 
-	return { readState, writeState, clearState };
+	return { readStateFromStore, writeStateToStore, clearState };
 };
 
 const serializeState = (state: State): string => {

@@ -7,7 +7,7 @@ import WeaponBadge from './WeaponBadge';
 import ReactTooltip from 'react-tooltip';
 
 interface Props {
-	hero: Hero;
+	weaponCategoryIds: string[];
 	showAilment: boolean;
 	onSelect: (weapoin: Weapon) => void;
 	onClose: () => void;
@@ -24,7 +24,7 @@ const compareWeapons = (w1: Weapon, w2: Weapon): number => {
 	return i;
 };
 
-function WeaponPicker({ hero, showAilment, onSelect, onClose }: Props) {
+function WeaponPicker({ weaponCategoryIds, showAilment, onSelect, onClose }: Props) {
 	const { weapons } = useContext(DataContext);
 
 	const [elementFilter, setElementFilter] = useState<Element>();
@@ -33,13 +33,13 @@ function WeaponPicker({ hero, showAilment, onSelect, onClose }: Props) {
 		() =>
 			weapons
 				.filter((weapon) => {
-					if (!hero.weaponCategoriesCollection.items.some((cat) => cat.sys.id === weapon.category.sys.id)) {
+					if (!weaponCategoryIds.some((catId) => catId === weapon.category.sys.id)) {
 						return false;
 					}
 					return true;
 				})
 				.sort(compareWeapons),
-		[weapons, hero.weaponCategoriesCollection.items]
+		[weapons, weaponCategoryIds]
 	);
 
 	const filteredWeapons = useMemo(

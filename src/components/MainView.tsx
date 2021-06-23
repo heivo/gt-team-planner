@@ -1,50 +1,15 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react';
-import HeroPicker from './HeroPicker';
-import PartyBuffSummary from './PartyBuffSummary';
 import StateContext from '../context/StateContext';
-import SlotContainer from './SlotContainer';
 import styles from '../style.module.scss';
-import { Hero, Weapon } from '../context/DataContext';
-import ChainInfo from './ChainInfo';
-import WeaponPicker from './WeaponPicker';
 import ReactTooltip from 'react-tooltip';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
+import TeamContainer from './TeamContainer';
+import { Hero, Weapon } from '../context/DataContext';
 
 function MainView() {
-	const { teams, selectHero, selectWeapon, reset } = useContext(StateContext);
+	const { teams, selectHero, selectWeapon, addTeam, reset } = useContext(StateContext);
 	const { encodedState } = useParams<{ encodedState: string | undefined }>();
-
-	const selectedHeroes = teams[0].slots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
-
-	const [heroPickerSlot, setHeroPickerSlot] = useState<number>();
-	const [weaponPickerSlot, setWeaponPickerSlot] = useState<number>();
-
-	const openHeroPicker = (slotNumber: number) => () => {
-		setHeroPickerSlot(slotNumber);
-	};
-
-	const openWeaponPicker = (slotNumber: number) => () => {
-		setWeaponPickerSlot(slotNumber);
-	};
-
-	const handleSelectHero = (slotNumber: number, hero: Hero) => {
-		selectHero(0, slotNumber, hero);
-		setHeroPickerSlot(undefined);
-	};
-
-	const handleCloseHeroPicker = () => {
-		setHeroPickerSlot(undefined);
-	};
-
-	const handleSelectWeapon = (slotNumber: number, weapon: Weapon) => {
-		selectWeapon(0, slotNumber, weapon);
-		setWeaponPickerSlot(undefined);
-	};
-
-	const handleCloseWeaponPicker = () => {
-		setWeaponPickerSlot(undefined);
-	};
 
 	// delay rendering of tooltip so it's not rendered on the server
 	const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -75,52 +40,25 @@ function MainView() {
 		}
 	}, [teams[0].slots, encodedState]);
 
-	if (heroPickerSlot !== undefined) {
-		const currentHero = teams[0].slots[heroPickerSlot].hero;
-		const otherUsedHeroes = selectedHeroes.filter((hero) => hero !== currentHero);
-		return (
-			<HeroPicker
-				otherUsedHeroes={otherUsedHeroes}
-				onSelect={(hero) => handleSelectHero(heroPickerSlot, hero)}
-				onClose={handleCloseHeroPicker}
-			/>
-		);
-	}
-
-	if (weaponPickerSlot !== undefined) {
-		const currentHero = teams[0].slots[weaponPickerSlot].hero as Hero;
-		return (
-			<WeaponPicker
-				hero={currentHero}
-				showAilment={weaponPickerSlot === 0}
-				onSelect={(weapon) => handleSelectWeapon(weaponPickerSlot, weapon)}
-				onClose={handleCloseWeaponPicker}
-			/>
-		);
-	}
-
 	return (
 		<>
+			<button onClick={reset} className={styles.button}>
+				reset
+			</button>
+			<button onClick={addTeam} className={styles.button}>
+				add team
+			</button>
 			<div className={styles.contentWrapper}>
-				<div className={styles.slotContainer}>
-					{teams[0].slots.map((slot, slotNumber) => (
-						<SlotContainer
-							key={slotNumber}
-							number={slotNumber}
-							slot={slot}
-							onClickHero={openHeroPicker(slotNumber)}
-							onClickWeapon={openWeaponPicker(slotNumber)}
-							index={slotNumber}
-						/>
-					))}
-				</div>
-				<PartyBuffSummary heroes={selectedHeroes} />
-				<ChainInfo heroes={selectedHeroes} weapon={teams[0].slots?.[0].weapon} />
-				{selectedHeroes.length > 0 && (
-					<button onClick={reset} className={styles.resetButton}>
-						reset
-					</button>
-				)}
+				{teams.map((team, teamNumber) => (
+					<TeamContainer
+						key={teamNumber}
+						team={team}
+						selectHero={(slotNumber: number, hero: Hero) => selectHero(teamNumber, slotNumber, hero)}
+						selectWeapon={(slotNumber: number, weapon: Weapon) =>
+							selectWeapon(teamNumber, slotNumber, weapon)
+						}
+					/>
+				))}
 			</div>
 			<footer className={styles.footer}>
 				<span>
