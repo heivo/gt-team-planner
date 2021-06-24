@@ -125,7 +125,7 @@ export const StateContextProvider = ({ children }: Props) => {
 	const findHero = (hero: Hero): { teamNumber: number; slotNumber: number } | null => {
 		for (let teamNumber = 0; teamNumber < state.teams.length; teamNumber++) {
 			for (let slotNumber = 0; slotNumber < state.teams[teamNumber].slots.length; slotNumber++) {
-				if (state.teams[teamNumber].slots[slotNumber].hero === hero) {
+				if (state.teams[teamNumber].slots[slotNumber].hero?.sys.id === hero.sys.id) {
 					return { teamNumber, slotNumber };
 				}
 			}
