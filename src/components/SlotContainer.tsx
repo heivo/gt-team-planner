@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import styles from '../style.module.scss';
 import StateContext, { Slot } from '../context/StateContext';
-import HeroBadge from './HeroBadge';
-import WeaponBadge from './WeaponBadge';
+import HeroBadge from './badges/HeroBadge';
+import WeaponBadge from './badges/WeaponBadge';
 import ReactTooltip from 'react-tooltip';
 import crownIcon from '../assets/crown.png';
 

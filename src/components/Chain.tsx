@@ -1,7 +1,7 @@
 import React, { forwardRef, ForwardedRef } from 'react';
 import { Hero } from '../context/DataContext';
 import styles from '../style.module.scss';
-import HeroBadge from './HeroBadge';
+import HeroBadge from './badges/HeroBadge';
 import cn from 'classnames';
 import badgeIcon from '../assets/badge.png';
 
@@ -24,5 +24,7 @@ const Chain = forwardRef(({ heroes, selected, onClick }: Props, ref: ForwardedRe
 		</div>
 	);
 });
+
+Chain.displayName = 'Chain';
 
 export default Chain;

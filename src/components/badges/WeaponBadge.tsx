@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react';
-import styles from '../style.module.scss';
-import DataContext, { Ailment, Element, Weapon, WeaponCategory } from '../context/DataContext';
+import styles from '../../style.module.scss';
+import DataContext, { Ailment, Element, Weapon, WeaponCategory } from '../../context/DataContext';
 import cn from 'classnames';
 
 interface Props {

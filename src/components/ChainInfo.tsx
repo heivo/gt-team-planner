@@ -1,4 +1,4 @@
-import React, { useContext, forwardRef } from 'react';
+import React, { useContext } from 'react';
 import { Hero, Weapon } from '../context/DataContext';
 import styles from '../style.module.scss';
 import permutations from '../utils/permutations';

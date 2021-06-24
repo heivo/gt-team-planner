@@ -61,12 +61,14 @@ const useHistoryStore = () => {
 		(state: State) => {
 			history.push(encode(serializeState(state)));
 		},
-		[history]
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[]
 	);
 
-	const clearState = useCallback(() => {
+	const clearStore = useCallback(() => {
 		history.push('');
-	}, [history]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		if (process.env.NODE_ENV === 'development') {
@@ -75,7 +77,7 @@ const useHistoryStore = () => {
 		}
 	}, [heroes, weapons]);
 
-	return { readStateFromStore, writeStateToStore, clearState };
+	return { readStateFromStore, writeStateToStore, clearStore };
 };
 
 const serializeState = (state: State): string => {

@@ -20,11 +20,11 @@ const ElementFilter = ({ selected, onSelect }: Props) => {
 	};
 
 	return (
-		<div className={styles.elementPicker}>
+		<div className={styles.elementFilter}>
 			{elements.map((element) => (
 				<div
 					key={element.sys.id}
-					className={styles.elementPickerImageWrapper}
+					className={styles.elementFilterImageWrapper}
 					/* style={{ backgroundColor: element.color }} */
 				>
 					<img

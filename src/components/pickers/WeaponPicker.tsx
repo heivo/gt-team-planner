@@ -3,7 +3,7 @@ import DataContext, { Element, Weapon } from '../../context/DataContext';
 import styles from '../../style.module.scss';
 import CloseButton from './CloseButton';
 import ElementFilter from './ElementFilter';
-import WeaponBadge from '../WeaponBadge';
+import WeaponBadge from '../badges/WeaponBadge';
 import ReactTooltip from 'react-tooltip';
 
 interface Props {

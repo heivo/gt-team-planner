@@ -3,7 +3,7 @@ import DataContext, { Element, Hero, HeroPartyBuff, HeroRole } from '../../conte
 import styles from '../../style.module.scss';
 import CloseButton from './CloseButton';
 import ElementFilter from './ElementFilter';
-import HeroBadge from '../HeroBadge';
+import HeroBadge from '../badges/HeroBadge';
 import RoleFilter from './RoleFilter';
 import ReactTooltip from 'react-tooltip';
 import Select from 'react-select';

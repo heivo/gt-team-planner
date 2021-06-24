@@ -47,7 +47,7 @@ interface Props {
 export const StateContextProvider = ({ children }: Props) => {
 	const { weapons } = useContext(DataContext);
 
-	const { readStateFromStore, writeStateToStore, clearState } = useHistoryStore();
+	const { readStateFromStore, writeStateToStore, clearStore } = useHistoryStore();
 
 	const [state, setState] = useState<State>(readStateFromStore);
 
@@ -134,7 +134,7 @@ export const StateContextProvider = ({ children }: Props) => {
 	};
 
 	const reset = () => {
-		clearState();
+		clearStore();
 	};
 
 	return (
