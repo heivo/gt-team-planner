@@ -12,13 +12,10 @@ import DataContext, {
 } from './context/DataContext';
 import { StateContextProvider } from './context/StateContext';
 import { Helmet } from 'react-helmet';
-import { GraphQLClient } from 'graphql-request';
 import { GetDataDocument, GetDataQuery } from './graphql/schema';
 import graphQLClient from './graphQLClient';
 
-interface Props extends GetDataQuery {}
-
-const App = (props: Props) => {
+const App = (props: GetDataQuery) => {
 	return (
 		<DataContext.Provider
 			value={{
@@ -51,9 +48,9 @@ const App = (props: Props) => {
 	);
 };
 
-App.getInitialProps = async (): Promise<GetDataQuery> => {
-	const data = await graphQLClient.request<GetDataQuery>(GetDataDocument);
-	return data;
-};
+// only execute this query once on the client
+const dataPromise = graphQLClient.request<GetDataQuery>(GetDataDocument);
+
+App.getInitialProps = (): Promise<GetDataQuery> => dataPromise;
 
 export default App;

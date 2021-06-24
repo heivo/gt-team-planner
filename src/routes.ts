@@ -1,4 +1,3 @@
-import { asyncComponent } from '@jaredpalmer/after';
 import App from './App';
 
 export default [
