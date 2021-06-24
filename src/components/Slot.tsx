@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styles from '../style.module.scss';
-import StateContext, { Slot } from '../context/StateContext';
+import StateContext, { SlotSettings } from '../context/StateContext';
 import HeroBadge from './badges/HeroBadge';
 import WeaponBadge from './badges/WeaponBadge';
 import ReactTooltip from 'react-tooltip';
@@ -9,19 +9,19 @@ import crownIcon from '../assets/crown.png';
 interface Props {
 	teamNumber: number;
 	slotNumber: number;
-	slot: Slot;
+	settings: SlotSettings;
 	onClickHero: () => void;
 	onClickWeapon: () => void;
-	index: number;
+	isCollapsed: boolean;
 }
 
-const SlotContainer = ({
+const Slot = ({
 	teamNumber,
 	slotNumber,
-	slot: { hero, weapon },
+	settings: { hero, weapon },
 	onClickHero,
 	onClickWeapon,
-	index,
+	isCollapsed,
 }: Props) => {
 	const { selectHero } = useContext(StateContext);
 
@@ -35,10 +35,10 @@ const SlotContainer = ({
 	return (
 		<div className={styles.slot}>
 			<HeroBadge hero={hero} onClick={onClickHero} size={150} />
-			{((slotNumber > 0 && hero) || weapon) && (
+			{!isCollapsed && ((slotNumber > 0 && hero) || weapon) && (
 				<div className={styles.slotSecondaryButtons}>
 					{weapon && (
-						<WeaponBadge weapon={weapon} onClick={onClickWeapon} showAilment={index === 0} size={80} />
+						<WeaponBadge weapon={weapon} onClick={onClickWeapon} showAilment={slotNumber === 0} size={80} />
 					)}
 					{slotNumber > 0 && hero && (
 						<img
@@ -55,4 +55,4 @@ const SlotContainer = ({
 	);
 };
 
-export default SlotContainer;
+export default Slot;

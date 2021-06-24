@@ -11,9 +11,9 @@ import DataContext, {
 	WeaponCategory,
 } from './context/DataContext';
 import { StateContextProvider } from './context/StateContext';
-import { Helmet } from 'react-helmet';
 import { GetDataDocument, GetDataQuery } from './graphql/schema';
 import graphQLClient from './graphQLClient';
+import MetaTags from './components/MetaTags';
 
 const App = (props: GetDataQuery) => {
 	return (
@@ -29,19 +29,7 @@ const App = (props: GetDataQuery) => {
 			}}
 		>
 			<StateContextProvider>
-				<Helmet>
-					<title>GT Team Planner</title>
-					<meta
-						name="description"
-						content="Online team planning tool for Guardian Tales: select your heroes and weapons, see party buffs and possible chain skill combinations, share your setup via URL."
-					/>
-					<meta name="keywords" content="Guardian Tales, Team Planner, Party Builder, Tool" />
-					<meta
-						name="viewport"
-						content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5"
-					/>
-					<meta name="theme-color" content="#000000" />
-				</Helmet>
+				<MetaTags />
 				<MainView />
 			</StateContextProvider>
 		</DataContext.Provider>

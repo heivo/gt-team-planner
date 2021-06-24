@@ -1,7 +1,7 @@
 import { useContext, useCallback, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import DataContext, { Hero, Weapon } from './DataContext';
-import { State, Team } from './StateContext';
+import { State, TeamSettings } from './StateContext';
 import { decode, encode } from 'universal-base64';
 
 const ID_LENGTH = 5;
@@ -84,7 +84,7 @@ const serializeState = (state: State): string => {
 	return state.teams.map(serializeTeam).join(TEAM_SEPARATOR_CHAR);
 };
 
-const serializeTeam = (team: Team): string => {
+const serializeTeam = (team: TeamSettings): string => {
 	return team.slots
 		.map(
 			(s) =>

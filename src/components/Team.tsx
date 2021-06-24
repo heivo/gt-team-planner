@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 
 import PartyBuffSummary from './PartyBuffSummary';
-import { Team } from '../context/StateContext';
-import SlotContainer from './SlotContainer';
+import { TeamSettings } from '../context/StateContext';
+import Slot from './Slot';
 import styles from '../style.module.scss';
 import { Hero } from '../context/DataContext';
 import ChainInfo from './ChainInfo';
@@ -10,34 +10,35 @@ import ChainInfo from './ChainInfo';
 import { isNotNull } from '../utils/typeUtils';
 
 interface Props {
-	team: Team;
+	settings: TeamSettings;
 	teamNumber: number;
 	openHeroPicker: (slotNumber: number) => void;
 	openWeaponPicker: (slotNumber: number) => void;
+	isCollapsed: boolean;
 }
 
-function TeamContainer({ team: { slots }, teamNumber, openHeroPicker, openWeaponPicker }: Props) {
+function Team({ settings: { slots }, teamNumber, openHeroPicker, openWeaponPicker, isCollapsed }: Props) {
 	const heroes = useMemo<Hero[]>(() => slots.map((slot) => slot.hero).filter(isNotNull), [slots]);
 
 	return (
 		<div>
-			<div className={styles.slotContainer}>
+			<div className={styles.slotsWrapper}>
 				{slots.map((slot, slotNumber) => (
-					<SlotContainer
+					<Slot
 						key={slotNumber}
 						teamNumber={teamNumber}
 						slotNumber={slotNumber}
-						slot={slot}
+						settings={slot}
 						onClickHero={() => openHeroPicker(slotNumber)}
 						onClickWeapon={() => openWeaponPicker(slotNumber)}
-						index={slotNumber}
+						isCollapsed={isCollapsed}
 					/>
 				))}
 			</div>
-			<PartyBuffSummary heroes={heroes} />
-			<ChainInfo heroes={heroes} weapon={slots[0].weapon} />
+			{!isCollapsed && <PartyBuffSummary heroes={heroes} />}
+			{!isCollapsed && <ChainInfo heroes={heroes} weapon={slots[0].weapon} />}
 		</div>
 	);
 }
 
-export default TeamContainer;
+export default Team;

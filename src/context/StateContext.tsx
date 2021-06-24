@@ -5,21 +5,22 @@ import useHistoryStore from './useHistoryStore';
 import { produce } from 'immer';
 
 export interface State {
-	teams: Team[];
+	teams: TeamSettings[];
 }
 
-export interface Team {
-	slots: Slot[];
+export interface TeamSettings {
+	slots: SlotSettings[];
 	selectedChain: number | undefined;
 }
 
-export interface Slot {
+export interface SlotSettings {
 	hero: Hero | null;
 	weapon: Weapon | null;
 }
 
 const StateContext = React.createContext<{
-	teams: Team[];
+	teams: TeamSettings[];
+	activeTeam: number | null;
 	addTeam: () => void;
 	removeTeam: (teamNumber: number) => void;
 	selectHero: (teamNumber: number, slotNumber: number, hero: Hero) => void;
@@ -27,8 +28,10 @@ const StateContext = React.createContext<{
 	setSelectedChain: (teamNumber: number, index?: number) => void;
 	findHero: (hero: Hero) => { teamNumber: number; slotNumber: number } | null;
 	reset: () => void;
+	setActiveTeam: (teamNumber: number | null) => void;
 }>({
 	teams: [],
+	activeTeam: null,
 	addTeam: () => {},
 	removeTeam: () => {},
 	selectHero: () => {},
@@ -36,6 +39,7 @@ const StateContext = React.createContext<{
 	setSelectedChain: () => {},
 	findHero: () => null,
 	reset: () => {},
+	setActiveTeam: () => {},
 });
 
 export default StateContext;
@@ -55,6 +59,8 @@ export const StateContextProvider = ({ children }: Props) => {
 		writeStateToStore(state);
 	}, [writeStateToStore, state]);
 
+	const [activeTeam, setActiveTeam] = useState<number | null>(state.teams.length === 1 ? 0 : null);
+
 	const addTeam = () => {
 		setState(
 			produce((draft) => {
@@ -69,6 +75,7 @@ export const StateContextProvider = ({ children }: Props) => {
 				});
 			})
 		);
+		setActiveTeam(state.teams.length);
 	};
 
 	const removeTeam = (teamNumber: number) => {
@@ -77,6 +84,7 @@ export const StateContextProvider = ({ children }: Props) => {
 				draft.teams.splice(teamNumber, 1);
 			})
 		);
+		setActiveTeam(state.teams.length);
 	};
 
 	const selectHero = (teamNumber: number, slotNumber: number, hero: Hero) => {
@@ -135,12 +143,14 @@ export const StateContextProvider = ({ children }: Props) => {
 
 	const reset = () => {
 		clearStore();
+		setActiveTeam(0);
 	};
 
 	return (
 		<StateContext.Provider
 			value={{
 				teams: state.teams,
+				activeTeam,
 				addTeam,
 				removeTeam,
 				selectHero,
@@ -148,6 +158,7 @@ export const StateContextProvider = ({ children }: Props) => {
 				setSelectedChain,
 				findHero,
 				reset,
+				setActiveTeam,
 			}}
 		>
 			{children}
