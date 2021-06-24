@@ -7,19 +7,27 @@ import ReactTooltip from 'react-tooltip';
 import crownIcon from '../assets/crown.png';
 
 interface Props {
-	number: number;
+	teamNumber: number;
+	slotNumber: number;
 	slot: Slot;
 	onClickHero: () => void;
 	onClickWeapon: () => void;
 	index: number;
 }
 
-const SlotContainer = ({ number, slot: { hero, weapon }, onClickHero, onClickWeapon, index }: Props) => {
+const SlotContainer = ({
+	teamNumber,
+	slotNumber,
+	slot: { hero, weapon },
+	onClickHero,
+	onClickWeapon,
+	index,
+}: Props) => {
 	const { selectHero } = useContext(StateContext);
 
 	const makeLeader = () => {
 		if (hero) {
-			selectHero(0, 0, hero);
+			selectHero(teamNumber, 0, hero);
 		}
 		ReactTooltip.hide();
 	};
@@ -27,12 +35,12 @@ const SlotContainer = ({ number, slot: { hero, weapon }, onClickHero, onClickWea
 	return (
 		<div className={styles.slot}>
 			<HeroBadge hero={hero} onClick={onClickHero} size={150} />
-			{((number > 0 && hero) || weapon) && (
+			{((slotNumber > 0 && hero) || weapon) && (
 				<div className={styles.slotSecondaryButtons}>
 					{weapon && (
 						<WeaponBadge weapon={weapon} onClick={onClickWeapon} showAilment={index === 0} size={80} />
 					)}
-					{number > 0 && hero && (
+					{slotNumber > 0 && hero && (
 						<img
 							src={crownIcon}
 							className={styles.slotLeaderButton}

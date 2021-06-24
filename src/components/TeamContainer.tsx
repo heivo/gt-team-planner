@@ -11,11 +11,12 @@ import { isNotNull } from '../utils/typeUtils';
 
 interface Props {
 	team: Team;
+	teamNumber: number;
 	openHeroPicker: (slotNumber: number) => void;
 	openWeaponPicker: (slotNumber: number) => void;
 }
 
-function TeamContainer({ team: { slots }, openHeroPicker, openWeaponPicker }: Props) {
+function TeamContainer({ team: { slots }, teamNumber, openHeroPicker, openWeaponPicker }: Props) {
 	const heroes = useMemo<Hero[]>(() => slots.map((slot) => slot.hero).filter(isNotNull), [slots]);
 
 	return (
@@ -24,7 +25,8 @@ function TeamContainer({ team: { slots }, openHeroPicker, openWeaponPicker }: Pr
 				{slots.map((slot, slotNumber) => (
 					<SlotContainer
 						key={slotNumber}
-						number={slotNumber}
+						teamNumber={teamNumber}
+						slotNumber={slotNumber}
 						slot={slot}
 						onClickHero={() => openHeroPicker(slotNumber)}
 						onClickWeapon={() => openWeaponPicker(slotNumber)}

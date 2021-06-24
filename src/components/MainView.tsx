@@ -80,6 +80,7 @@ function MainView() {
 				{teams.map((team, teamNumber) => (
 					<TeamContainer
 						key={teamNumber}
+						teamNumber={teamNumber}
 						team={team}
 						openHeroPicker={(slotNumber: number) => openHeroPicker(teamNumber, slotNumber)}
 						openWeaponPicker={(slotNumber: number) => openWeaponPicker(teamNumber, slotNumber)}
