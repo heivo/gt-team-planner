@@ -1,5 +1,5 @@
 import express from 'express';
-import { decodeState } from './context/useHistoryStore';
+import { decodeState } from './context/useBrowserHistory';
 import graphQLClient from './graphQLClient';
 import { GetHeroImagesQuery, GetHeroImagesDocument } from './graphql/schema';
 import sharp from 'sharp';

@@ -4,11 +4,11 @@ import DataContext, { Hero, Weapon } from './DataContext';
 import { State, TeamSettings } from './StateContext';
 import { decode, encode } from 'universal-base64';
 
-const ID_LENGTH = 5;
+const ID_LENGTH = 3;
 const TEAM_SEPARATOR_CHAR = '+';
 const SLOT_SEPARATOR_CHAR = '-';
 
-const useHistoryStore = () => {
+const useBrowserHistory = () => {
 	const { encodedState } = useParams<{ encodedState: string | undefined }>();
 	const history = useHistory();
 
@@ -24,7 +24,7 @@ const useHistoryStore = () => {
 		[weapons]
 	);
 
-	const readStateFromStore = useCallback((): State => {
+	const readState = useCallback((): State => {
 		if (encodedState) {
 			try {
 				return {
@@ -57,7 +57,7 @@ const useHistoryStore = () => {
 		};
 	}, [encodedState, findHero, findWeapon]);
 
-	const writeStateToStore = useCallback(
+	const writeState = useCallback(
 		(state: State) => {
 			history.push(encode(serializeState(state)));
 		},
@@ -65,7 +65,7 @@ const useHistoryStore = () => {
 		[]
 	);
 
-	const clearStore = useCallback(() => {
+	const clearState = useCallback(() => {
 		history.push('');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -77,7 +77,7 @@ const useHistoryStore = () => {
 		}
 	}, [heroes, weapons]);
 
-	return { readStateFromStore, writeStateToStore, clearStore };
+	return { readState, writeState, clearState };
 };
 
 const serializeState = (state: State): string => {
@@ -115,4 +115,4 @@ const testIdsUnique = (items: Array<Hero | Weapon>, idLength: number): void => {
 	});
 };
 
-export default useHistoryStore;
+export default useBrowserHistory;
