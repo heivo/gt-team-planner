@@ -9,7 +9,6 @@ interface Props {
 	onClick?: () => void;
 	faded?: boolean;
 	size?: number;
-	info?: string;
 }
 
 const HeroBadge = ({ hero, onClick, faded = false, size = 150 }: Props) => {

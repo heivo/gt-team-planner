@@ -8,26 +8,35 @@ const MetaTags = () => {
 	const { encodedState } = useParams<{ encodedState: string | undefined }>();
 
 	const ogDescription = useMemo<string>(() => {
-		if (teams[0].slots.filter((slot) => slot.hero).length === 4) {
-			return teams[0].slots
-				.map((slot) => {
-					let name = slot.hero?.name;
-					if (slot.hero?.defaultWeapon.sys.id !== slot.weapon?.sys.id) {
-						name += ` (${slot.weapon?.name})`;
+		if (encodedState) {
+			return teams
+				.map((team, teamNumber) => {
+					const heroes = team.slots
+						.map((slot) => {
+							let name = slot.hero?.name ?? '-';
+							if (slot.hero?.defaultWeapon.sys.id !== slot.weapon?.sys.id) {
+								name += ` (${slot.weapon?.name})`;
+							}
+							return name;
+						})
+						.join(', ');
+					if (teams.length === 1) {
+						return heroes;
+					} else {
+						return `Team ${teamNumber + 1}: ${heroes}`;
 					}
-					return name;
 				})
-				.join(', ');
+				.join('\n');
 		} else {
 			return 'Online team planning tool for Guardian Tales: select your heroes and weapons, see party buffs and possible chain skill combinations, share your setup via URL.';
 		}
-	}, [teams[0].slots]);
+	}, [encodedState, teams]);
 
 	const ogImage = useMemo<string | undefined>(() => {
-		if (encodedState && teams[0].slots.filter((slot) => slot.hero).length === 4) {
+		if (encodedState) {
 			return `/img/${encodedState}`;
 		}
-	}, [teams[0].slots, encodedState]);
+	}, [encodedState]);
 
 	return (
 		<Helmet>
