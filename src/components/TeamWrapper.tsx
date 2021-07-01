@@ -1,29 +1,30 @@
-import React, { ReactNode, useContext, useCallback, MouseEvent } from 'react';
+import React, { useContext, useCallback, MouseEvent, ReactElement } from 'react';
 import styles from '../style.module.scss';
 import StateContext from '../context/StateContext';
 
 interface Props {
 	teamNumber: number;
 	show: boolean;
-	children: ReactNode;
+	children: ReactElement;
 }
 
 const TeamWrapper = ({ teamNumber, show, children }: Props) => {
 	const { removeTeam, activeTeam, setActiveTeam } = useContext(StateContext);
 
-	const collapse = useCallback((event: MouseEvent) => {
-		event.stopPropagation();
-		setActiveTeam(null);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const collapse = useCallback(
+		(event: MouseEvent) => {
+			event.stopPropagation();
+			setActiveTeam(null);
+		},
+		[setActiveTeam]
+	);
 
 	const remove = useCallback(
 		(event: MouseEvent) => {
 			event.stopPropagation();
 			removeTeam(teamNumber);
-			// eslint-disable-next-line react-hooks/exhaustive-deps
 		},
-		[teamNumber]
+		[teamNumber, removeTeam]
 	);
 
 	if (show) {

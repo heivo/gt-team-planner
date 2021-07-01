@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import express from 'express';
-import { decodeState } from './context/useBrowserHistory';
+import { deserializeState } from './context/useBrowserHistoryState';
 import graphQLClient from './graphQLClient';
 import { GetHeroImagesQuery, GetHeroImagesDocument } from './graphql/schema';
 import sharp from 'sharp';
 import fetch from 'node-fetch';
+import { decode } from 'universal-base64';
 
 let app = require('./server').default;
 
@@ -19,20 +21,20 @@ if (module.hot) {
 	console.info('✅  Server-side HMR Enabled!');
 }
 
-// This will extract the env during production execution.. PORT will not be inlined during build
-const getEnv = (c: string) => process.env[c];
+// This will extract the env during production execution, PORT will not be inlined in build output.
+const getRuntimeEnv = (c: string) => process.env[c];
 
-const port = parseInt(getEnv('PORT') ?? '3000', 10);
+const port = parseInt(getRuntimeEnv('PORT') ?? '3000', 10);
 
 export default express()
 	.use('/img', async (req, res) => {
 		const encodedState = req.path.substr(1);
-		const [{ h0, h1, h2, h3 }] = decodeState(encodedState);
+		const [{ h0, h1, h2, h3 }] = deserializeState(decode(encodedState ?? ''));
+
 		const data = await graphQLClient.request<GetHeroImagesQuery>(GetHeroImagesDocument);
-		const img0 = data.heroCollection?.items.find((hero) => hero?.sys.id.startsWith(h0))?.image?.url;
-		const img1 = data.heroCollection?.items.find((hero) => hero?.sys.id.startsWith(h1))?.image?.url;
-		const img2 = data.heroCollection?.items.find((hero) => hero?.sys.id.startsWith(h2))?.image?.url;
-		const img3 = data.heroCollection?.items.find((hero) => hero?.sys.id.startsWith(h3))?.image?.url;
+
+		const getHeroImgUrl = (id: string | undefined) =>
+			id ? data.heroCollection?.items.find((hero) => hero?.sys.id.startsWith(id))?.image?.url : null;
 
 		try {
 			const img = sharp({
@@ -46,22 +48,22 @@ export default express()
 				.jpeg()
 				.composite([
 					{
-						input: Buffer.from(await fetch(img0 ?? '').then((r) => r.arrayBuffer())),
+						input: Buffer.from(await fetch(getHeroImgUrl(h0) ?? '').then((r) => r.arrayBuffer())),
 						left: 10,
 						top: 10,
 					},
 					{
-						input: Buffer.from(await fetch(img1 ?? '').then((r) => r.arrayBuffer())),
+						input: Buffer.from(await fetch(getHeroImgUrl(h1) ?? '').then((r) => r.arrayBuffer())),
 						left: 170,
 						top: 10,
 					},
 					{
-						input: Buffer.from(await fetch(img2 ?? '').then((r) => r.arrayBuffer())),
+						input: Buffer.from(await fetch(getHeroImgUrl(h2) ?? '').then((r) => r.arrayBuffer())),
 						left: 330,
 						top: 10,
 					},
 					{
-						input: Buffer.from(await fetch(img3 ?? '').then((r) => r.arrayBuffer())),
+						input: Buffer.from(await fetch(getHeroImgUrl(h3) ?? '').then((r) => r.arrayBuffer())),
 						left: 490,
 						top: 10,
 					},
