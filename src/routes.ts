@@ -2,7 +2,7 @@ import App from './App';
 
 export default [
 	{
-		path: ['/:encodedState', ''],
+		path: '/:encodedState?',
 		component: App,
 	},
 ];

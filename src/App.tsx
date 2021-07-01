@@ -36,9 +36,20 @@ const App = (props: GetDataQuery) => {
 	);
 };
 
-// only execute this query once on the client
-const dataPromise = graphQLClient.request<GetDataQuery>(GetDataDocument);
+const getData = () => graphQLClient.request<GetDataQuery>(GetDataDocument);
 
-App.getInitialProps = (): Promise<GetDataQuery> => dataPromise;
+let clientData: Promise<GetDataQuery>;
+
+App.getInitialProps = (): Promise<GetDataQuery> => {
+	// always refetch on the server but fetch only once on the client
+	if (process.env.BUILD_TARGET === 'server') {
+		return getData();
+	} else {
+		if (!clientData) {
+			clientData = getData();
+		}
+		return clientData;
+	}
+};
 
 export default App;

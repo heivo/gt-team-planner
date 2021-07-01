@@ -41,7 +41,6 @@ const TeamWrapper = ({ teamNumber, show, children }: Props) => {
 						remove team
 					</button>
 				</h1>
-
 				{children}
 			</div>
 		);
