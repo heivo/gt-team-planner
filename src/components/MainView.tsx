@@ -9,6 +9,8 @@ import useWeaponPicker from './pickers/useWeaponPicker';
 import Footer from './Footer';
 import TeamWrapper from './TeamWrapper';
 import ReactTooltip from 'react-tooltip';
+import addTeamIcon from '../assets/add_team.png';
+import trashIcon from '../assets/trash_large.png';
 
 function MainView() {
 	const { teams, addTeam, reset, activeTeam } = useContext(StateContext);
@@ -19,6 +21,16 @@ function MainView() {
 	useEffect(() => {
 		setTooltipVisible(true);
 	}, []);
+
+	const handleAddTeamButtonClick = () => {
+		addTeam();
+		ReactTooltip.hide();
+	};
+
+	const handleResetButtonClick = () => {
+		reset();
+		ReactTooltip.hide();
+	};
 
 	const { isHeroPickerOpen, currentHero, openHeroPicker, closeHeroPicker, handleSelectHero } = useHeroPicker();
 
@@ -48,14 +60,15 @@ function MainView() {
 
 	return (
 		<>
-			<p>
-				<button onClick={reset} className={styles.button}>
-					reset
+			<header className={styles.header}>
+				<h1>Guardian Tales - Team Planner</h1>
+				<button onClick={handleAddTeamButtonClick} data-tip="Add Team">
+					<img src={addTeamIcon} />
 				</button>
-				<button onClick={addTeam} className={styles.button}>
-					add team
+				<button onClick={handleResetButtonClick} data-tip="Clear all">
+					<img src={trashIcon} />
 				</button>
-			</p>
+			</header>
 			<div className={styles.contentWrapper}>
 				{teams.map((team, teamNumber) => (
 					<TeamWrapper key={teamNumber} teamNumber={teamNumber} show={teams.length > 1}>

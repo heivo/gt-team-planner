@@ -14,8 +14,67 @@ body {
 	padding-bottom: 80px; /* footer height */
 }
 
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+	h1 {
+		margin-right: auto;
+	}
+
+	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: white;
+		border: 1px solid gray;
+		border-radius: 2px;
+		height: 50px;
+		width: 50px;
+		margin-left: 10px;
+		cursor: pointer;
+
+		&:hover {
+			background-color: #eee;
+		}
+	}
+}
+
 .teamWrapper {
-	margin: 10px 0;
+	margin-bottom: 10px;
+	border: 1px dotted gray;
+	border-radius: 5px;
+	padding: 10px;
+	background-color: rgba(0, 0, 0, 0.05);
+
+	.teamWrapperHeader {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		margin-bottom: 10px;
+
+		h2 {
+			margin: 0 auto 0 0;
+		}
+	}
+
+	.teamWrapperButton {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		background-color: white;
+		border: 1px solid gray;
+		border-radius: 2px;
+		margin-left: 5px;
+		cursor: pointer;
+
+		&:hover {
+			background-color: #eee;
+		}
+	}
 }
 
 .slotsWrapper {
@@ -207,6 +266,7 @@ body {
 .partyBuffSummary {
 	border: 1px solid lightgray;
 	border-radius: 5px;
+	background-color: white;
 	padding: 10px;
 	line-height: 25px;
 	margin-top: 30px;
@@ -215,9 +275,10 @@ body {
 .chainInfo {
 	border: 1px solid lightgray;
 	border-radius: 5px;
+	background-color: white;
 	padding: 10px;
 	line-height: 25px;
-	margin-top: 30px;
+	margin-top: 10px;
 
 	.chain {
 		display: flex;
@@ -228,7 +289,7 @@ body {
 		cursor: pointer;
 		border: 1px solid transparent;
 
-		.chainBadge {
+		.chainStar {
 			display: none;
 			margin-left: auto;
 			margin-right: 20px;
@@ -238,7 +299,7 @@ body {
 			background-color: #f0f0f0;
 			border-color: #e0e0e0;
 
-			.chainBadge {
+			.chainStar {
 				display: inherit;
 				filter: grayscale(100%) opacity(20%);
 			}
@@ -248,7 +309,7 @@ body {
 			background-color: #eaeaea;
 			border-color: #d0d0d0;
 
-			.chainBadge {
+			.chainStar {
 				display: inherit;
 				filter: none;
 			}
@@ -309,13 +370,18 @@ body {
 	justify-content: center;
 	width: 48px;
 	height: 48px;
-	background-color: #283847;
+	background-color: #333;
+	border-radius: 2px;
 	cursor: pointer;
 	color: white;
 	font-size: 36px;
 
 	&::after {
-		content: '✘';
+		content: '✕';
+	}
+
+	&:hover {
+		background-color: #666;
 	}
 }
 

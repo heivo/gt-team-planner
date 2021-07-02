@@ -1,6 +1,10 @@
 import React, { useContext, useCallback, MouseEvent, ReactElement } from 'react';
 import styles from '../style.module.scss';
 import StateContext from '../context/StateContext';
+import trashIcon from '../assets/trash.png';
+import collapseIcon from '../assets/collapse.png';
+import unfoldIcon from '../assets/unfold.png';
+import ReactTooltip from 'react-tooltip';
 
 interface Props {
 	teamNumber: number;
@@ -11,18 +15,24 @@ interface Props {
 const TeamWrapper = ({ teamNumber, show, children }: Props) => {
 	const { removeTeam, activeTeam, setActiveTeam } = useContext(StateContext);
 
-	const collapse = useCallback(
+	const toggle = useCallback(
 		(event: MouseEvent) => {
 			event.stopPropagation();
-			setActiveTeam(null);
+			if (activeTeam === null) {
+				setActiveTeam(teamNumber);
+			} else {
+				setActiveTeam(null);
+			}
+			ReactTooltip.hide();
 		},
-		[setActiveTeam]
+		[activeTeam, setActiveTeam, teamNumber]
 	);
 
 	const remove = useCallback(
 		(event: MouseEvent) => {
 			event.stopPropagation();
 			removeTeam(teamNumber);
+			ReactTooltip.hide();
 		},
 		[teamNumber, removeTeam]
 	);
@@ -30,17 +40,15 @@ const TeamWrapper = ({ teamNumber, show, children }: Props) => {
 	if (show) {
 		return (
 			<div className={styles.teamWrapper} onClick={() => setActiveTeam(teamNumber)}>
-				<h1>
-					Team #{teamNumber + 1}
-					{activeTeam === teamNumber && (
-						<button onClick={collapse} className={styles.button}>
-							collapse
-						</button>
-					)}
-					<button onClick={remove} className={styles.button}>
-						remove team
+				<div className={styles.teamWrapperHeader}>
+					<h2>Team {teamNumber + 1}</h2>
+					<button onClick={toggle} className={styles.teamWrapperButton} data-tip="Toggle Team">
+						{teamNumber === activeTeam ? <img src={collapseIcon} /> : <img src={unfoldIcon} />}
 					</button>
-				</h1>
+					<button onClick={remove} className={styles.teamWrapperButton} data-tip="Remove Team">
+						<img src={trashIcon} />
+					</button>
+				</div>
 				{children}
 			</div>
 		);
