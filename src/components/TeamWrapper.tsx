@@ -18,7 +18,7 @@ const TeamWrapper = ({ teamNumber, show, children }: Props) => {
 	const toggle = useCallback(
 		(event: MouseEvent) => {
 			event.stopPropagation();
-			if (activeTeam === null) {
+			if (activeTeam === null || activeTeam !== teamNumber) {
 				setActiveTeam(teamNumber);
 			} else {
 				setActiveTeam(null);
