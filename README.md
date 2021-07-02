@@ -14,3 +14,4 @@ https://gt-team-planner.herokuapp.com/
 -   mark a chain a selected
 -   share the selected team and chain via the link in the browser address bar
 -   preview info when pasting a link in discord, twitter, etc.
+-   add more teams to plan a raid where every hero can only be selected once
