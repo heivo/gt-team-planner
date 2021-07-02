@@ -1,13 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import PartyBuffSummary from './PartyBuffSummary';
 import { TeamSettings } from '../context/StateContext';
 import Slot from './Slot';
 import styles from '../style.module.scss';
-import { Hero } from '../context/DataContext';
 import ChainInfo from './ChainInfo';
-
-import { isNotNull } from '../utils/typeUtils';
 
 interface Props {
 	settings: TeamSettings;
@@ -17,13 +14,11 @@ interface Props {
 	isCollapsed: boolean;
 }
 
-function Team({ settings: { slots }, teamNumber, openHeroPicker, openWeaponPicker, isCollapsed }: Props) {
-	const heroes = useMemo<Hero[]>(() => slots.map((slot) => slot.hero).filter(isNotNull), [slots]);
-
+function Team({ settings, teamNumber, openHeroPicker, openWeaponPicker, isCollapsed }: Props) {
 	return (
 		<div>
 			<div className={styles.slotsWrapper}>
-				{slots.map((slot, slotNumber) => (
+				{settings.slots.map((slot, slotNumber) => (
 					<Slot
 						key={slotNumber}
 						teamNumber={teamNumber}
@@ -35,8 +30,8 @@ function Team({ settings: { slots }, teamNumber, openHeroPicker, openWeaponPicke
 					/>
 				))}
 			</div>
-			{!isCollapsed && <PartyBuffSummary heroes={heroes} />}
-			{!isCollapsed && <ChainInfo heroes={heroes} weapon={slots[0].weapon} />}
+			{!isCollapsed && <PartyBuffSummary settings={settings} />}
+			{!isCollapsed && <ChainInfo settings={settings} teamNumber={teamNumber} />}
 		</div>
 	);
 }

@@ -1,17 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Hero, Weapon } from '../context/DataContext';
 import styles from '../style.module.scss';
 import permutations from '../utils/permutations';
-import StateContext from '../context/StateContext';
+import StateContext, { TeamSettings } from '../context/StateContext';
 import FlipMove from 'react-flip-move';
 import Chain from './Chain';
+import { isNotNull } from '../utils/typeUtils';
 
 interface Props {
-	heroes: Hero[];
-	weapon: Weapon | null;
+	settings: TeamSettings;
+	teamNumber: number;
 }
 
-const extractValidChain = (chain: Hero[], weapon: Weapon | null): Hero[] => {
+const extractValidChain = (chain: Hero[], weapon: Weapon | null | undefined): Hero[] => {
 	if (!weapon) {
 		return [];
 	}
@@ -28,26 +29,34 @@ const extractValidChain = (chain: Hero[], weapon: Weapon | null): Hero[] => {
 
 const chainKey = (chain: Hero[]): string => chain.map((hero) => hero.sys.id).join('-');
 
-const ChainInfo = ({ heroes, weapon }: Props) => {
+const ChainInfo = ({ settings, teamNumber }: Props) => {
 	const { teams, setSelectedChain } = useContext(StateContext);
 
-	const chains = permutations(heroes)
-		.map((chain) => extractValidChain(chain, weapon))
-		.filter((chain) => chain.length >= 3)
-		.map((heroes, index) => ({
-			heroes,
-			key: chainKey(heroes),
-			selected: teams[0].selectedChain === index,
-			onSelect: () => setSelectedChain(0, teams[0].selectedChain !== index ? index : undefined),
-		}))
-		.sort((c1, c2) => {
-			if (c1.selected) {
-				return -1;
-			} else if (c2.selected) {
-				return 1;
-			}
-			return c2.heroes.length - c1.heroes.length;
-		});
+	const chains = useMemo(() => {
+		const heroes = settings.slots.map((slot) => slot.hero).filter(isNotNull);
+		const weapon = settings.slots.map((slot) => slot.weapon).find(isNotNull);
+
+		return permutations(heroes)
+			.map((chain) => extractValidChain(chain, weapon))
+			.filter((chain) => chain.length >= 3)
+			.map((heroes, index) => ({
+				heroes,
+				key: chainKey(heroes),
+				selected: teams[teamNumber].selectedChain === index,
+				onSelect: () => {
+					console.log(teams[teamNumber].selectedChain, index);
+					setSelectedChain(teamNumber, teams[teamNumber].selectedChain !== index ? index : undefined);
+				},
+			}))
+			.sort((c1, c2) => {
+				if (c1.selected) {
+					return -1;
+				} else if (c2.selected) {
+					return 1;
+				}
+				return c2.heroes.length - c1.heroes.length;
+			});
+	}, [setSelectedChain, settings.slots, teams, teamNumber]);
 
 	return (
 		<div className={styles.chainInfo}>

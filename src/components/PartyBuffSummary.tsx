@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import DataContext, { Hero, HeroPartyBuff } from '../context/DataContext';
 import styles from '../style.module.scss';
+import { TeamSettings } from '../context/StateContext';
 
 interface Props {
-	heroes: Array<Hero>;
+	settings: TeamSettings;
 }
 
 interface BuffStats {
@@ -12,23 +13,32 @@ interface BuffStats {
 	heroes: Array<Hero>;
 }
 
-const PartyBuffSummary = ({ heroes }: Props) => {
+const PartyBuffSummary = ({ settings }: Props) => {
 	const { heroPartyBuffs } = useContext(DataContext);
-	const groupedStatsByBuffId: Record<string, BuffStats> = heroes.reduce<Record<string, BuffStats>>((acc, hero) => {
-		const buff = hero.partyBuff;
-		const stats: BuffStats = acc[buff.sys.id] ?? { buff, value: 0, heroes: [] };
-		stats.heroes.push(hero);
-		stats.value += hero.partyBuffValue;
-		acc[buff.sys.id] = stats;
-		if (hero.partyBuff2) {
-			const buff = hero.partyBuff2;
-			const stats: BuffStats = acc[buff.sys.id] ?? { buff, value: 0, heroes: [] };
-			stats.heroes.push(hero);
-			stats.value += hero.partyBuffValue2;
-			acc[buff.sys.id] = stats;
-		}
-		return acc;
-	}, {});
+
+	const groupedStatsByBuffId = useMemo<Record<string, BuffStats>>(
+		() =>
+			settings.slots.reduce<Record<string, BuffStats>>((acc, slot) => {
+				const { hero } = slot;
+				if (hero) {
+					const buff = hero.partyBuff;
+					const stats: BuffStats = acc[buff.sys.id] ?? { buff, value: 0, heroes: [] };
+					stats.heroes.push(hero);
+					stats.value += hero.partyBuffValue;
+					acc[buff.sys.id] = stats;
+					if (hero.partyBuff2) {
+						const buff = hero.partyBuff2;
+						const stats: BuffStats = acc[buff.sys.id] ?? { buff, value: 0, heroes: [] };
+						stats.heroes.push(hero);
+						stats.value += hero.partyBuffValue2;
+						acc[buff.sys.id] = stats;
+					}
+				}
+				return acc;
+			}, {}),
+		[settings.slots]
+	);
+
 	return (
 		<div className={styles.partyBuffSummary}>
 			{heroPartyBuffs
@@ -41,7 +51,7 @@ const PartyBuffSummary = ({ heroes }: Props) => {
 						</i>
 					</div>
 				))}
-			{!heroes.length && <i>no party buffs</i>}
+			{!Object.keys(groupedStatsByBuffId).length && <i>no party buffs</i>}
 		</div>
 	);
 };
