@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../style.module.scss';
-import chainIcon from '../assets/chain.png';
-import { Ailment } from '../context/DataContext';
+import styles from '../../style.module.scss';
+import chainIcon from '../../assets/chain.png';
+import { Ailment } from '../../context/DataContext';
 
 interface Props {
 	ailmentStart: Ailment;

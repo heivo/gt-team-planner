@@ -1,25 +1,33 @@
 import React, { useContext } from 'react';
 import styles from '../style.module.scss';
-import StateContext, { SlotData } from '../context/StateContext';
-import HeroBadge from './HeroBadge';
-import WeaponBadge from './WeaponBadge';
+import StateContext, { SlotSettings } from '../context/StateContext';
+import HeroBadge from './badges/HeroBadge';
+import WeaponBadge from './badges/WeaponBadge';
 import ReactTooltip from 'react-tooltip';
 import crownIcon from '../assets/crown.png';
 
 interface Props {
-	number: number;
-	data: SlotData;
+	teamNumber: number;
+	slotNumber: number;
+	settings: SlotSettings;
 	onClickHero: () => void;
 	onClickWeapon: () => void;
-	index: number;
+	isCollapsed: boolean;
 }
 
-const Slot = ({ number, data: { hero, weapon }, onClickHero, onClickWeapon, index }: Props) => {
+const Slot = ({
+	teamNumber,
+	slotNumber,
+	settings: { hero, weapon },
+	onClickHero,
+	onClickWeapon,
+	isCollapsed,
+}: Props) => {
 	const { selectHero } = useContext(StateContext);
 
 	const makeLeader = () => {
 		if (hero) {
-			selectHero(0, hero);
+			selectHero(teamNumber, 0, hero);
 		}
 		ReactTooltip.hide();
 	};
@@ -27,12 +35,12 @@ const Slot = ({ number, data: { hero, weapon }, onClickHero, onClickWeapon, inde
 	return (
 		<div className={styles.slot}>
 			<HeroBadge hero={hero} onClick={onClickHero} size={150} />
-			{((number > 0 && hero) || weapon) && (
+			{!isCollapsed && ((slotNumber > 0 && hero) || weapon) && (
 				<div className={styles.slotSecondaryButtons}>
 					{weapon && (
-						<WeaponBadge weapon={weapon} onClick={onClickWeapon} showAilment={index === 0} size={80} />
+						<WeaponBadge weapon={weapon} onClick={onClickWeapon} showAilment={slotNumber === 0} size={80} />
 					)}
-					{number > 0 && hero && (
+					{slotNumber > 0 && hero && (
 						<img
 							src={crownIcon}
 							className={styles.slotLeaderButton}

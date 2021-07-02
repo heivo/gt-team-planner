@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import DataContext, { HeroRole } from '../context/DataContext';
-import styles from '../style.module.scss';
+import DataContext, { HeroRole } from '../../context/DataContext';
+import styles from '../../style.module.scss';
 import cn from 'classnames';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 	onSelect: (role?: HeroRole) => void;
 }
 
-const RolePicker = ({ selected, onSelect }: Props) => {
+const RoleFilter = ({ selected, onSelect }: Props) => {
 	const { heroRoles } = useContext(DataContext);
 
 	const handleClick = (role: HeroRole) => {
@@ -20,7 +20,7 @@ const RolePicker = ({ selected, onSelect }: Props) => {
 	};
 
 	return (
-		<div className={styles.rolePicker}>
+		<div className={styles.roleFilter}>
 			{heroRoles.map((role) => (
 				<img
 					key={role.sys.id}
@@ -35,4 +35,4 @@ const RolePicker = ({ selected, onSelect }: Props) => {
 	);
 };
 
-export default RolePicker;
+export default RoleFilter;

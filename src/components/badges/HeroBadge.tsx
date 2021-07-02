@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import styles from '../style.module.scss';
-import DataContext, { Ailment, Element, Hero, HeroRole } from '../context/DataContext';
+import styles from '../../style.module.scss';
+import DataContext, { Ailment, Element, Hero, HeroRole } from '../../context/DataContext';
 import cn from 'classnames';
 import ChainIcon from './ChainIcon';
 

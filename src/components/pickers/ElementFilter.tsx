@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import DataContext, { Element } from '../context/DataContext';
-import styles from '../style.module.scss';
+import DataContext, { Element } from '../../context/DataContext';
+import styles from '../../style.module.scss';
 import cn from 'classnames';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 	onSelect: (element?: Element) => void;
 }
 
-const ElementPicker = ({ selected, onSelect }: Props) => {
+const ElementFilter = ({ selected, onSelect }: Props) => {
 	const { elements } = useContext(DataContext);
 
 	const handleClick = (element: Element) => {
@@ -20,11 +20,11 @@ const ElementPicker = ({ selected, onSelect }: Props) => {
 	};
 
 	return (
-		<div className={styles.elementPicker}>
+		<div className={styles.elementFilter}>
 			{elements.map((element) => (
 				<div
 					key={element.sys.id}
-					className={styles.elementPickerImageWrapper}
+					className={styles.elementFilterImageWrapper}
 					/* style={{ backgroundColor: element.color }} */
 				>
 					<img
@@ -40,4 +40,4 @@ const ElementPicker = ({ selected, onSelect }: Props) => {
 	);
 };
 
-export default ElementPicker;
+export default ElementFilter;

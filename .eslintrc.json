@@ -3,9 +3,8 @@
 		"browser": true,
 		"es2021": true
 	},
-	"plugins": ["react", "@typescript-eslint", "graphql", "filenames"],
+	"plugins": ["react", "react-hooks", "@typescript-eslint", "graphql", "filenames"],
 	"extends": [
-		"react-app",
 		"eslint:recommended",
 		"plugin:react/recommended",
 		"plugin:@typescript-eslint/recommended",
@@ -27,6 +26,8 @@
 		"graphql/capitalized-type-name": ["error", { "env": "literal" }],
 		"graphql/named-operations": ["error", { "env": "literal" }],
 		"graphql/no-deprecated-fields": ["warn", { "env": "literal" }],
-		"graphql/template-strings": ["error", { "env": "literal" }]
+		"graphql/template-strings": ["error", { "env": "literal" }],
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "warn"
 	}
 }

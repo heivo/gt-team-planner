@@ -1,50 +1,19 @@
-import React, { useContext, useState, useEffect, useMemo } from 'react';
-import HeroPicker from './HeroPicker';
-import PartyBuffSummary from './PartyBuffSummary';
+import React, { useContext, useEffect, useState } from 'react';
 import StateContext from '../context/StateContext';
-import Slot from './Slot';
 import styles from '../style.module.scss';
-import { Hero, Weapon } from '../context/DataContext';
-import ChainInfo from './ChainInfo';
-import WeaponPicker from './WeaponPicker';
+import Team from './Team';
+import useHeroPicker from './pickers/useHeroPicker';
+import HeroPicker from './pickers/HeroPicker';
+import WeaponPicker from './pickers/WeaponPicker';
+import useWeaponPicker from './pickers/useWeaponPicker';
+import Footer from './Footer';
+import TeamWrapper from './TeamWrapper';
 import ReactTooltip from 'react-tooltip';
-import { Helmet } from 'react-helmet';
-import { useParams } from 'react-router-dom';
+import addTeamIcon from '../assets/add_team.png';
+import trashIcon from '../assets/trash_large.png';
 
 function MainView() {
-	const { slots, selectHero, selectWeapon, reset } = useContext(StateContext);
-	const { slug } = useParams<{ slug: string | undefined }>();
-
-	const selectedHeroes = slots.map((slot) => slot.hero).filter((hero) => hero !== null) as Hero[];
-
-	const [heroPickerSlot, setHeroPickerSlot] = useState<number>();
-	const [weaponPickerSlot, setWeaponPickerSlot] = useState<number>();
-
-	const openHeroPicker = (slotNumber: number) => () => {
-		setHeroPickerSlot(slotNumber);
-	};
-
-	const openWeaponPicker = (slotNumber: number) => () => {
-		setWeaponPickerSlot(slotNumber);
-	};
-
-	const handleSelectHero = (slotNumber: number, hero: Hero) => {
-		selectHero(slotNumber, hero);
-		setHeroPickerSlot(undefined);
-	};
-
-	const handleCloseHeroPicker = () => {
-		setHeroPickerSlot(undefined);
-	};
-
-	const handleSelectWeapon = (slotNumber: number, weapon: Weapon) => {
-		selectWeapon(slotNumber, weapon);
-		setWeaponPickerSlot(undefined);
-	};
-
-	const handleCloseWeaponPicker = () => {
-		setWeaponPickerSlot(undefined);
-	};
+	const { teams, addTeam, reset, activeTeam } = useContext(StateContext);
 
 	// delay rendering of tooltip so it's not rendered on the server
 	const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -53,100 +22,68 @@ function MainView() {
 		setTooltipVisible(true);
 	}, []);
 
-	const ogDescription = useMemo<string>(() => {
-		if (slots.filter((slot) => slot.hero).length === 4) {
-			return slots
-				.map((slot) => {
-					let name = slot.hero?.name;
-					if (slot.hero?.defaultWeapon.sys.id !== slot.weapon?.sys.id) {
-						name += ` (${slot.weapon?.name})`;
-					}
-					return name;
-				})
-				.join(', ');
-		} else {
-			return 'Online team planning tool for Guardian Tales: select your heroes and weapons, see party buffs and possible chain skill combinations, share your setup via URL.';
-		}
-	}, [slots]);
+	const handleAddTeamButtonClick = () => {
+		addTeam();
+		ReactTooltip.hide();
+	};
 
-	const ogImage = useMemo<string | undefined>(() => {
-		if (slug && slots.filter((slot) => slot.hero).length === 4) {
-			return `/img/${slug}`;
-		}
-	}, [slots, slug]);
+	const handleResetButtonClick = () => {
+		reset();
+		ReactTooltip.hide();
+	};
 
-	if (heroPickerSlot !== undefined) {
-		const currentHero = slots[heroPickerSlot].hero;
-		const otherUsedHeroes = selectedHeroes.filter((hero) => hero !== currentHero);
-		return (
-			<HeroPicker
-				otherUsedHeroes={otherUsedHeroes}
-				onSelect={(hero) => handleSelectHero(heroPickerSlot, hero)}
-				onClose={handleCloseHeroPicker}
-			/>
-		);
+	const { isHeroPickerOpen, currentHero, openHeroPicker, closeHeroPicker, handleSelectHero } = useHeroPicker();
+
+	const {
+		isWeaponPickerOpen,
+		weaponCategoryIds,
+		isLeaderSlot,
+		openWeaponPicker,
+		closeWeaponPicker,
+		handleSelectWeapon,
+	} = useWeaponPicker();
+
+	if (isHeroPickerOpen) {
+		return <HeroPicker currentHero={currentHero} onSelect={handleSelectHero} onClose={closeHeroPicker} />;
 	}
 
-	if (weaponPickerSlot !== undefined) {
-		const currentHero = slots[weaponPickerSlot].hero as Hero;
+	if (isWeaponPickerOpen && weaponCategoryIds) {
 		return (
 			<WeaponPicker
-				hero={currentHero}
-				showAilment={weaponPickerSlot === 0}
-				onSelect={(weapon) => handleSelectWeapon(weaponPickerSlot, weapon)}
-				onClose={handleCloseWeaponPicker}
+				weaponCategoryIds={weaponCategoryIds}
+				showAilment={isLeaderSlot}
+				onSelect={handleSelectWeapon}
+				onClose={closeWeaponPicker}
 			/>
 		);
 	}
 
 	return (
 		<>
+			<header className={styles.header}>
+				<h1>Guardian Tales - Team Planner</h1>
+				<button onClick={handleAddTeamButtonClick} data-tip="Add Team">
+					<img src={addTeamIcon} />
+				</button>
+				<button onClick={handleResetButtonClick} data-tip="Clear all">
+					<img src={trashIcon} />
+				</button>
+			</header>
 			<div className={styles.contentWrapper}>
-				<div className={styles.slotContainer}>
-					{slots.map((slot, slotNumber) => (
-						<Slot
-							key={slotNumber}
-							number={slotNumber}
-							data={slot}
-							onClickHero={openHeroPicker(slotNumber)}
-							onClickWeapon={openWeaponPicker(slotNumber)}
-							index={slotNumber}
+				{teams.map((team, teamNumber) => (
+					<TeamWrapper key={teamNumber} teamNumber={teamNumber} show={teams.length > 1}>
+						<Team
+							teamNumber={teamNumber}
+							settings={team}
+							openHeroPicker={(slotNumber: number) => openHeroPicker(teamNumber, slotNumber)}
+							openWeaponPicker={(slotNumber: number) => openWeaponPicker(teamNumber, slotNumber)}
+							isCollapsed={teamNumber !== activeTeam}
 						/>
-					))}
-				</div>
-				<PartyBuffSummary heroes={selectedHeroes} />
-				<ChainInfo heroes={selectedHeroes} weapon={slots?.[0].weapon} />
-				{selectedHeroes.length > 0 && (
-					<button onClick={reset} className={styles.resetButton}>
-						reset
-					</button>
-				)}
+					</TeamWrapper>
+				))}
 			</div>
-			<footer className={styles.footer}>
-				<span>
-					Found a bug or have a suggestion for improvements? File an issue on&nbsp;
-					<a href="https://github.com/heivo/gt-team-planner/issues" target="_blank">
-						GitHub
-					</a>
-					.
-				</span>
-				<span>
-					Like this tool? Please consider to{' '}
-					<a href="https://www.buymeacoffee.com/heivo" target="_blank">
-						{' '}
-						buy me a coffee
-					</a>{' '}
-					;)
-				</span>
-			</footer>
+			<Footer />
 			{tooltipVisible && <ReactTooltip effect="solid" place="bottom" multiline delayShow={200} />}
-			<Helmet>
-				{/* this makes the image larger on discord */}
-				<meta name="twitter:card" content="summary_large_image" />
-				<meta property="og:title" content="Guardian Tales - Team Planner" />
-				<meta property="og:description" content={ogDescription} />
-				{ogImage && <meta property="og:image" content={ogImage} />}
-			</Helmet>
 		</>
 	);
 }

@@ -1,25 +1,29 @@
 import React, { useContext, useMemo, useState } from 'react';
-import DataContext, { Element, Hero, HeroPartyBuff, HeroRole } from '../context/DataContext';
-import styles from '../style.module.scss';
+import DataContext, { Element, Hero, HeroPartyBuff, HeroRole } from '../../context/DataContext';
+import styles from '../../style.module.scss';
 import CloseButton from './CloseButton';
-import ElementPicker from './ElementPicker';
-import HeroBadge from './HeroBadge';
-import RolePicker from './RolePicker';
+import ElementFilter from './ElementFilter';
+import HeroBadge from '../badges/HeroBadge';
+import RoleFilter from './RoleFilter';
 import ReactTooltip from 'react-tooltip';
 import Select from 'react-select';
+import StateContext from '../../context/StateContext';
 
 interface Props {
-	otherUsedHeroes: Hero[];
+	currentHero: Hero | null;
 	onSelect: (hero: Hero) => void;
 	onClose: () => void;
 }
 
-function HeroPicker({ otherUsedHeroes, onSelect, onClose }: Props) {
+function HeroPicker({ currentHero, onSelect, onClose }: Props) {
 	const { heroes, heroPartyBuffs } = useContext(DataContext);
+	const { findHero } = useContext(StateContext);
 
 	const [elementFilter, setElementFilter] = useState<Element>();
 	const [roleFilter, setRoleFilter] = useState<HeroRole>();
 	const [partyBuffFilter, setPartyBuffFilter] = useState<HeroPartyBuff>();
+
+	const selectedHeroes = useMemo(() => heroes.filter((hero) => findHero(hero)), [heroes, findHero]);
 
 	const filteredHeroes = useMemo(
 		() =>
@@ -54,9 +58,8 @@ function HeroPicker({ otherUsedHeroes, onSelect, onClose }: Props) {
 	return (
 		<div className={styles.heroPicker}>
 			<div className={styles.heroPickerFilters}>
-				<ElementPicker selected={elementFilter} onSelect={setElementFilter} />
-				<RolePicker selected={roleFilter} onSelect={setRoleFilter} />
-
+				<ElementFilter selected={elementFilter} onSelect={setElementFilter} />
+				<RoleFilter selected={roleFilter} onSelect={setRoleFilter} />
 				<CloseButton onClick={onClose} title="Close" />
 			</div>
 			<div className={styles.heroPickerFilters}>
@@ -65,7 +68,7 @@ function HeroPicker({ otherUsedHeroes, onSelect, onClose }: Props) {
 						options={partyBuffOptions}
 						onChange={(o) => setPartyBuffFilter(o?.value ?? undefined)}
 						isClearable
-						placeholder="Filter Group Buff..."
+						placeholder="Filter Party Buff ..."
 					/>
 				</div>
 			</div>
@@ -74,7 +77,10 @@ function HeroPicker({ otherUsedHeroes, onSelect, onClose }: Props) {
 					<div key={hero.sys.id} className={styles.badgeWrapper}>
 						<HeroBadge
 							hero={hero}
-							faded={otherUsedHeroes.includes(hero) || !filteredHeroes.includes(hero)}
+							faded={
+								(selectedHeroes.includes(hero) && hero !== currentHero) ||
+								!filteredHeroes.includes(hero)
+							}
 							onClick={() => onSelect(hero)}
 							size={120}
 						/>

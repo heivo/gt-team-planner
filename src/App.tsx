@@ -11,13 +11,11 @@ import DataContext, {
 	WeaponCategory,
 } from './context/DataContext';
 import { StateContextProvider } from './context/StateContext';
-import { Helmet } from 'react-helmet';
 import { GetDataDocument, GetDataQuery } from './graphql/schema';
 import graphQLClient from './graphQLClient';
+import MetaTags from './components/MetaTags';
 
-interface Props extends GetDataQuery {}
-
-const App = (props: Props) => {
+const App = (props: GetDataQuery) => {
 	return (
 		<DataContext.Provider
 			value={{
@@ -31,27 +29,27 @@ const App = (props: Props) => {
 			}}
 		>
 			<StateContextProvider>
-				<Helmet>
-					<title>GT Team Planner</title>
-					<meta
-						name="description"
-						content="Online team planning tool for Guardian Tales: select your heroes and weapons, see party buffs and possible chain skill combinations, share your setup via URL."
-					/>
-					<meta name="keywords" content="Guardian Tales, Team Planner, Party Builder, Tool" />
-					<meta
-						name="viewport"
-						content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5"
-					/>
-					<meta name="theme-color" content="#000000" />
-				</Helmet>
+				<MetaTags />
 				<MainView />
 			</StateContextProvider>
 		</DataContext.Provider>
 	);
 };
 
-const dataPromise = graphQLClient.request<GetDataQuery>(GetDataDocument);
+const getData = () => graphQLClient.request<GetDataQuery>(GetDataDocument);
 
-App.getInitialProps = (): Promise<GetDataQuery> => dataPromise;
+let clientData: Promise<GetDataQuery>;
+
+App.getInitialProps = (): Promise<GetDataQuery> => {
+	// always refetch on the server but fetch only once on the client
+	if (process.env.BUILD_TARGET === 'server') {
+		return getData();
+	} else {
+		if (!clientData) {
+			clientData = getData();
+		}
+		return clientData;
+	}
+};
 
 export default App;

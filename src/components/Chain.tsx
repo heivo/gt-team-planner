@@ -1,9 +1,9 @@
 import React, { forwardRef, ForwardedRef } from 'react';
 import { Hero } from '../context/DataContext';
 import styles from '../style.module.scss';
-import HeroBadge from './HeroBadge';
+import HeroBadge from './badges/HeroBadge';
 import cn from 'classnames';
-import badgeIcon from '../assets/badge.png';
+import starIcon from '../assets/star.png';
 
 interface Props {
 	heroes: Hero[];
@@ -20,9 +20,11 @@ const Chain = forwardRef(({ heroes, selected, onClick }: Props, ref: ForwardedRe
 					<HeroBadge hero={hero} size={100} />
 				</React.Fragment>
 			))}
-			<img src={badgeIcon} className={styles.chainBadge} />
+			<img src={starIcon} className={styles.chainStar} />
 		</div>
 	);
 });
+
+Chain.displayName = 'Chain';
 
 export default Chain;
