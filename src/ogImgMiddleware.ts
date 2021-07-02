@@ -43,6 +43,17 @@ const ogImgMiddleware: RequestHandler = async (req, res) => {
 		.flat()
 		.filter(isImageInfo);
 
+	const teamSeparator = await sharp({
+		create: {
+			width: 650,
+			height: 1,
+			channels: 3,
+			background: { r: 0x2f, g: 0x30, b: 0x36 },
+		},
+	})
+		.jpeg()
+		.toBuffer();
+
 	const composite = await Promise.all<OverlayOptions>(
 		imgInfos
 			.map(async ({ url, left, top }) => {
@@ -52,6 +63,15 @@ const ogImgMiddleware: RequestHandler = async (req, res) => {
 				const overlayOptions: OverlayOptions = { input, left, top };
 				return overlayOptions;
 			})
+			.concat(
+				deserialzedTeams.slice(1).map((_, teamNumber) =>
+					Promise.resolve({
+						input: teamSeparator,
+						top: FRAME_SIZE + IMG_SIZE + TEAM_GAP / 2 + teamNumber * (IMG_SIZE + TEAM_GAP),
+						left: 0,
+					})
+				)
+			)
 			.flat()
 	);
 
