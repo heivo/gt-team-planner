@@ -5,7 +5,7 @@ query getHeroImages {
 				id
 			}
 			image {
-				url
+				url(transform: {width: 150, height: 150})
 			}
 		}
 	}

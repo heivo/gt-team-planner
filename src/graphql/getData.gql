@@ -6,7 +6,7 @@ query getData {
 			}
 			name
 			image {
-				url
+				url(transform: {width: 150, height: 150})
 			}
 			rarity
 			role {
@@ -99,7 +99,7 @@ query getData {
 			}
 			rarity
 			image {
-				url
+				url(transform: {width: 150, height: 150})
 			}
 		}
 	}
