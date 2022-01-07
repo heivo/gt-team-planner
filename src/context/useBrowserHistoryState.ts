@@ -5,7 +5,7 @@ import { State, TeamSettings } from './StateContext';
 import { decode, encode } from 'universal-base64';
 import { EMPTY_TEAM } from './StateContext';
 
-const ID_LENGTH = 3;
+const ID_LENGTH = 4;
 const TEAM_SEPARATOR_CHAR = '+';
 const SLOT_SEPARATOR_CHAR = '-';
 
