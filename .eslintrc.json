@@ -1,33 +1,31 @@
 {
-	"env": {
-		"browser": true,
-		"es2021": true
-	},
-	"plugins": ["react", "react-hooks", "@typescript-eslint", "graphql", "filenames"],
-	"extends": [
-		"eslint:recommended",
-		"plugin:react/recommended",
-		"plugin:@typescript-eslint/recommended",
-		"prettier",
-		"prettier/@typescript-eslint",
-		"prettier/react"
-	],
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"ecmaFeatures": {
-			"jsx": true
-		},
-		"ecmaVersion": 12,
-		"sourceType": "module"
-	},
-	"rules": {
-		"@typescript-eslint/explicit-module-boundary-types": 0,
-		"filenames/match-exported": [2, ["pascal", "camel"]],
-		"graphql/capitalized-type-name": ["error", { "env": "literal" }],
-		"graphql/named-operations": ["error", { "env": "literal" }],
-		"graphql/no-deprecated-fields": ["warn", { "env": "literal" }],
-		"graphql/template-strings": ["error", { "env": "literal" }],
-		"react-hooks/rules-of-hooks": "error",
-		"react-hooks/exhaustive-deps": "warn"
-	}
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "graphql"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "graphql/capitalized-type-name": ["error", { "env": "literal" }],
+    "graphql/named-operations": ["error", { "env": "literal" }],
+    "graphql/no-deprecated-fields": ["warn", { "env": "literal" }],
+    "graphql/template-strings": ["error", { "env": "literal" }],
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error"
+  }
 }

@@ -1,11 +1,11 @@
 overwrite: true
 schema:
-  - https://graphql.contentful.com/content/v1/spaces/fyrmlfwxhp4g:
+  - ${CONTENTFUL_URL}:
       headers:
-        Authorization: Bearer ${RAZZLE_API_TOKEN}
-documents: src/graphql/**/*.gql
+        Authorization: Bearer ${CONTENTFUL_AUTH_TOKEN}
+documents: graphql/**/*.gql
 generates:
-  src/graphql/schema.ts:
+  app/api.ts:
     plugins:
       - add:
           content: '/* eslint-disable */'
@@ -16,6 +16,7 @@ generates:
       afterOneFileWrite:
         - prettier --write
     config:
+      typesPrefix: Generated
       noSchemaStitching: true
   graphql-schema.json:
     plugins:

@@ -1,0 +1,373 @@
+body {
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.contentWrapper {
+  padding-bottom: 80px;
+  /* footer height */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+.header h1 {
+  margin-right: auto;
+}
+.header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 2px;
+  height: 50px;
+  width: 50px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.header button:hover {
+  background-color: #eee;
+}
+
+.teamWrapper {
+  margin-bottom: 10px;
+  border: 1px dotted gray;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.teamWrapper .teamWrapperHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+.teamWrapper .teamWrapperHeader h2 {
+  margin: 0 auto 0 0;
+}
+.teamWrapper .teamWrapperButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 2px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.teamWrapper .teamWrapperButton:hover {
+  background-color: #eee;
+}
+
+.slotsWrapper {
+  max-width: 800px;
+  width: 95vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+}
+.slot .slotSecondaryButtons {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.slot .slotLeaderButton {
+  width: 24px;
+  height: 24px;
+  filter: grayscale(100%);
+  opacity: 0.5;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .slot .slotLeaderButton:hover {
+    filter: none;
+    opacity: 1;
+  }
+}
+
+.heroBadge {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: lightgray;
+  background-size: contain;
+  border: 1px solid darkgray;
+}
+.heroBadge.faded {
+  filter: opacity(30%);
+}
+.heroBadge .heroBadgeChainContainer {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-top-left-radius: 10px;
+  align-self: flex-end;
+  margin-left: auto;
+  padding-bottom: 3px;
+  padding-right: 3px;
+}
+.heroBadge .heroBadgeElementRoleContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-self: flex-start;
+  height: inherit;
+}
+.heroBadge .heroBadgeElementRoleContainer img {
+  width: inherit;
+}
+.heroBadge .heroBadgeElementRoleContainer img:nth-child(1) {
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 5px;
+}
+.heroBadge .heroBadgeElementRoleContainer img:nth-child(2) {
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 5px;
+}
+
+.weaponBadge {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid red;
+  background-color: #efefef;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.weaponBadge.faded {
+  filter: opacity(30%);
+}
+.weaponBadge .weaponBadgeAilment {
+  align-self: flex-end;
+  margin-left: auto;
+  padding-right: 2px;
+}
+.weaponBadge .weaponBadgeElementContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-self: flex-start;
+  height: inherit;
+  margin-right: auto;
+}
+.weaponBadge .weaponBadgeElementContainer img {
+  width: inherit;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 5px;
+}
+
+.chainIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chainIcon :nth-child(1) {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+.chainIcon :nth-child(2) {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.chainIcon :nth-child(3) {
+  position: absolute;
+}
+
+.heroPicker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.heroPicker .heroPickerFilters {
+  width: 97vw;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.heroPicker .heroPickerHeroes {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.heroPicker .heroPickerHeroes .badgeWrapper {
+  margin: 5px;
+}
+
+.weaponPicker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.weaponPicker .weaponPickerFilters {
+  width: 97vw;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.weaponPicker .weaponPickerWeapons {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.weaponPicker .weaponPickerWeapons .badgeWrapper {
+  margin: 5px;
+}
+
+.partyBuffSummary {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px;
+  line-height: 25px;
+  margin-top: 30px;
+}
+
+.chainInfo {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px;
+  line-height: 25px;
+  margin-top: 10px;
+}
+.chainInfo .chain {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.chainInfo .chain .chainStar {
+  display: none;
+  margin-left: auto;
+  margin-right: 20px;
+}
+.chainInfo .chain:hover {
+  background-color: #f0f0f0;
+  border-color: #e0e0e0;
+}
+.chainInfo .chain:hover .chainStar {
+  display: inherit;
+  filter: grayscale(100%) opacity(20%);
+}
+.chainInfo .chain.selectedChain {
+  background-color: #eaeaea;
+  border-color: #d0d0d0;
+}
+.chainInfo .chain.selectedChain .chainStar {
+  display: inherit;
+  filter: none;
+}
+.chainInfo .chain .chainArrow {
+  font-size: 30px;
+  margin: 0 10px;
+  color: #666;
+}
+
+.button {
+  width: 80px;
+  height: 30px;
+}
+
+.elementFilter {
+  display: inline-block;
+}
+.elementFilter .elementFilterImageWrapper {
+  height: 48px;
+  display: inline-block;
+  cursor: pointer;
+  background-color: steelblue;
+}
+.elementFilter .elementFilterImageWrapper img.selected {
+  transform: scale(0.85);
+}
+.elementFilter .elementFilterImageWrapper img:not(.selected):hover {
+  transform: scale(0.9);
+}
+
+.roleFilter {
+  display: inline-block;
+  height: 48px;
+  background-color: steelblue;
+}
+.roleFilter img {
+  cursor: pointer;
+}
+.roleFilter img.selected {
+  transform: scale(0.85);
+}
+.roleFilter img:not(.selected):hover {
+  transform: scale(0.95);
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: #333;
+  border-radius: 2px;
+  cursor: pointer;
+  color: white;
+  font-size: 36px;
+}
+.closeButton::after {
+  content: '✕';
+}
+.closeButton:hover {
+  background-color: #666;
+}
+
+.footer {
+  color: #283847;
+  font-size: 16px;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 96vw;
+  max-width: 800px;
+  height: 80px;
+  line-height: 25px;
+  padding-bottom: 5px;
+  font-style: italic;
+}
+.footer a,
+.footer a:visited,
+.footer a:hover,
+.footer a:active {
+  color: inherit;
+}
