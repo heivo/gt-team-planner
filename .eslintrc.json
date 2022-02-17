@@ -20,6 +20,7 @@
   },
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "graphql/capitalized-type-name": ["error", { "env": "literal" }],
     "graphql/named-operations": ["error", { "env": "literal" }],
     "graphql/no-deprecated-fields": ["warn", { "env": "literal" }],

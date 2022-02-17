@@ -27,7 +27,8 @@
     "react-tooltip": "^4.2.21",
     "remix": "^1.1.3",
     "remix-utils": "^2.5.0",
-    "tiny-invariant": "^1.2.0"
+    "tiny-invariant": "^1.2.0",
+    "universal-base64": "^2.1.0"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^3.1.1",

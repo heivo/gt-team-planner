@@ -1,9 +1,11 @@
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from 'remix';
 import { getSdk } from './api';
 import graphQLClient from './graphQLClient';
-import { LoaderFunction } from '@remix-run/server-runtime';
+import { LoaderFunction, LinksFunction } from '@remix-run/server-runtime';
 import { Ailment, Data, Element, Hero, HeroPartyBuff, HeroRole, Weapon, WeaponCategory } from '~/types';
 import { DynamicLinks, DynamicLinksFunction } from 'remix-utils';
+import styles from './style.css';
+import { StateContextProvider } from '~/StateContext';
 
 export const loader: LoaderFunction = async () => {
   const { getData } = getSdk(graphQLClient);
@@ -19,6 +21,11 @@ export const loader: LoaderFunction = async () => {
   };
 };
 
+export const links: LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: styles }];
+};
+
+// preload all images
 export const dynamicLinks: DynamicLinksFunction<Data> = ({ data }) => {
   return [
     ...data.heroes.map((hero) => ({ rel: 'preload', href: hero.image.url, as: 'image' })),
@@ -45,17 +52,19 @@ export default function App() {
         <title>GT Team Planner</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5" />
-        <meta name="keywords" content="Guardian Tales, GT, Team Planner, Party Builder" />
+        <meta name="keywords" content="Guardian Tales, GT, Team Planner, Party Builder, Raid" />
         <meta
           name="description"
-          content="Online team planning tool for Guardian Tales: select your heroes and weapons, see party buffs and possible chain skill combinations, share your setup via URL."
+          content="A team and raid planning tool for Guardian Tales: pick your heroes and weapons, see party buffs and possible chain skill combinations, share your setup via URL."
         />
         <Meta />
-        <DynamicLinks />
         <Links />
+        <DynamicLinks />
       </head>
       <body>
-        <Outlet context={data} />
+        <StateContextProvider data={data}>
+          <Outlet context={data} />
+        </StateContextProvider>
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}

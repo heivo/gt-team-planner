@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState, useCallback } from 'react';
 import { produce } from 'immer';
 import { Data, Hero, Weapon } from '~/types';
-import { useOutletContext } from 'remix';
+import useBrowserHistoryState from './useBrowserHistoryState';
 
 export const EMPTY_TEAM: TeamSettings = {
   slots: [
@@ -60,13 +59,12 @@ const StateContext = React.createContext<{
 export default StateContext;
 
 interface Props {
+  data: Data;
   children: React.ReactNode;
 }
 
-export const StateContextProvider = ({ children }: Props) => {
-  const { weapons } = useOutletContext<Data>();
-
-  const [state, setState] = useState<State>({ teams: [EMPTY_TEAM] });
+export const StateContextProvider = ({ children, data }: Props) => {
+  const { state, setState, clearState } = useBrowserHistoryState(data);
 
   const [activeTeam, setActiveTeam] = useState<number | null>(() => (state.teams.length === 1 ? 0 : null));
 
@@ -112,7 +110,7 @@ export const StateContextProvider = ({ children }: Props) => {
   const selectHero = useCallback(
     (teamNumber: number, slotNumber: number, hero: Hero) => {
       const nextState = produce(state, (draft) => {
-        let weapon = weapons.find((w) => w.sys.id === hero.defaultWeapon?.sys.id) ?? null;
+        let weapon = data.weapons.find((w) => w.sys.id === hero.defaultWeapon?.sys.id) ?? null;
         const prevHeroLocation = findHero(hero);
         if (prevHeroLocation) {
           if (teamNumber === prevHeroLocation.teamNumber) {
@@ -134,7 +132,7 @@ export const StateContextProvider = ({ children }: Props) => {
       });
       setState(nextState);
     },
-    [findHero, setState, state, weapons]
+    [findHero, setState, state, data.weapons]
   );
 
   const selectWeapon = useCallback(
@@ -159,7 +157,7 @@ export const StateContextProvider = ({ children }: Props) => {
   );
 
   const reset = () => {
-    setState({ teams: [EMPTY_TEAM] });
+    clearState();
     setActiveTeam(0);
   };
 
