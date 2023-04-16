@@ -1,6 +1,6 @@
 # Guardian Tales - Team Planner
 
-https://gt-team-planner.herokuapp.com/
+https://gt-team-planner.fly.dev/
 
 ## Features:
 
